@@ -7,6 +7,7 @@ import helvetiker from 'three/examples/fonts/helvetiker_regular.typeface.json'; 
 export class HubIsland {
   constructor({ name, radius, color, categories ,model=null}) {
     this.name = name;
+    this.radius = radius; 
     this.platform = Platform(radius, color,model);
     this.categoryGroup = new THREE.Group();
     this.categories = categories || [];
@@ -15,7 +16,7 @@ export class HubIsland {
   }
 
   createCategories() {
-    const radius = this.platform.geometry.parameters.radius; // Adjust text distance from the center
+    const radius = this.radius; // Adjust text distance from the center
     const loader = new FontLoader();
     const font = loader.parse(helvetiker);
 
