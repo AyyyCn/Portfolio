@@ -1,0 +1,4 @@
+#git ignore .parcel-cache, dist , modules
+.parcel-cache
+dist
+node_modules
