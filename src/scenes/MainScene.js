@@ -34,17 +34,20 @@ export class MainScene {
     this.loadBackground(this.scene);
 
     const modelURL = new URL('../../public/assets/models/platform.gltf', import.meta.url);
-    const platform = await this.loadModel(modelURL.href);
-
+    const gltf = await this.loadModel(modelURL.href);
+    const platform = gltf.scene; // Extract the scene
+    const platformAnimations = gltf.animations; // Extract animations
     const mainIsland = new HubIsland({
       name: 'MainHub',
       radius: 3,
       color: 0x333333,
       categories: ['Contact', 'Projects', 'Experiences', 'Education', 'Extras'],
       model: platform,
+      animations: platformAnimations,
     });
     mainIsland.platform.position.set(0, 0, 0);
     mainIsland.addTo(this.scene);
+    
     this.registerIsland(mainIsland);
 
     const subIslandData = [
@@ -85,21 +88,30 @@ export class MainScene {
       },
     ];
 
-    const distanceFromMain = 12;
+    const distanceFromMain = 40;
+    const cinemaGLTF =  await this.loadModel(new URL('../../public/assets/models/cinema.gltf', import.meta.url).href);
+    const cinemaModel = cinemaGLTF.scene;
+    const cinemaAnimations = cinemaGLTF.animations;
+
     subIslandData.forEach((info, i) => {
       const angle = (i / subIslandData.length) * Math.PI * 2;
+      const position = new THREE.Vector3(
+        Math.cos(angle) * distanceFromMain,
+        0,
+        Math.sin(angle) * distanceFromMain
+      );
+      
       const island = new HubIsland({
         name: info.name,
         radius: info.radius,
         color: info.color,
         categories: info.categories,
-        model: platform,
+        model: cinemaModel,
+        animations: cinemaAnimations,
+        position: position
       });
-      island.platform.position.set(
-        Math.cos(angle) * distanceFromMain,
-        0,
-        Math.sin(angle) * distanceFromMain
-      );
+      
+      
       island.addTo(this.scene);
       this.registerIsland(island);
     });
@@ -112,18 +124,30 @@ export class MainScene {
       const loader = new GLTFLoader();
       loader.load(
         url,
-        (gltf) => resolve(gltf.scene),
+        (gltf) => resolve(gltf), // Return the full GLTF object (contains animations)
         undefined,
         (error) => reject(error)
       );
     });
   }
+  
 
-  update() {
+  update(delta) {
+
     if (this.inputHandler) {
       this.inputHandler.update();
     }
+  
+    // Update animations for all islands
+    this.islands.forEach((island) => {
+      if (island.update) {
+        island.update(delta); // Pass delta time to each island's update method
+        
+      }
+    });
+    
   }
+  
 
   registerIsland(island) {
     this.islands.push(island);
@@ -162,7 +186,6 @@ export class MainScene {
   }
 
   moveToIsland(islandName) {
-    console.log('Moving to:', islandName);
     const targetIsland = this.islandMap.get(islandName);
     if (!targetIsland) return;
 
@@ -174,15 +197,15 @@ export class MainScene {
       Math.max(startPos.y, islandPos.y) + 8,
       (startPos.z + islandPos.z) * 0.5
     );
-    const endPos = islandPos.clone().add(new THREE.Vector3(0, 5, 8));
+    const endPos = islandPos.clone().add(new THREE.Vector3(10, 10, 10));
 
     const curve = new THREE.CatmullRomCurve3([startPos, midPos, endPos]);
     const obj = { t: 0 };
 
     gsap.to(obj, {
       t: 1,
-      duration: 5,
-      ease: 'power1.out',
+      duration: 3,
+      ease: 'power2.inOut',
       onUpdate: () => {
         const pos = curve.getPointAt(obj.t);
         this.camera.position.copy(pos);
@@ -218,6 +241,6 @@ export class MainScene {
         }
       );
 
-    console.log('CubeTextureLoader initialized:', loader);
+    
   }
 }
