@@ -15,8 +15,10 @@ export class SceneManager {
     this.canvas = canvas;
     
     // Renderer setup
-    this.tier = detectDeviceTier();
-    console.log('Detected device tier:', this.tier);
+    const savedTier = localStorage.getItem('gfx-tier');
+    this.tier = savedTier || detectDeviceTier();
+    console.log('🎛 Using graphics tier:', this.tier);
+
 
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   
@@ -43,16 +45,37 @@ export class SceneManager {
     this.handleResize();
     window.addEventListener('resize', () => this.handleResize());
     window.addEventListener('pointerdown', (e) => this.onPointerDown(e));
+    this.debugStatsVisible = false; // 👁 Default hidden
     this.stats = new RendererStats();
     this.stats.domElement.style.position = 'absolute';
     this.stats.domElement.style.left = '0px';
-    this.stats.domElement.style.bottom = '0px';
+    this.stats.domElement.style.top = '0px';
+    this.stats.domElement.style.display = 'none'; // 🚫 Hidden initially
     document.body.appendChild(this.stats.domElement);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'd') {
+        this.debugStatsVisible = !this.debugStatsVisible;
+        this.stats.domElement.style.display = this.debugStatsVisible ? 'block' : 'none';
+      }
+    });
 
     
   }
 
   loadScene(sceneObj) {
+    document.getElementById('graphics-select').value = this.tier;
+
+    document.getElementById('graphics-select').addEventListener('change', (e) => {
+      const newTier = e.target.value;
+      if (newTier !== this.tier) {
+        console.log(`Switching graphics tier to: ${newTier}`);
+        localStorage.setItem('gfx-tier', newTier); 
+        location.reload(); 
+      }
+    });
+    
+
     this.currentScene = sceneObj;
 
     // Setup postprocessing composer
@@ -125,6 +148,7 @@ export class SceneManager {
   }
 
   update(delta) {
+    if (this.debugStatsVisible) this.stats.update(this.renderer);
     this.stats.update(this.renderer);
     this.renderer.info.reset(); // call after update
     if (!this.currentScene || !this.composer) return;

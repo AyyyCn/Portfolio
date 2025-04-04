@@ -30,11 +30,6 @@ export class MainScene {
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
     
-    this.gui = new dat.GUI();
-    this.envSettings = {
-      rotationY: 0,
-      exposure: 1
-    };
     this.init();
   }
 
@@ -135,7 +130,14 @@ export class MainScene {
       console.error("❌ ERROR in MainScene.init():", error);
     }
 
-    
+    const loadingDiv = document.getElementById('loading-screen');
+    if (loadingDiv) {
+      loadingDiv.classList.add('fade-out');
+      setTimeout(() => loadingDiv.remove(), 2000);
+    }
+    const box = document.getElementById('announcement-box');
+    box.textContent = `👋 Welcome to my 3D portfolio! Click on labels like "Projects" or "Skills" to explore. You can also move around freely or reset the view anytime with the camera button.`;
+    box.style.opacity = 1;
     
     
   }
@@ -194,7 +196,7 @@ export class MainScene {
 
   update(delta) {
     if (this.skyboxMesh) {
-      this.skyboxMesh.rotation.y = this.envSettings.rotationY;
+      this.skyboxMesh.rotation.y = 0.9;
     }
     if (this.inputHandler) this.inputHandler.update();
 
@@ -260,16 +262,9 @@ export class MainScene {
       scene.add(this.skyboxMesh);
   
       scene.environment = envMap;
-      this.renderer.toneMappingExposure = this.envSettings.exposure;
+      this.renderer.toneMappingExposure = 0.1;
       this.skyboxMesh.rotation.y = .9;
-      // Setup GUI
-      this.envSettings.rotationY=0.9;
-      this.gui.add(this.envSettings, 'rotationY', .9, Math.PI * 2).onChange((val) => {
-        this.skyboxMesh.rotation.y = val;
-      });
-      this.gui.add(this.envSettings, 'exposure', 0.1, 5).onChange((val) => {
-        this.renderer.toneMappingExposure = val;
-      });
+
   
       texture.dispose();
       pmremGenerator.dispose();

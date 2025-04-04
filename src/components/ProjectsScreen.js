@@ -35,6 +35,7 @@ export class ProjectScreen {
           //{ title: 'Installer', image: 'img/tools_installer.jpg' }
         ]
       };
+      
     }
   
   
@@ -75,46 +76,61 @@ export class ProjectScreen {
     this.projectScreenPanel.getWorldScale(panelScale);
   
     const projects = this.projectData[category];
-    const cardWidth = 1.4;
-    const cardHeight = 0.5;
-    const maxCardsPerRow = 2;
+    const cardWidth = 1;
+    const cardHeight = 1;
+    const maxCardsPerRow = 3;
   
-    const horizontalSpacing = .3;
-    const verticalSpacing = 0.05;
+    const horizontalSpacing = 0.5;
+    const verticalSpacing = 0;
+  
+    const loader = new GLTFLoader();
+    loader.setMeshoptDecoder(MeshoptDecoder);
   
     projects.forEach((proj, i) => {
-      const row = Math.floor(i / maxCardsPerRow);
-      const col = i % maxCardsPerRow;
-  
       const tex = new THREE.TextureLoader().load(proj.image);
       tex.encoding = THREE.sRGBEncoding;
+      tex.flipX = true;
       const mat = new THREE.MeshBasicMaterial({
         map: tex,
         transparent: false,
-        toneMapped: false,
+        toneMapped: false
       });
-      
-      const geo = new THREE.PlaneGeometry(cardWidth, cardHeight);
-      const card = new THREE.Mesh(geo, mat);
   
-      const totalWidth = cardWidth * maxCardsPerRow + horizontalSpacing * (maxCardsPerRow - 1);
-      const startX = -totalWidth / 2 + cardWidth / 2;
+      loader.load('/assets/models/border.glb', (gltf) => {
+        const card = gltf.scene.clone(true);
+        card.traverse((child) => {
+          if (child.isMesh) {
+            child.material = mat;
+          }
+        });
   
-      card.position.set(
-        startX + col * (cardWidth + horizontalSpacing),
-        -((row-1) * (cardHeight + verticalSpacing)),
-        0.05
-      );
+        const row = Math.floor(i / maxCardsPerRow);
+        const col = i % maxCardsPerRow;
   
-      card.position.applyQuaternion(panelQuat);
-      card.position.add(panelPos);
+        const totalWidth = cardWidth * maxCardsPerRow + horizontalSpacing * (maxCardsPerRow - 1);
+        const startX = -totalWidth / 2 + cardWidth / 2;
   
-      this.scene.add(card);
-      this.projectCards.push(card);
+        const localPos = new THREE.Vector3(
+          startX + col * (cardWidth + horizontalSpacing),
+          -((row - 1) * (cardHeight + verticalSpacing)+cardHeight /2),
+          0.05
+        );
+        localPos.applyQuaternion(panelQuat);
+  
+        card.position.copy(panelPos.clone().add(localPos));
+        card.quaternion.copy(panelQuat);
+        card.scale.set(cardWidth, cardHeight, 1);
+  
+        this.scene.add(card);
+        this.projectCards.push(card);
+      });
     });
   
     this.activeCategory = category;
   }
+  
+  
+  
   
 
   goBack() {

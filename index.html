@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -14,10 +13,29 @@
           window.location = '/mobile.html';
         }
       })(navigator.userAgent||navigator.vendor||window.opera);
-      </script>
+    </script>
+
+    <div id="loading-screen">
+      <div class="loading-content">
+        <span class="loading-text">Loading<span class="dots">.</span></span>
+      </div>
+    </div>
 
     <canvas id="portfolio-canvas"></canvas>
+
+    <div id="announcement-box">
+      👋 Welcome to the 3D Portfolio! Click labels like <strong>"Projects"</strong> or <strong>"Skills"</strong> to explore. Move around like a game or reset with the camera button.
+    </div>
+
+    <div id="settings-panel">
+      <label for="graphics-select">Graphics:</label>
+      <select id="graphics-select">
+        <option value="low">Low</option>
+        <option value="mid">Mid</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+
     <script type="module" src="/src/main.js"></script>
   </body>
-</html> 
-a
+</html>
