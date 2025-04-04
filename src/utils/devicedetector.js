@@ -15,5 +15,5 @@ export function detectDeviceTier() {
   if (midRange.test(gpuName)) return 'mid';
 
   // Default fallback
-  return 'low';
+  return 'high';
 }
