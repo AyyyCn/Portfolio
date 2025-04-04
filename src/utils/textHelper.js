@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { materialEmissive } from 'three/tsl';
 export function makeTextLabel(message, parameters = {}) {
     const font = parameters.font || 'Arial';
     const fontSize = parameters.fontSize || 48;
@@ -32,7 +33,7 @@ export function makeTextLabel(message, parameters = {}) {
     texture.minFilter = THREE.LinearFilter;
     texture.magFilter = THREE.LinearFilter;
 
-    const material = new THREE.SpriteMaterial({ map: texture, transparent: true });
+    const material = new THREE.SpriteMaterial({ map: texture, transparent: false});
     const sprite = new THREE.Sprite(material);
 
     sprite.scale.set(canvas.width / dpr * scale, canvas.height / dpr * scale, 1);

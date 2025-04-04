@@ -10,10 +10,12 @@ const clock = new THREE.Clock();
 const stats = new Stats();
 stats.showPanel(0);
 document.body.appendChild(stats.dom);
+
 function animate() {
   requestAnimationFrame(animate);
   const delta = clock.getDelta(); // Get the time elapsed since the last frame
   sceneManager.update(delta); // Pass delta time to the scene manager update method
+  
   // animate function
   stats.begin();
 

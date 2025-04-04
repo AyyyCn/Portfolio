@@ -8,22 +8,33 @@ import {
   BrightnessContrastEffect,
   GodRaysEffect
 } from 'postprocessing';
-
+import { RendererStats } from './RendererStats.js';
+import { detectDeviceTier } from './devicedetector.js'; 
 export class SceneManager {
   constructor(canvas) {
     this.canvas = canvas;
-
+    
     // Renderer setup
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.outputEncoding = THREE.sRGBEncoding;
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1;
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    this.renderer.setClearColor(0xffe6d0);
+    this.tier = detectDeviceTier();
+    console.log('Detected device tier:', this.tier);
 
+    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  
+    this.renderer.info.autoReset = false;
+
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setPixelRatio(this.tier === 'low' ? 1 : window.devicePixelRatio);
+    this.renderer.outputEncoding = THREE.sRGBEncoding;
+
+    this.renderer.shadowMap.enabled = this.tier !== 'low';
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    this.renderer.toneMapping = this.tier === 'high' ? THREE.ACESFilmicToneMapping : THREE.NoToneMapping;
+    this.renderer.toneMappingExposure = this.tier === 'high' ? 1 : 0.5;
+
+
+    this.renderer.setClearColor(0xffe6d0);
+    
     this.currentScene = null;
     this.composer = null;
     this.renderPass = null;
@@ -32,6 +43,13 @@ export class SceneManager {
     this.handleResize();
     window.addEventListener('resize', () => this.handleResize());
     window.addEventListener('pointerdown', (e) => this.onPointerDown(e));
+    this.stats = new RendererStats();
+    this.stats.domElement.style.position = 'absolute';
+    this.stats.domElement.style.left = '0px';
+    this.stats.domElement.style.bottom = '0px';
+    document.body.appendChild(this.stats.domElement);
+
+    
   }
 
   loadScene(sceneObj) {
@@ -39,33 +57,60 @@ export class SceneManager {
 
     // Setup postprocessing composer
     this.composer = new EffectComposer(this.renderer, {
-      multisampling: 4  // optionnel, si rendu à haute résolution
+      multisampling : this.tier === 'high' ? 8 : 2, // Enable multisampling for high tier
     });
     this.renderPass = new RenderPass(
       this.currentScene.getScene(),
       this.currentScene.getCamera()
     );
     this.composer.addPass(this.renderPass);
+    let bloom = null;
+    let vignette = null;
+    let colorAdjust = null;
 
-    const bloom = new BloomEffect({
-      intensity: 0.3,             // plus doux
-      luminanceThreshold: 0.6,   // évite d'englober des surfaces trop larges
-      luminanceSmoothing: 0.1,   // moins de blur
-      mipmapBlur: false          // désactive le flou mipmap
-    });
-
-    const vignette = new VignetteEffect({
-      eskil: false,
-      offset: 0.3,
-      darkness: 0.6
-    });
-
-    const colorAdjust = new BrightnessContrastEffect({
-      brightness: 0.02,
-      contrast: 0.1
-    });
-
-
+    if (this.tier === 'high') {
+      bloom = new BloomEffect({
+        intensity: 0.2,
+        luminanceThreshold: 0.6,
+        luminanceSmoothing: 0.3,
+        mipmapBlur: false
+      });
+    
+      vignette = new VignetteEffect({
+        eskil: false,
+        offset: 0.3,
+        darkness: 0.6
+      });
+    
+      colorAdjust = new BrightnessContrastEffect({
+        brightness: 0.02,
+        contrast: 0.1
+      });
+    
+    } else if (this.tier === 'mid') {
+      bloom = new BloomEffect({
+        intensity: 0.2,
+        luminanceThreshold: 0.7,
+        luminanceSmoothing: 0.2,
+        mipmapBlur: false
+      });
+    
+       vignette = new VignetteEffect({
+        eskil: true,
+        offset: 0.25,
+        darkness: 0.5
+      });
+    
+      colorAdjust = new BrightnessContrastEffect({
+        brightness: 0.01,
+        contrast: 0.05
+      });
+    
+    } else {
+      // Low tier: skip postprocessing entirely
+      return;
+    }
+    
     this.effectPass = new EffectPass(
       this.currentScene.getCamera(),
       bloom,
@@ -74,13 +119,20 @@ export class SceneManager {
     );
     this.effectPass.renderToScreen = true;
     this.composer.addPass(this.effectPass);
+
+
+    
   }
 
   update(delta) {
+    this.stats.update(this.renderer);
+    this.renderer.info.reset(); // call after update
     if (!this.currentScene || !this.composer) return;
-
+    
     this.currentScene.update(delta);
     this.composer.render(delta);
+
+
   }
 
   onPointerDown(e) {

@@ -17,23 +17,22 @@ export class ProjectScreen {
           { title: 'Pencil Sharpner', image: 'img/games_pencil.jpg' },
           { title: 'Faysa', image: 'img/games_faysa.jpg' },
           { title: 'Nos', image: 'img/games_nos.jpg' },
-          { title: 'Fruit Sclicer', image: 'img/games_fruit.jpg' }
+          { title: 'Fruit Slicer', image: 'img/games_fruit.jpg' }
         ],
         ai: [
-          { title: 'Parki', image: 'img/ai_parki.jpg' },
-          { title: 'GameDB', image: 'img/ai_gamedb.jpg' }
+          { title: 'Parki', image: 'projects/parki.png' },
+          { title: 'GameDB', image: 'projects/gamedb.png' }
         ],
         web: [
-          { title: 'Web', image: 'img/web_web.jpg' },
-          { title: 'InnovaBank', image: 'img/web_innova.jpg' },
-          { title: 'Tuniscape', image: 'img/web_tuniscape.jpg' },
-          { title: 'Rankr', image: 'img/web_rankr.jpg' },
-          { title: 'Elmarchi', image: 'img/web_elmarchi.jpg' },
+          { title: 'InnovaBank', image: 'projects/innovabank.png' },
+          { title: 'Elmarchi', image: 'projects/elmarchi.png' },
+          { title: 'Tuniscape', image: 'projects/tuniscape.png' },
+          
           { title: 'Portfolio', image: 'img/web_portfolio.jpg' }
         ],
         tools: [
-          { title: 'Gurobi Wrapper', image: 'img/tools_gurobi.jpg' },
-          { title: 'Installer', image: 'img/tools_installer.jpg' }
+          { title: 'Gurobi Wrapper', image: 'projects/gurobi.png' },
+          //{ title: 'Installer', image: 'img/tools_installer.jpg' }
         ]
       };
     }
@@ -64,38 +63,59 @@ export class ProjectScreen {
 
   displayProjectCards(category) {
     if (!this.projectScreenPanel) return;
-
-    console.log(`📂 Displaying projects for: ${category}`);
+  
     this.projectCards.forEach(card => this.scene.remove(card));
     this.projectCards = [];
-
+  
     const panelPos = new THREE.Vector3();
     this.projectScreenPanel.getWorldPosition(panelPos);
     const panelQuat = new THREE.Quaternion();
     this.projectScreenPanel.getWorldQuaternion(panelQuat);
     const panelScale = new THREE.Vector3();
     this.projectScreenPanel.getWorldScale(panelScale);
+  
     const projects = this.projectData[category];
-    //spacing should be take in consideration panek scale x and number of cards and their width
-    
-    const cardWidth = 0.5; // Width of each card
-    const cardHeight = 0.8; // Height of each card
-    const spacing = (panelScale.x * 2) / (projects.length + 1); // Space between cards
+    const cardWidth = 1.4;
+    const cardHeight = 0.5;
+    const maxCardsPerRow = 2;
+  
+    const horizontalSpacing = .3;
+    const verticalSpacing = 0.05;
+  
     projects.forEach((proj, i) => {
+      const row = Math.floor(i / maxCardsPerRow);
+      const col = i % maxCardsPerRow;
+  
       const tex = new THREE.TextureLoader().load(proj.image);
-      const mat = new THREE.MeshBasicMaterial({ map: tex });
+      tex.encoding = THREE.sRGBEncoding;
+      const mat = new THREE.MeshBasicMaterial({
+        map: tex,
+        transparent: false,
+        toneMapped: false,
+      });
+      
       const geo = new THREE.PlaneGeometry(cardWidth, cardHeight);
       const card = new THREE.Mesh(geo, mat);
-      card.position.set((i-1) * spacing, 0, 0.05);
+  
+      const totalWidth = cardWidth * maxCardsPerRow + horizontalSpacing * (maxCardsPerRow - 1);
+      const startX = -totalWidth / 2 + cardWidth / 2;
+  
+      card.position.set(
+        startX + col * (cardWidth + horizontalSpacing),
+        -((row-1) * (cardHeight + verticalSpacing)),
+        0.05
+      );
+  
       card.position.applyQuaternion(panelQuat);
       card.position.add(panelPos);
+  
       this.scene.add(card);
       this.projectCards.push(card);
-      console.log(`🧩 Added project card: ${proj.title}`);
     });
-
+  
     this.activeCategory = category;
   }
+  
 
   goBack() {
     if (!this.projectScreenPanel) return;

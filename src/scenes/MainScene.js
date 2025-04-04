@@ -21,6 +21,7 @@ export class MainScene {
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
     this.camera.position.set(-3.61, 1.83, 6.65);
     this.renderer = sceneManager.renderer;
+
     this.islands = [];
     this.islandMap = new Map();
     this.loader = new GLTFLoader();
@@ -39,7 +40,7 @@ export class MainScene {
 
   async init() {
     try {
-      Lighting(this.scene);
+      Lighting(this.scene,this.tier);
       this.loadBackground(this.scene);
 
       // ✅ Load the Main Hub safely
@@ -150,7 +151,19 @@ export class MainScene {
             console.error(`❌ Failed to load model: ${url}`);
             reject(new Error(`Failed to load model: ${url}`));
           }
-  
+          let meshCount = 0;
+          let materialCount = new Set();
+          
+          gltf.scene.traverse(obj => {
+            if (obj.isMesh) {
+              meshCount++;
+              materialCount.add(obj.material);
+            }
+          });
+          
+          console.log(`Meshes: ${meshCount}`);
+          console.log(`Unique materials: ${materialCount.size}`);
+          
           this.addTextLabelsFromMap(gltf.scene); // ✅ FIXED
           gltf.scene.traverse((child) => {
             if (child.isMesh) {
@@ -163,11 +176,7 @@ export class MainScene {
               const mat = child.material;
           
               // If the material has an emissive texture (from GLTF extras)
-              if (mat.map && mat.emissive && !mat.emissiveMap) {
-                mat.emissiveMap = mat.map;
-                mat.emissiveIntensity = 1;
-                mat.needsUpdate = true;
-              }
+
             }
           });
           
@@ -194,6 +203,8 @@ export class MainScene {
         island.update(delta, this.raycaster, this.mouse, this.camera);
       }
     });
+
+    
   }
 
   registerIsland(island) {
