@@ -148,13 +148,14 @@ export class SceneManager {
   }
 
   update(delta) {
-    if (this.debugStatsVisible) this.stats.update(this.renderer);
-    this.stats.update(this.renderer);
+    if (this.debugStatsVisible) 
+    this.stats.begin();
     this.renderer.info.reset(); // call after update
     if (!this.currentScene || !this.composer) return;
     
     this.currentScene.update(delta);
     this.composer.render(delta);
+    this.stats.end(this.renderer); // call after render
 
 
   }
