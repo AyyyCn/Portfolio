@@ -17,7 +17,7 @@ export class SceneManager {
     // Renderer setup
     const savedTier = localStorage.getItem('gfx-tier');
     this.tier = savedTier || detectDeviceTier();
-    console.log('🎛 Using graphics tier:', this.tier);
+    console.log('Using graphics tier:', this.tier);
 
 
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
