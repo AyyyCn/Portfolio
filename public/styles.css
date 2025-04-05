@@ -39,25 +39,23 @@ body, html {
 
 .dots {
   display: inline-block;
-  width: 2ch;
+  width: 2ch; /* Reserve consistent space */
   overflow: hidden;
   text-align: left;
   font-family: monospace;
 }
 
-dots::after {
-  display: inline-block;
-  text-align: left;
-  font-family: monospace;
-  content: '';
-  animation: dotsAnim 1.2s steps(3, end) infinite;
+.dots::after {
+  content: '...';
+  animation: dotsAnim 1.5s steps(5) infinite;
 }
 
 @keyframes dotsAnim {
   0%   { content: ''; }
-  33%  { content: '.'; }
-  66%  { content: '..'; }
-  100% { content: '...'; }
+  25%  { content: '.'; }
+  50%  { content: '..'; }
+  75%  { content: '...'; }
+  100% { content: ''; }
 }
 
 #announcement-box {
@@ -74,6 +72,7 @@ dots::after {
   max-width: 260px;
   text-align: left;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  white-space: pre-line; 
 }
 
 #settings-panel {

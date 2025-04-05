@@ -13,11 +13,11 @@ export class ProjectScreen {
     this.activeCategory = null;
     this.projectData = {
         games: [
-          { title: 'The Boiz', image: 'img/games_boiz.jpg' },
-          { title: 'Pencil Sharpner', image: 'img/games_pencil.jpg' },
-          { title: 'Faysa', image: 'img/games_faysa.jpg' },
-          { title: 'Nos', image: 'img/games_nos.jpg' },
-          { title: 'Fruit Slicer', image: 'img/games_fruit.jpg' }
+          { title: 'The Boiz', image: 'projects/theboiz.png' },
+          { title: 'Pencil Sharpner', image: 'projects/pencil.png' },
+          { title: 'Faysa', image: 'projects/faysa.png' },
+          { title: 'Nos', image: 'projects/nos.png' },
+          { title: 'Fruit Slicer', image: 'projects/fruit.png' }
         ],
         ai: [
           { title: 'Parki', image: 'projects/parki.png' },
@@ -26,9 +26,8 @@ export class ProjectScreen {
         web: [
           { title: 'InnovaBank', image: 'projects/innovabank.png' },
           { title: 'Elmarchi', image: 'projects/elmarchi.png' },
-          { title: 'Tuniscape', image: 'projects/tuniscape.png' },
-          
-          { title: 'Portfolio', image: 'img/web_portfolio.jpg' }
+          { title: 'Tuniscape', image: 'projects/tuniscape.png' },       
+          //{ title: 'Portfolio', image: 'img/web_portfolio.jpg' }
         ],
         tools: [
           { title: 'Gurobi Wrapper', image: 'projects/gurobi.png' },
