@@ -138,7 +138,7 @@ export class MainScene {
     const box = document.getElementById('announcement-box');
     box.textContent = `👋 Welcome to my 3D Portfolio! \n
     I'm Adam Ladhari, a creative developer passionate about gameDev, AI, and immersive tech.\n
-    💡 Click on labels like "Projects" or "Skills" to explore. You can also move freely or reset the view anytime with the camera button.`;
+    💡 Click on labels like "Projects" or "Skills" to explore. You can also move freely or use the navbar`;
     
     box.style.opacity = 1;
 
