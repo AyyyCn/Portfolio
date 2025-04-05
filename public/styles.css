@@ -60,7 +60,7 @@ body, html {
 
 #announcement-box {
   position: fixed;
-  top: 20px;
+  top: 60px;
   right: 20px;
   background-color: rgba(255, 245, 230, 0.75); /* match settings panel */
   color: #333;
@@ -97,4 +97,30 @@ body, html {
   background: transparent;
   border: none;
   outline: none;
+}
+#navigation-bar {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 245, 230, 0.75);
+  padding: 6px 16px;
+  border-radius: 12px;
+  font-family: 'Georgia', serif;
+  font-size: 0.9rem;
+  color: #333;
+  z-index: 9999;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 20px;
+  cursor: pointer;
+}
+
+#navigation-bar span {
+  transition: color 0.3s, transform 0.2s;
+}
+
+#navigation-bar span:hover {
+  color: #000;
+  transform: scale(1.1);
 }

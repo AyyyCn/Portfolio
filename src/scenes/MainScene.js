@@ -73,48 +73,48 @@ export class MainScene {
         console.error("❌ ERROR: MainHub Mesh is missing!");
         return;
       }
-      const cameraBtn = document.createElement('img');
-      cameraBtn.src = 'icons/reset.png'; // chemin vers ton icône
-      cameraBtn.style.position = 'fixed';
-      cameraBtn.style.bottom = '20px';
-      cameraBtn.style.left = '20px';
-      cameraBtn.style.width = '40px';
-      cameraBtn.style.height = '40px';
-      cameraBtn.style.zIndex = '9999';
-      cameraBtn.style.cursor = 'pointer';
-      cameraBtn.style.opacity = '0.8';
-      cameraBtn.style.transition = 'opacity 0.3s';
+      // const cameraBtn = document.createElement('img');
+      // cameraBtn.src = 'icons/reset.png'; // chemin vers ton icône
+      // cameraBtn.style.position = 'fixed';
+      // cameraBtn.style.bottom = '20px';
+      // cameraBtn.style.left = '20px';
+      // cameraBtn.style.width = '40px';
+      // cameraBtn.style.height = '40px';
+      // cameraBtn.style.zIndex = '9999';
+      // cameraBtn.style.cursor = 'pointer';
+      // cameraBtn.style.opacity = '0.8';
+      // cameraBtn.style.transition = 'opacity 0.3s';
       
-      cameraBtn.addEventListener('mouseenter', () => cameraBtn.style.opacity = '1');
-      cameraBtn.addEventListener('mouseleave', () => cameraBtn.style.opacity = '0.8');
+      // cameraBtn.addEventListener('mouseenter', () => cameraBtn.style.opacity = '1');
+      // cameraBtn.addEventListener('mouseleave', () => cameraBtn.style.opacity = '0.8');
       
-      cameraBtn.addEventListener('click', () => {
-        const newPos = { x: -3.61, y: 1.83, z: 6.65 };
-        const newTarget = new THREE.Vector3(0.54, 0.55, 0.14);
+      // cameraBtn.addEventListener('click', () => {
+      //   const newPos = { x: -3.61, y: 1.83, z: 6.65 };
+      //   const newTarget = new THREE.Vector3(0.54, 0.55, 0.14);
       
-        gsap.to(this.camera.position, {
-          x: newPos.x,
-          y: newPos.y,
-          z: newPos.z,
-          duration: 2,
-          ease: "power2.inOut"
-        });
+      //   gsap.to(this.camera.position, {
+      //     x: newPos.x,
+      //     y: newPos.y,
+      //     z: newPos.z,
+      //     duration: 2,
+      //     ease: "power2.inOut"
+      //   });
       
-        // Interpolation manuelle du target dans l'update GSAP
-        const currentTarget = this.inputHandler.controls.target.clone();
-        gsap.to(currentTarget, {
-          x: newTarget.x,
-          y: newTarget.y,
-          z: newTarget.z,
-          duration: 2,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            this.inputHandler.controls.target.copy(currentTarget);
-          }
-        });
-      });
+      //   // Interpolation manuelle du target dans l'update GSAP
+      //   const currentTarget = this.inputHandler.controls.target.clone();
+      //   gsap.to(currentTarget, {
+      //     x: newTarget.x,
+      //     y: newTarget.y,
+      //     z: newTarget.z,
+      //     duration: 2,
+      //     ease: "power2.inOut",
+      //     onUpdate: () => {
+      //       this.inputHandler.controls.target.copy(currentTarget);
+      //     }
+      //   });
+      // });
       
-      document.body.appendChild(cameraBtn);
+      // document.body.appendChild(cameraBtn);
       const canvas = document.getElementById('portfolio-canvas'); //
       this.inputHandler = new InputHandler(this.camera, new THREE.Vector3(0.54,0.55,0.14), canvas);
 
@@ -141,7 +141,43 @@ export class MainScene {
     💡 Click on labels like "Projects" or "Skills" to explore. You can also move freely or reset the view anytime with the camera button.`;
     
     box.style.opacity = 1;
+
+    const navBar = document.getElementById('navigation-bar');
+    if (navBar) {
+      navBar.querySelectorAll('span').forEach(el => {
+        el.addEventListener('click', () => {
+          const zoneName = el.dataset.zone;
+          if (zoneName === 'main') {
+            const newPos = { x: -3.61, y: 1.83, z: 6.65 };
+            const newTarget = new THREE.Vector3(0.54, 0.55, 0.14);
     
+            gsap.to(this.camera.position, {
+              x: newPos.x,
+              y: newPos.y,
+              z: newPos.z,
+              duration: 2,
+              ease: "power2.inOut"
+            });
+    
+            const currentTarget = this.inputHandler.controls.target.clone();
+            gsap.to(currentTarget, {
+              x: newTarget.x,
+              y: newTarget.y,
+              z: newTarget.z,
+              duration: 2,
+              ease: "power2.inOut",
+              onUpdate: () => {
+                this.inputHandler.controls.target.copy(currentTarget);
+              }
+            });
+          } else {
+            this.handleZoneClick(zoneName);
+          }
+        });
+      });
+    }
+    
+
     
   }
 
