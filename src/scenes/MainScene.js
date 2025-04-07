@@ -8,10 +8,9 @@ import { gsap } from 'gsap';
 import { makeTextLabel } from '../utils/textHelper.js';
 import { links } from '../links.js';
 import { educationLabels } from '../education.js';
-import { ProjectScreen } from '../components/ProjectsScreen.js'; // adapte le chemin si besoin
+import { ProjectScreen } from '../components/ProjectsScreen.js'; 
 
 import * as dat from 'dat.gui';
-// ✅ Vite handles assets inside `public/` automatically
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import { PMREMGenerator } from 'three';
 export class MainScene {
@@ -26,7 +25,7 @@ export class MainScene {
     this.islandMap = new Map();
     this.loader = new GLTFLoader();
 
-    // 🔹 Define raycaster and mouse here
+
     this.raycaster = new THREE.Raycaster();
     this.mouse = new THREE.Vector2();
     
@@ -38,7 +37,6 @@ export class MainScene {
       Lighting(this.scene,this.tier);
       this.loadBackground(this.scene);
 
-      // ✅ Load the Main Hub safely
       const mainHubGLTF = await this.loadModel('/assets/models/output.glb');
       console.log("📌 Loaded MainHub Model:", mainHubGLTF);
       
@@ -138,7 +136,8 @@ export class MainScene {
     const box = document.getElementById('announcement-box');
     box.textContent = `👋 Welcome to my 3D Portfolio! \n
     I'm Adam Ladhari, a creative developer passionate about gameDev, AI, and immersive tech.\n
-    💡 Click on labels like "Projects" or "Skills" to explore. You can also move freely or use the navbar`;
+    💡 Click on labels like "Projects" or "Skills" to explore. You can also move freely or use the navbar
+    \n( I will add the projects links)`;
     
     box.style.opacity = 1;
 
