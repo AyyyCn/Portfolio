@@ -1,2 +1,2 @@
 My 3d portfolio
-https://portfolio-4gsvyctxq-ayyycns-projects.vercel.app/
+https://portfolio-ayyycns-projects.vercel.app/
