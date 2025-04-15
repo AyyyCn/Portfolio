@@ -9,8 +9,6 @@ import { makeTextLabel } from '../utils/textHelper.js';
 import { links } from '../links.js';
 import { educationLabels } from '../education.js';
 import { ProjectScreen } from '../components/ProjectsScreen.js'; 
-
-import * as dat from 'dat.gui';
 import { EXRLoader } from 'three/examples/jsm/loaders/EXRLoader.js';
 import { PMREMGenerator } from 'three';
 export class MainScene {
@@ -33,6 +31,10 @@ export class MainScene {
   }
 
   async init() {
+    const closeBtn = document.getElementById('close-project-panel');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => this.hideProjectInfo());
+    }
     try {
       Lighting(this.scene,this.tier);
       this.loadBackground(this.scene);
@@ -136,17 +138,18 @@ export class MainScene {
     const box = document.getElementById('announcement-box');
     box.textContent = `👋 Welcome to my 3D Portfolio! \n
     I'm Adam Ladhari, a creative developer passionate about gameDev, AI, and immersive tech.\n
-    💡 Click on labels like "Projects" or "Skills" to explore. You can also move freely or use the navbar
-    \n( I will add the projects links)`;
+    💡 Click on labels like "Projects" or "Skills" to explore. You can also move freely or use the navbar`;
     
     box.style.opacity = 1;
 
     const navBar = document.getElementById('navigation-bar');
     if (navBar) {
+      this.hideProjectInfo()
       navBar.querySelectorAll('span').forEach(el => {
         el.addEventListener('click', () => {
           const zoneName = el.dataset.zone;
           if (zoneName === 'main') {
+            this.hideProjectInfo()
             const newPos = { x: -3.61, y: 1.83, z: 6.65 };
             const newTarget = new THREE.Vector3(0.54, 0.55, 0.14);
     
@@ -339,7 +342,7 @@ export class MainScene {
     if (intersects.length > 0) {
       const clickedObj = intersects[0].object;
       const name = clickedObj.name;
-      console.log('✅ Clicked Object:', name);
+      console.log('✅ Clicked Object:', intersects[0].object.name);
   
       if (name.startsWith('Zone_')) {
         this.handleZoneClick(name);
@@ -354,6 +357,13 @@ export class MainScene {
       {
         this.projectScreen.goBack();
       }
+      else if (name.startsWith('project_card_')) {
+        const project = intersects[0].object.userData.project;
+        if (project && this.projectScreen) {
+          this.projectScreen.displayProjectInfo(project);
+        }
+      }
+      
     }
     
     
@@ -395,6 +405,7 @@ export class MainScene {
 
     
   handleZoneClick(name) {
+    this.hideProjectInfo()
     if (this.isTransitioning) return; // ⛔ ignore if transition in progress
     this.isTransitioning = true;
   
@@ -455,5 +466,11 @@ export class MainScene {
   }
   
   
-
+  hideProjectInfo() {
+    const panel = document.getElementById('project-panel');
+    if (panel) {
+      panel.style.opacity = '0';
+      setTimeout(() => panel.style.display = 'none', 300);
+    }
+  }
 }
