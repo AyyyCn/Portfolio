@@ -51,7 +51,12 @@ export class ProjectScreen {
           title: 'GameDB',
           image: 'projects/gamedb.png',
           description: 'A lightweight AI tool that scrapes Reddit and YouTube comments to analyze what people love or hate about a game. Stack: Python, BERT, web scraping.'
-        }
+        },
+        {
+    title: 'Formation Recommender(Junior Rush)',
+    image: 'projects/junior.png',
+    description: 'An AI-driven multi-label recommendation system that suggests up to 3 personalized training programs per user based on academic and demographic features. Includes confidence thresholds, model calibration, and XGBoost. Built with Python, pandas, and scikit-learn.'
+  },
       ],
       web: [
         {
@@ -75,6 +80,11 @@ export class ProjectScreen {
           title: 'Gurobi Wrapper',
           image: 'projects/gurobi.png',
           description: 'A tkinter-based tool to solve LP/ILP optimization problems using Gurobi, with a custom GUI for inputs, outputs, and config settings.'
+        },
+        {
+          title: 'Img2Gerber',
+          image: 'projects/gerber.png',
+          description: 'A Python-based automation pipeline that converts layered image designs (PNG/SVG) into production-ready KiCad Gerber files. The system processes multiple projects in batch, handling image-to-SVG conversion, PCB generation, Gerber plotting, and final archiving. Stack: Python, KiCad API, Inkscape CLI, PIL, OpenCV, lxml, shell scripting'
         }
       ]
     };
