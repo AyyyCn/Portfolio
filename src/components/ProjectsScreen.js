@@ -38,24 +38,35 @@ export class ProjectScreen {
         {
           title: 'Fruit Slicer',
           image: 'projects/fruit.png',
-          description: 'A VR fruit slicing game built in Unity using real-time physics and blade collision. Inspired by Fruit Ninja, made for immersive fun.'
-        }
+          description: 'A VR fruit slicing game built in Unity using real-time physics and blade collision. Inspired by Fruit Ninja, made for immersive fun.',
+          link : 'https://github.com/AyyyCn/FruitSlicerVR'
+        },
+              {
+        title: 'EchoMIDI',
+        image: 'projects/echomidi.png',
+        description: 'A rhythm memory game built in Unity URP with MIDI support. Players listen to an ever-growing sequence of notes and replay them using a MIDI keyboard or virtual piano. Features guided mode, velocity sensitivity, dynamic difficulty, and stylish feedback animations.'
+        ,link : ' https://github.com/AyyyCn/EchoMIDI'
+      }
+
       ],
       ai: [
         {
           title: 'Parki',
           image: 'projects/parki.png',
           description: 'A smart AI-powered parking system with license plate recognition (LPR) and mobile tracking. Built with Python, Flutter, and YOLO.'
+        , link : 'https://github.com/AyyyCn/Parki'
         },
         {
           title: 'GameDB',
           image: 'projects/gamedb.png',
           description: 'A lightweight AI tool that scrapes Reddit and YouTube comments to analyze what people love or hate about a game. Stack: Python, BERT, web scraping.'
+        , link : 'https://github.com/AyyyCn/Game-DB'
         },
         {
     title: 'Formation Recommender(Junior Rush)',
     image: 'projects/junior.png',
     description: 'An AI-driven multi-label recommendation system that suggests up to 3 personalized training programs per user based on academic and demographic features. Includes confidence thresholds, model calibration, and XGBoost. Built with Python, pandas, and scikit-learn.'
+  , link : 'https://github.com/AyyyCn/JuniorRush_ML'
   },
       ],
       web: [
@@ -67,12 +78,14 @@ export class ProjectScreen {
         {
           title: 'Elmarchi',
           image: 'projects/elmarchi.png',
-          description: 'A university group project: Elmarchi is an online marketplace for items, built using Angular'
+          description: 'A university group project: Elmarchi is an online marketplace for items, built using Angular',
+          link : 'https://github.com/RaedAddala/El-Marchi'
         },
         {
           title: 'Tuniscape',
           image: 'projects/tuniscape.png',
           description: 'A fictional travel agency website built with Symfony PHP framework. Includes booking modules, form handling, and server-side rendering.'
+        , link : 'https://github.com/ElyesBelgouthi/Tuniscape'
         }
       ],
       tools: [
@@ -182,22 +195,26 @@ export class ProjectScreen {
   }
   
 
-  displayProjectInfo(project) {
+displayProjectInfo(project) {
     const panel = document.getElementById('project-panel');
     const content = document.getElementById('project-panel-content');
     if (!panel || !content) return;
   
     const desc = project.description || 'No description available yet.';
+    const link = project.link ? `<br><a href="${project.link}" target="_blank">GitHub</a>` : '';
   
     content.innerHTML = `
       <strong>${project.title}</strong><br>
       ${desc}
+      ${link}
+      <br>
       <img src="${project.image}" alt="${project.title}" />
     `;
   
     panel.style.display = 'block';
     panel.style.opacity = '1';
-  }
+}
+
   
   
   
