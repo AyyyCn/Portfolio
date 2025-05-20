@@ -12,6 +12,9 @@ export class ProjectScreen {
     this.projectScreenPanel = null;
     this.projectIcons = [];
     this.projectCards = [];
+    this.projectTextures = {}; // key: image path, value: THREE.Texture
+
+
     this.activeCategory = null;
     this.projectData = {
       games: [
@@ -101,6 +104,7 @@ export class ProjectScreen {
         }
       ]
     };
+    this.preloadProjectImages(); // call this right away
     
   }
 
@@ -145,9 +149,14 @@ export class ProjectScreen {
     loader.setMeshoptDecoder(MeshoptDecoder);
   
     projects.forEach((proj, i) => {
-      const tex = new THREE.TextureLoader().load(proj.image);
-      tex.encoding = THREE.sRGBEncoding;
-      tex.flipX = true;
+      const tex = this.projectTextures[proj.image];
+if (!tex) {
+  console.warn(`⚠️ Texture not preloaded for ${proj.title}. Loading on demand.`);
+  tex = new THREE.TextureLoader().load(proj.image);
+  tex.encoding = THREE.sRGBEncoding;
+  tex.flipX = true;
+}
+
   
       const mat = new THREE.MeshBasicMaterial({
         map: tex,
@@ -233,4 +242,30 @@ displayProjectInfo(project) {
     this.activeCategory = null;
     console.log('↩️ Returned to icon view');
   }
+  preloadProjectImages() {
+  const loader = new THREE.TextureLoader();
+
+  const categories = Object.keys(this.projectData);
+  categories.forEach(category => {
+    this.projectData[category].forEach(project => {
+      const imgPath = project.image;
+      if (!this.projectTextures[imgPath]) {
+        loader.load(
+          imgPath,
+          texture => {
+            texture.encoding = THREE.sRGBEncoding;
+            texture.flipX = true;
+            this.projectTextures[imgPath] = texture;
+            console.log(`✅ Preloaded: ${imgPath}`);
+          },
+          undefined,
+          err => {
+            console.error(`❌ Failed to preload: ${imgPath}`, err);
+          }
+        );
+      }
+    });
+  });
+}
+
 }
