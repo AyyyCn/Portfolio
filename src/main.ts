@@ -9,7 +9,8 @@ interface StageData {
   phases: string[];
   introTitle: string;
   introHint: string;
-  cases: { id: LensId; title: string }[];
+  introCaption: string;
+  cases: { id: LensId; title: string; captions: string[] }[];
 }
 
 const stageEl = document.getElementById('stage');
@@ -36,6 +37,10 @@ function start(stageEl: HTMLElement, data: StageData): void {
   const scrub = $<HTMLInputElement>('scrub');
   const loadBtn = $<HTMLButtonElement>('stage-load');
   const tabs = [...timeline.querySelectorAll<HTMLButtonElement>('[data-goto]')];
+  const caption = $('stage-caption');
+  const count = $('stage-count');
+  const prevBtn = $<HTMLButtonElement>('stage-prev');
+  const nextBtn = $<HTMLButtonElement>('stage-next');
   const cases = [...document.querySelectorAll<HTMLElement>('.case')].map((el) => ({
     el,
     phases: [...el.querySelectorAll<HTMLElement>('.phase')],
@@ -46,7 +51,7 @@ function start(stageEl: HTMLElement, data: StageData): void {
   document.documentElement.classList.add('has-stage');
 
   let stage: Stage | null = null;
-  let active = -1;
+  let active = -2;
   let p = 0;
   let scrubbing = false;
 
@@ -78,9 +83,18 @@ function start(stageEl: HTMLElement, data: StageData): void {
     }
     const phase = Math.round(np);
     if (next !== active) {
-      title.textContent = next < 0 ? data.introTitle : `${String(next + 1).padStart(2, '0')} · ${data.cases[next].title}`;
+      title.textContent = next < 0 ? data.introTitle : data.cases[next].title;
+      count.textContent = next < 0 ? '' : `${String(next + 1).padStart(2, '0')} / ${String(cases.length).padStart(2, '0')}`;
+      prevBtn.disabled = next < 0;
+      nextBtn.disabled = next >= cases.length - 1;
       timeline.classList.toggle('off', next < 0);
+      // A short dip so one scene does not snap into the next.
+      canvas.classList.remove('swap');
+      void canvas.offsetWidth;
+      canvas.classList.add('swap');
     }
+    const line = next < 0 ? data.introCaption : data.cases[next].captions[phase];
+    if (caption.textContent !== line) caption.textContent = line;
     cases.forEach((c, i) => c.phases.forEach((el, k) => el.classList.toggle('on', i === next && k === phase)));
     tabs.forEach((b, k) => b.classList.toggle('on', next >= 0 && k === phase));
     if (!scrubbing) scrub.value = String(Math.round(np * 100));
@@ -116,6 +130,30 @@ function start(stageEl: HTMLElement, data: StageData): void {
   scrub.addEventListener('change', () => (scrubbing = false));
   tabs.forEach((b) => b.addEventListener('click', () => goto(Number(b.dataset.goto), true)));
 
+  /** Jump to a step of a case (or back to the top for case -1). */
+  const jump = (caseIndex: number, phase: number): void => {
+    if (caseIndex < 0) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    const y = centre(cases[Math.min(cases.length - 1, caseIndex)].phases[phase]);
+    window.scrollTo({ top: window.scrollY + y - refY(), behavior: 'smooth' });
+  };
+  prevBtn.addEventListener('click', () => jump(active - 1, 0));
+  nextBtn.addEventListener('click', () => jump(active + 1, 0));
+  // Arrow keys step through the tour one step at a time.
+  window.addEventListener('keydown', (e) => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const tag = (e.target as HTMLElement).tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+    const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (!dir) return;
+    e.preventDefault();
+    const step = (active < 0 ? -1 : active * 4 + Math.round(p)) + dir;
+    if (step < 0) jump(-1, 0);
+    else if (step < cases.length * 4) jump(Math.floor(step / 4), step % 4);
+  });
+
   const load = async (): Promise<void> => {
     loadBtn.hidden = true;
     const loading = $('stage-loading');
@@ -129,6 +167,8 @@ function start(stageEl: HTMLElement, data: StageData): void {
       controls: $('stage-controls'),
       t: { ...data.t, introHint: data.introHint },
       lowPower: narrow.matches || (navigator.hardwareConcurrency ?? 8) <= 4,
+      // Width of the soft fade on the left edge of the view (none on narrow screens).
+      inset: () => (narrow.matches ? 0 : 96),
       onReady: () => {
         loading.hidden = true;
         performance.measure('stage-first-frame', { start: t0, end: performance.now() });

@@ -206,14 +206,14 @@ export function benchmark(ctx: Ctx): Lens {
       scan.position.y = 4.9 - ((time * 1.4) % 1) * 4.1;
 
       if (p < 1.5) {
-        cam.pos.set(-0.9, 4.2, 12.8);
-        cam.target.set(-0.9, 4, 0);
+        cam.pos.set(-0.3, 4.2, 12.8);
+        cam.target.set(-0.3, 4, 0);
       } else if (p < 2.5) {
         cam.pos.set(5.6, 3.4, 7.2);
         cam.target.set(2.8, 3, 0);
       } else {
-        cam.pos.set(-0.9, 5, 13.6);
-        cam.target.set(-0.9, 4, -0.5);
+        cam.pos.set(-0.3, 5, 13.6);
+        cam.target.set(-0.3, 4, -0.5);
       }
 
       const pct = Math.round((built / FEATURES) * 100);

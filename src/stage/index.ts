@@ -24,6 +24,8 @@ export interface StageOptions {
   controls: HTMLElement;
   t: Record<string, string>;
   lowPower: boolean;
+  /** Pixels on the left of the canvas that are faded out and should stay empty. */
+  inset?: () => number;
   /** Called once, after the first frame has been drawn. */
   onReady?: () => void;
 }
@@ -93,12 +95,20 @@ export function createStage(opts: StageOptions): Stage {
   let snap = true;
   lenses.intro.enter();
 
+  let inset = 0;
+  let usable = 1;
+
   // Size follows the canvas box.
   const resize = (): void => {
     const w = canvas.clientWidth, h = canvas.clientHeight;
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
+    // Shift the picture right so scenes sit centred in the unfaded part of the view.
+    inset = opts.inset?.() ?? 0;
+    if (inset) camera.setViewOffset(w, h, -inset / 2, 0, w, h);
+    else camera.clearViewOffset();
+    usable = (w - inset) / h;
     camera.updateProjectionMatrix();
   };
   new ResizeObserver(resize).observe(canvas);
@@ -153,7 +163,7 @@ export function createStage(opts: StageOptions): Stage {
     lenses[current].update(dt, progress, time, goal);
 
     // Narrow viewports pull the camera back so the subject still fits.
-    const zoom = Math.min(1.6, Math.max(1, 1.2 / camera.aspect));
+    const zoom = Math.min(1.7, Math.max(1, (inset ? 1.5 : 1.3) / usable));
     if (!dragging) yaw *= Math.exp(-dt * 0.5);
     offset.copy(goal.pos).sub(goal.target).multiplyScalar(zoom).applyAxisAngle(up, yaw);
     const k = snap ? 1 : 1 - Math.exp(-dt * 3.2);

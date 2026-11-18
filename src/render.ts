@@ -114,7 +114,8 @@ export function renderBody(c: Content): string {
     phases: c.stage.phases,
     introTitle: c.stage.introTitle,
     introHint: c.stage.introHint,
-    cases: c.work.flatMap((g) => g.cases).map((k) => ({ id: k.id, title: k.kicker })),
+    introCaption: c.stage.introCaption,
+    cases: c.work.flatMap((g) => g.cases).map((k) => ({ id: k.id, title: k.kicker, captions: k.captions })),
   };
   return `<a class="skip" href="#main">${esc(c.nav.skip)}</a>
   <header class="top">
@@ -134,6 +135,11 @@ export function renderBody(c: Content): string {
         <div class="stage-head">
           <span class="stage-tag">${esc(c.stage.tag)}</span>
           <span class="stage-title" id="stage-title">${esc(c.stage.introTitle)}</span>
+          <span class="stage-nav">
+            <button type="button" id="stage-prev" aria-label="${esc(c.stage.prev)}">←</button>
+            <span id="stage-count"></span>
+            <button type="button" id="stage-next" aria-label="${esc(c.stage.next)}">→</button>
+          </span>
         </div>
         <div class="stage-view">
           <canvas id="stage-canvas"></canvas>
@@ -142,6 +148,7 @@ export function renderBody(c: Content): string {
           <button class="stage-load" id="stage-load" type="button" hidden>${esc(c.stage.load)}</button>
           <p class="stage-loading" id="stage-loading" hidden>${esc(c.stage.loading)}</p>
         </div>
+        <p class="stage-caption" id="stage-caption" aria-hidden="true">${esc(c.stage.introCaption)}</p>
         <div class="timeline" id="timeline">
           <ol class="phase-tabs">
             ${c.stage.phases.map((p, i) => `<li><button type="button" data-goto="${i}">${esc(p)}</button></li>`).join('')}
@@ -157,13 +164,19 @@ export function renderBody(c: Content): string {
           <p class="eyebrow">${esc(c.hero.role)} · ${esc(c.hero.location)}</p>
           <h1>Adam Ladhari</h1>
           <p class="lead">${esc(c.hero.lead)}</p>
-          <p class="profile">${esc(c.hero.profile)}</p>
           <p class="actions">
             <a class="btn btn-primary" href="#work">${esc(c.hero.cta)}</a>
-            <a class="btn" href="mailto:${c.contact.email}">${esc(c.contact.email)}</a>
+            <a class="btn" href="#summary">${esc(c.hero.cta2)}</a>
           </p>
+          <p class="cue">${esc(c.hero.cue)}</p>
+        </section>
+
+        <section class="summary" id="summary">
+          <h2>${esc(c.hero.summary)}</h2>
+          <p class="profile">${esc(c.hero.profile)}</p>
           <ul class="what">${c.hero.what.map((w) => `<li><strong>${esc(w.title)}</strong><span>${esc(w.text)}</span></li>`).join('')}</ul>
           ${metrics(c.headline, 'tiles tiles-headline')}
+          <p class="actions"><a class="btn" href="mailto:${c.contact.email}">${esc(c.contact.email)}</a></p>
         </section>
 
         <section class="work" id="work">

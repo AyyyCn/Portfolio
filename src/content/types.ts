@@ -11,6 +11,8 @@ export interface CaseStudy {
   kicker: string;
   /** One plain sentence a non-specialist can read on its own. */
   summary: string;
+  /** One plain line per step, shown under the 3D scene. */
+  captions: [string, string, string, string];
   problem: string;
   built: string;
   measured: string;
@@ -43,7 +45,7 @@ export interface Content {
   altLabel: string;
   meta: { title: string; description: string };
   nav: { work: string; projects: string; toolbox: string; contact: string; skip: string };
-  hero: { role: string; location: string; lead: string; profile: string; cta: string; what: { title: string; text: string }[] };
+  hero: { role: string; location: string; lead: string; profile: string; cta: string; cta2: string; cue: string; summary: string; what: { title: string; text: string }[] };
   headline: Metric[];
   workHeading: string;
   workIntro: string;
@@ -55,6 +57,9 @@ export interface Content {
   contact: { heading: string; text: string; email: string; linkedin: string; github: string; artstation: string; youtube: string };
   footer: string;
   stage: {
+    introCaption: string;
+    prev: string;
+    next: string;
     /** Short phase names for the timeline tabs. */
     phases: [string, string, string, string];
     tag: string;

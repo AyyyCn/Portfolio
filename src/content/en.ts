@@ -18,7 +18,10 @@ export const en: Content = {
     "location": "Paris, France",
     "lead": "I design AI agents for interactive 3D and games, and I measure that they work",
     "profile": "I am an applied AI engineer. I take a subject from start to finish: frame the problem, build the solution, instrument it, measure it and ship it. My ground is where AI agents meet real-time 3D: agent systems, game engines, online multiplayer, generated 3D, effects and sound. Today I do this at Arcade AI, on the agents that turn a written idea into a playable multiplayer game and on the engine they control.",
-    "cta": "See the work",
+    "cta": "Start the tour",
+    "cta2": "Read the summary",
+    "cue": "Scroll to start · ← → to step",
+    "summary": "In short",
     "what": [
       {
         "title": "AI agents",
@@ -73,6 +76,7 @@ export const en: Content = {
       "cases": [
         {
           "id": "benchmark",
+          "captions": ["An AI agent builds a game in a loop. Every pass through the gate says “valid”, yet only 1 of the 12 requested features exists", "The same loop with a checklist: specialist agents add the requested features one by one", "A scan counts what is really in the game, the same way for every architecture", "11 of 12 features delivered: 92%, against 8% before"],
           "kicker": "Benchmark of AI agent designs",
           "title": "Does the AI build the game that was asked for?",
           "summary": "I ran the study showing that a generated game can pass every automatic check and still contain only 8% of what was asked for, and that a checklist approach reaches 92%.",
@@ -103,6 +107,7 @@ export const en: Content = {
         },
         {
           "id": "profiler",
+          "captions": ["A crowd of characters chases a target. Is it too many? Without instruments, nobody can say", "Two instruments appear: a step-by-step recording of an agent run, and the cost of each system", "More characters are added while the bars show what each system costs. These timings are measured live on this page", "The answer becomes a number: about 100 characters at 60 images per second in the Arcade engine"],
           "kicker": "Observability",
           "title": "Seeing what the AI and the engine are really doing",
           "summary": "I built the tools that show, step by step, what an AI agent did, and how much computing time each part of the game costs.",
@@ -123,6 +128,7 @@ export const en: Content = {
         },
         {
           "id": "netcode",
+          "captions": ["Three views of the same game. With network delay, player A sees their own character late: the hollow dot", "Prediction: A’s character moves at once, then corrects itself when the server disagrees", "A shoots. The server rewinds the target to where A saw it, then judges the hit. Try the latency slider", "At 250 ms of delay, shots still land"],
           "kicker": "Online multiplayer",
           "title": "Making an online game feel instant and fair",
           "summary": "I built the networking that keeps an online game responsive and fair when players have slow connections, and proved it with automated play sessions.",
@@ -143,6 +149,7 @@ export const en: Content = {
         },
         {
           "id": "pipelines",
+          "captions": ["Raw generated content: an image, sound candidates, a first rough effect", "Three production lines start: images become 3D models, sounds and effects are generated", "Each line checks itself: models snap to the grip rule, weak sounds are dropped, a critic sends the effect back", "Out the other end: aligned models, the sounds that passed, an effect in its third revision"],
           "kicker": "Generated 3D models, effects and sound",
           "title": "Three content pipelines built alone, from scratch",
           "summary": "I built, without handing off to anyone, the systems that generate a game's 3D models, visual effects and sounds, each one checking its own output.",
@@ -163,6 +170,7 @@ export const en: Content = {
         },
         {
           "id": "shipping",
+          "captions": ["Three very different games, each missing what it needs to run", "Shared systems come online one by one. The lines show which games use each", "The games run, covered by automated tests and play sessions that run on their own", "Four shared systems carry all three games"],
           "kicker": "Gameplay systems",
           "title": "The engine systems behind ten shipped games",
           "summary": "I built the reusable gameplay systems (weapons, vehicles, computer-controlled characters, animation) that let very different games run on one engine, and shipped more than ten complete games and maps to prove them.",
@@ -195,6 +203,7 @@ export const en: Content = {
       "cases": [
         {
           "id": "textto3d",
+          "captions": ["A sentence goes in. Candidate images are generated and the best one is kept", "A raw 3D mesh: the right shape, far too many triangles", "Automatic clean-up cuts it to a fraction of the triangles and runs quality checks", "Materials applied: an object a game can load"],
           "kicker": "Text to 3D",
           "title": "From a sentence to a 3D object ready for a game",
           "summary": "I built a tool that turns a written description into a 3D object with its materials, in a file a game can load.",
@@ -223,6 +232,7 @@ export const en: Content = {
       "cases": [
         {
           "id": "learning",
+          "captions": ["A learner moves through the lessons along the planned path", "On one lesson they stall. The ring fills as time on the task grows", "Frustration detected: an AI agent fetches the relevant course documents", "Unblocked, and sent to a different next lesson than planned"],
           "kicker": "Adaptive learning with an AI assistant",
           "title": "Noticing when a learner is stuck, and helping at that moment",
           "summary": "I built a learning platform that adapts the course to each learner and brings in an AI assistant when it detects they are stuck.",
@@ -251,6 +261,7 @@ export const en: Content = {
       "cases": [
         {
           "id": "emotion",
+          "captions": ["A game running at a fixed pace, unaware of the player", "The camera reads the player’s expression and the game’s pace follows it", "A dashboard tallies how the player felt", "The two other client projects, before and after"],
           "kicker": "Client projects",
           "title": "Three clients, three problems, three delivered systems",
           "summary": "As a freelancer I delivered a game system that reacts to the player's emotions, an automation that cut pre-production cycles by 75%, and trading tools using 70% less CPU.",
@@ -422,6 +433,9 @@ export const en: Content = {
   },
   footer: 'Built with Three.js and TypeScript. The island, the karts and the simulations are generated in your browser; nothing here comes from Arcade AI.',
   stage: {
+    introCaption: "A small game world, generated in your browser. Each case study below is replayed here",
+    prev: "Previous case",
+    next: "Next case",
     phases: ['Problem', 'Build', 'Measure', 'Result'],
     tag: 'Replay',
     aria: '3D replay of the case studies',

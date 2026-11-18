@@ -17,7 +17,10 @@ export const fr: Content = {
     "location": "Paris, France",
     "lead": "Je conçois des agents IA pour la 3D interactive et le jeu vidéo, et je mesure qu’ils fonctionnent",
     "profile": "Je suis ingénieur IA appliquée. Je prends un sujet de bout en bout : cadrer le problème, construire la solution, l’instrumenter, la mesurer et la livrer. Mon terrain est la rencontre entre les agents IA et la 3D temps réel : systèmes d’agents, moteurs de jeu, multijoueur en ligne, 3D, effets et sons générés. Aujourd’hui, je le fais chez Arcade AI, sur les agents qui transforment une idée écrite en jeu multijoueur jouable et sur le moteur qu’ils pilotent.",
-    "cta": "Voir les réalisations",
+    "cta": "Commencer la visite",
+    "cta2": "Lire le résumé",
+    "cue": "Faites défiler pour commencer · ← → pour avancer",
+    "summary": "En bref",
     "what": [
       {
         "title": "Agents IA",
@@ -72,6 +75,7 @@ export const fr: Content = {
       "cases": [
         {
           "id": "benchmark",
+          "captions": ["Un agent IA construit un jeu en boucle. Chaque passage du contrôle dit « valide », mais une seule des 12 fonctionnalités demandées existe", "La même boucle avec une checklist : des agents spécialistes ajoutent les fonctionnalités demandées une à une", "Un balayage compte ce qui est réellement dans le jeu, de la même façon pour chaque architecture", "11 fonctionnalités sur 12 livrées : 92 %, contre 8 % avant"],
           "kicker": "Benchmark d’architectures d’agents IA",
           "title": "L’IA construit-elle le jeu qui a été demandé ?",
           "summary": "J’ai mené l’étude montrant qu’un jeu généré peut passer tous les contrôles automatiques et ne contenir que 8 % de ce qui était demandé, et qu’une approche par checklist atteint 92 %.",
@@ -102,6 +106,7 @@ export const fr: Content = {
         },
         {
           "id": "profiler",
+          "captions": ["Une foule de personnages poursuit une cible. Y en a-t-il trop ? Sans instruments, impossible à dire", "Deux instruments apparaissent : l’enregistrement pas à pas d’un agent, et le coût de chaque système", "On ajoute des personnages pendant que les barres montrent le coût de chaque système. Ces temps sont mesurés en direct sur cette page", "La réponse devient un chiffre : environ 100 personnages à 60 images par seconde dans le moteur d’Arcade"],
           "kicker": "Observabilité",
           "title": "Voir ce que font réellement l’IA et le moteur",
           "summary": "J’ai construit les outils qui montrent, étape par étape, ce qu’un agent IA a fait, et combien de temps de calcul coûte chaque partie du jeu.",
@@ -122,6 +127,7 @@ export const fr: Content = {
         },
         {
           "id": "netcode",
+          "captions": ["Trois vues du même jeu. Avec le délai réseau, le joueur A voit son propre personnage en retard : le point creux", "Prédiction : le personnage de A bouge tout de suite, puis se corrige quand le serveur n’est pas d’accord", "A tire. Le serveur ramène la cible là où A la voyait, puis juge le tir. Essayez le curseur de latence", "À 250 ms de délai, les tirs touchent encore"],
           "kicker": "Multijoueur en ligne",
           "title": "Rendre un jeu en ligne immédiat et équitable",
           "summary": "J’ai construit la couche réseau qui garde un jeu en ligne réactif et équitable quand les joueurs ont une connexion lente, et je l’ai prouvé par des sessions de jeu automatisées.",
@@ -142,6 +148,7 @@ export const fr: Content = {
         },
         {
           "id": "pipelines",
+          "captions": ["Du contenu généré brut : une image, des sons candidats, un premier effet approximatif", "Trois chaînes de production démarrent : les images deviennent des modèles 3D, sons et effets sont générés", "Chaque chaîne se contrôle : les modèles s’alignent sur la règle de prise en main, les sons faibles sont écartés, un critique renvoie l’effet", "En sortie : des modèles alignés, les sons retenus, un effet à sa troisième révision"],
           "kicker": "Modèles 3D, effets et sons générés",
           "title": "Trois pipelines de contenu montés seul, de zéro",
           "summary": "J’ai construit, sans relais, les systèmes qui génèrent les modèles 3D, les effets visuels et les sons d’un jeu, chacun contrôlant sa propre sortie.",
@@ -162,6 +169,7 @@ export const fr: Content = {
         },
         {
           "id": "shipping",
+          "captions": ["Trois jeux très différents, chacun privé de ce qu’il lui faut pour tourner", "Les systèmes partagés s’activent un à un. Les lignes montrent quels jeux utilisent chacun", "Les jeux tournent, couverts par des tests automatisés et des sessions de jeu lancées toutes seules", "Quatre systèmes partagés portent les trois jeux"],
           "kicker": "Systèmes de gameplay",
           "title": "Les systèmes moteur derrière dix jeux livrés",
           "summary": "J’ai construit les systèmes de gameplay réutilisables (armes, véhicules, personnages pilotés par l’ordinateur, animation) qui permettent à des jeux très différents de tourner sur un même moteur, et livré plus de dix jeux et cartes complets pour les prouver.",
@@ -194,6 +202,7 @@ export const fr: Content = {
       "cases": [
         {
           "id": "textto3d",
+          "captions": ["Une phrase en entrée. Des images candidates sont générées et la meilleure est retenue", "Un maillage 3D brut : la bonne forme, beaucoup trop de triangles", "Le nettoyage automatique le réduit à une fraction des triangles et lance les contrôles qualité", "Matériaux appliqués : un objet qu’un jeu peut charger"],
           "kicker": "Du texte à la 3D",
           "title": "D’une phrase à un objet 3D prêt pour le jeu",
           "summary": "J’ai construit un outil qui transforme une description écrite en objet 3D avec ses matériaux, dans un fichier qu’un jeu peut charger.",
@@ -222,6 +231,7 @@ export const fr: Content = {
       "cases": [
         {
           "id": "learning",
+          "captions": ["Un apprenant avance dans les leçons sur le parcours prévu", "Sur une leçon, il bloque. L’anneau se remplit à mesure que le temps passé augmente", "Frustration détectée : un agent IA va chercher les documents de cours utiles", "Débloqué, et orienté vers une autre leçon que celle prévue"],
           "kicker": "Apprentissage adaptatif avec un assistant IA",
           "title": "Repérer l’apprenant bloqué, et l’aider à ce moment-là",
           "summary": "J’ai construit une plateforme d’apprentissage qui adapte le parcours à chaque apprenant et fait intervenir un assistant IA lorsqu’elle détecte qu’il est bloqué.",
@@ -250,6 +260,7 @@ export const fr: Content = {
       "cases": [
         {
           "id": "emotion",
+          "captions": ["Un jeu au rythme fixe, qui ignore le joueur", "La caméra lit l’expression du joueur et le rythme du jeu la suit", "Un tableau de bord récapitule ce que le joueur a ressenti", "Les deux autres projets clients, avant et après"],
           "kicker": "Projets clients",
           "title": "Trois clients, trois problèmes, trois systèmes livrés",
           "summary": "En freelance, j’ai livré un système de jeu qui réagit aux émotions du joueur, une automatisation qui a réduit de 75 % les cycles de pré-production, et des outils de trading consommant 70 % de CPU en moins.",
@@ -422,6 +433,9 @@ export const fr: Content = {
   footer:
     'Réalisé avec Three.js et TypeScript. L’île, les karts et les simulations sont générés dans votre navigateur ; rien ici ne provient d’Arcade AI.',
   stage: {
+    introCaption: "Un petit monde de jeu, généré dans votre navigateur. Chaque étude de cas ci-dessous y est rejouée",
+    prev: "Cas précédent",
+    next: "Cas suivant",
     phases: ['Problème', 'Construction', 'Mesure', 'Résultat'],
     tag: 'Replay',
     aria: 'Replay 3D des études de cas',
