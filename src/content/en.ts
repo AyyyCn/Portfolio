@@ -163,12 +163,12 @@ export const en: Content = {
         },
         {
           "id": "shipping",
-          "kicker": "Shipping",
-          "title": "Shipping complete games to find what the engine is missing",
-          "summary": "I delivered more than ten complete games and maps to production, and used each one to find and close a gap in the engine.",
-          "problem": "A game engine looks complete until someone tries to finish a real game with it. The missing pieces only show up then.",
-          "built": "10+ complete games and maps delivered to production: an online tactical shooter with computer-controlled opponents and 34 weapons defined by data, kart racing games, and voxel (block-based) worlds. I also built an MCP server, a standard connection that lets outside AI coding assistants such as Claude Code or Codex build and inspect games live.",
-          "measured": "Each game served as a probe of what the engine covers: every gap it revealed was closed with a generic building block, usable by any game, and not with a fix for that one game.",
+          "kicker": "Gameplay systems",
+          "title": "The engine systems behind ten shipped games",
+          "summary": "I built the reusable gameplay systems (weapons, vehicles, computer-controlled characters, animation) that let very different games run on one engine, and shipped more than ten complete games and maps to prove them.",
+          "problem": "A shooter, a kart racer and a block-building world need very different things from an engine. Writing special code for each game does not scale, least of all when AI agents are the ones assembling the game.",
+          "built": "Generic gameplay building blocks that any game can combine: weapons, physically simulated vehicles, navigation and behaviour for computer-controlled characters (NPCs), characters and animation. The agents use them through a declarative game specification, a structured description of the game that they write, and the same code runs solo and online.",
+          "measured": "Each block was proven by shipping complete games on it: an online tactical shooter with computer-controlled opponents and 34 weapons defined purely by data, kart racing games, and voxel (block-based) worlds. Every gap a game exposed was closed with a generic block, not a one-off fix. It is backed by 600+ automated tests and by play sessions run automatically with several simulated players. I also built a server, on the MCP standard, through which outside AI coding assistants such as Claude Code or Codex build and inspect games live.",
           "result": "10+ complete games and maps in production, and an engine that gained a generic building block for every gap they exposed.",
           "metrics": [
             {
@@ -178,6 +178,10 @@ export const en: Content = {
             {
               "value": "34",
               "label": "weapons defined by data in the tactical shooter"
+            },
+            {
+              "value": "600+",
+              "label": "automated tests"
             }
           ]
         }

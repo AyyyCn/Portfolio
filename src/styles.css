@@ -71,16 +71,17 @@ h4 { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--text-2);
 .top .lang:hover { color: var(--text); background: var(--raised); }
 
 /* Replay layout: story on the left, sticky stage on the right */
-.replay { display: flex; gap: 48px; padding: 0 var(--gutter); max-width: 1520px; margin: 0 auto; }
-.story { flex: 1 1 0; min-width: 0; max-width: 736px; }
+.replay { display: flex; gap: 48px; padding: 0 0 0 var(--gutter); }
+.story { flex: 0 0 clamp(400px, 36%, 560px); min-width: 0; }
 .stage {
-  order: 2; flex: 0 0 min(52%, 784px);
-  position: sticky; top: calc(var(--top) + 16px); align-self: flex-start;
-  height: calc(100svh - var(--top) - 32px); max-height: 864px; min-height: 420px;
+  order: 2; flex: 1 1 60%; min-width: 0; margin-left: auto;
+  position: sticky; top: var(--top); align-self: flex-start;
+  height: calc(100svh - var(--top)); min-height: 420px;
   display: flex; flex-direction: column;
-  background: var(--card); border: 1px solid var(--hair); border-radius: 16px; overflow: hidden;
+  background: var(--card); border-left: 1px solid var(--hair); overflow: hidden;
 }
-html:not(.has-stage) .story { max-width: 832px; margin: 0 auto; }
+html:not(.has-stage) .replay { padding-right: var(--gutter); }
+html:not(.has-stage) .story { flex: 1 1 auto; max-width: 832px; margin: 0 auto; }
 
 .stage-head { display: flex; align-items: baseline; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--hair); font-size: 13px; line-height: 16px; }
 .stage-tag { font-family: var(--mono); font-size: 12px; color: var(--text-3); }
@@ -232,11 +233,11 @@ input[type='range'] { accent-color: var(--accent); }
   h3 { font-size: 20px; line-height: 28px; }
   .lead { font-size: 20px; line-height: 28px; }
   .replay { flex-direction: column; gap: 0; padding: 0; }
-  .story { padding: 0 var(--gutter); max-width: none; }
+  .story { flex: none; padding: 0 var(--gutter); max-width: none; }
   .stage {
     order: 0; flex: none; width: 100%;
-    top: var(--top); height: 44svh; min-height: 280px; max-height: none;
-    border-radius: 0; border-left: 0; border-right: 0; border-top: 0; z-index: 20;
+    top: var(--top); height: 46svh; min-height: 280px;
+    margin-left: 0; border-left: 0; border-bottom: 1px solid var(--hair); z-index: 20;
   }
   .stage-note { display: none; }
   .stage-head { padding: 8px 16px; }
@@ -248,7 +249,7 @@ input[type='range'] { accent-color: var(--accent); }
   .top nav { justify-content: flex-start; gap: 16px; }
   .hero { min-height: 0; padding: 32px 0 48px; }
   .has-stage .phase { min-height: 40svh; }
-  html.has-stage { scroll-padding-top: calc(var(--top) + 44svh + 12px); }
+  html.has-stage { scroll-padding-top: calc(var(--top) + 46svh + 12px); }
   .bar { grid-template-columns: minmax(0, 120px) 1fr 48px; }
   .what li { grid-template-columns: 1fr; gap: 4px; }
   .band { padding: 48px var(--gutter); }

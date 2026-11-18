@@ -3,10 +3,19 @@ import { C, basic, box, front, labelAt, line, lit, sceneRoot } from '../kit';
 import { Bots, row, type CamPose, type Ctx, type Lens } from '../types';
 import { easeOut, rng } from '../world';
 
+// Four shared gameplay systems and the games that run on them.
+const SYSTEMS = [
+  { name: 'weapons', games: [0] },
+  { name: 'vehicles', games: [1] },
+  { name: 'NPC navigation', games: [0, 1] },
+  { name: 'characters', games: [0, 2] },
+];
+const NEEDS = [[0, 2, 3], [1, 2], [3]];
+
 /**
- * Three shipped games as dioramas (a shooter arena, the kart island, a voxel
- * world). Each one exposes a gap; the gap is closed by a block from the shared
- * rack of engine primitives, and an external coding agent inspects them live.
+ * Three very different games (a shooter arena, the kart island, a voxel world)
+ * stay empty until the shared systems they need come online: weapons,
+ * vehicles, NPC navigation, characters. One game spec feeds all three.
  */
 export function shipping(ctx: Ctx): Lens {
   const w = ctx.world;
@@ -14,39 +23,41 @@ export function shipping(ctx: Ctx): Lens {
   const rand = rng(3);
   const bots = new Bots(w);
   const XS = [-4.6, -0.4, 3.8];
-  const BASE_Y = 2.6;
+  const BASE_Y = 3.1;
+  const SCALE = 0.088;
 
-  const plinths = XS.map((x, i) => {
+  XS.forEach((x, i) => {
     const pl = new THREE.Mesh(new THREE.CylinderGeometry(1.95, 2.1, 0.3, 28), lit(C.slab));
     pl.position.set(x, BASE_Y - 0.15, 0);
     root.add(pl);
-    labelAt(root, ['tactical shooter', 'kart racer', 'voxel world'][i], x, BASE_Y - 0.75, 0.5, '#9aa7b4', 0.26);
-    return pl;
+    labelAt(root, ['tactical shooter', 'kart racer', 'voxel world'][i], x, BASE_Y - 0.75, 0.5, '#a3a9b8', 0.26);
   });
 
-  // Shooter arena
+  // Shooter arena: walls are there from the start; fighters and tracer need the systems.
   const arena = new THREE.Group();
   arena.position.set(XS[0], BASE_Y, 0);
+  arena.scale.setScalar(1.35);
   for (let i = 0; i < 6; i++) {
     const wall = box(0.25 + rand() * 0.7, 0.45, 0.2, lit(C.grey));
     wall.position.set((rand() - 0.5) * 2.2, 0.22, (rand() - 0.5) * 2.2);
     wall.rotation.y = rand() > 0.5 ? 0 : Math.PI / 2;
     arena.add(wall);
   }
-  const fighters = [C.red, C.blue].map((c) => {
+  const fighters = [C.white, C.teal].map((c) => {
     const m = new THREE.Mesh(new THREE.CapsuleGeometry(0.11, 0.22, 2, 6), lit(c));
     arena.add(m);
     return m;
   });
-  const tracer = box(0.03, 0.03, 1, basic(C.sun));
+  const tracer = box(0.03, 0.03, 1, basic(C.teal));
   arena.add(tracer);
   root.add(arena);
 
-  // Voxel world
+  // Voxel world with a small walking character
   const voxels = new THREE.Group();
   voxels.position.set(XS[2], BASE_Y, 0);
+  voxels.scale.setScalar(1.3);
   const cube = new THREE.BoxGeometry(0.34, 0.34, 0.34);
-  const cubes: THREE.Mesh[] = [];
+  const tops: THREE.Vector3[] = [];
   for (let x = -3; x < 3; x++) {
     for (let z = -3; z < 3; z++) {
       if (Math.hypot(x + 0.5, z + 0.5) > 3.2) continue;
@@ -54,43 +65,53 @@ export function shipping(ctx: Ctx): Lens {
       for (let y = 0; y < h; y++) {
         const m = new THREE.Mesh(cube, lit(y === h - 1 ? 0x4f9a5c : y > 0 ? 0x8a6b4a : 0x7c8794));
         m.position.set((x + 0.5) * 0.36, 0.17 + y * 0.35, (z + 0.5) * 0.36);
-        m.userData.order = cubes.length;
         voxels.add(m);
-        cubes.push(m);
       }
+      tops.push(new THREE.Vector3((x + 0.5) * 0.36, 0.17 + h * 0.35 + 0.05, (z + 0.5) * 0.36));
     }
   }
-  voxels.scale.setScalar(1.3);
+  const walker = new THREE.Mesh(new THREE.CapsuleGeometry(0.09, 0.16, 2, 6), lit(C.white));
+  voxels.add(walker);
   root.add(voxels);
 
-  // Gaps and the shared rack of engine primitives
-  const rackY = 0.5;
-  labelAt(root, 'engine primitives · shared by every game', -0.4, rackY - 0.65, 2.4, '#9aa7b4', 0.28);
-  const gapPos = [new THREE.Vector3(XS[0] + 0.9, BASE_Y + 1.5, 0.3), new THREE.Vector3(XS[1] + 1.0, BASE_Y + 1.7, 0.3), new THREE.Vector3(XS[2] - 0.9, BASE_Y + 1.9, 0.3)];
-  const prims = gapPos.map((gp, i) => {
-    const ghost = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(0.5, 0.5, 0.5)), new THREE.LineBasicMaterial({ color: C.orange }));
-    ghost.position.copy(gp);
-    const block = box(0.46, 0.46, 0.46, lit([C.teal, C.blue, C.violet][i]));
-    const home = new THREE.Vector3(-1.4 + i * 1.0, rackY, 2.4);
-    const stay = box(0.46, 0.46, 0.46, lit([C.teal, C.blue, C.violet][i]));
-    stay.position.copy(home);
-    root.add(ghost, block, stay);
-    return { ghost, block, stay, home, gp };
-  });
+  // What each game is still missing
+  const missing = [
+    labelAt(root, 'needs weapons, NPCs, characters', XS[0], BASE_Y + 2.3, 0, '#e0795a', 0.2),
+    labelAt(root, 'needs vehicles, NPCs', XS[1], BASE_Y + 2.3, 0, '#e0795a', 0.2),
+    labelAt(root, 'needs characters', XS[2], BASE_Y + 2.3, 0, '#e0795a', 0.2),
+  ];
 
-  // External coding agent over MCP
-  const agent = new THREE.Mesh(new THREE.OctahedronGeometry(0.34, 0), lit(C.white));
-  agent.position.set(-0.4, 7.6, 0);
-  root.add(agent);
-  const agentLabel = labelAt(root, 'coding agent · MCP', -0.4, 8.25, 0, '#9aa7b4', 0.28);
-  const links = XS.map((x) => {
-    const l = line(agent.position, new THREE.Vector3(x, BASE_Y + 2.2, 0), C.dim);
-    root.add(l);
-    return l;
+  // The shared systems and their links to the games that use them
+  const RACK_Y = 0.55, RACK_Z = 2.2;
+  const systems = SYSTEMS.map((s, i) => {
+    const x = -4.9 + i * 3.0;
+    const block = box(0.5, 0.5, 0.5, lit(C.teal));
+    block.position.set(x, RACK_Y, RACK_Z);
+    root.add(block);
+    labelAt(root, s.name, x, RACK_Y - 0.6, RACK_Z + 0.3, '#eef0f5', 0.24);
+    const links = s.games.map((g) => {
+      const l = line(block.position, new THREE.Vector3(XS[g], BASE_Y - 0.3, 0.6), C.dim);
+      root.add(l);
+      return l.material as THREE.LineBasicMaterial;
+    });
+    return { block, links };
   });
-  const probe = new THREE.Mesh(new THREE.SphereGeometry(0.08, 8, 6), basic(C.white));
-  root.add(probe);
-  const total = labelAt(root, '10+ games and maps in production', -0.4, 9.1, 0, '#5dcaa5', 0.32);
+  labelAt(root, 'shared gameplay systems', -0.4, RACK_Y - 1.15, RACK_Z + 0.3, '#7a8296', 0.24);
+
+  // One declarative game spec, written by the agents, feeds every game
+  const spec = box(2.6, 0.9, 0.06, lit(C.slab));
+  spec.position.set(-0.4, 8.3, 0);
+  root.add(spec);
+  for (let i = 0; i < 3; i++) {
+    const l = box(1.4 + (i % 2) * 0.6, 0.06, 0.02, basic(C.grey));
+    l.position.set(-0.4 - (i % 2 ? 0 : 0.3), 8.5 - i * 0.2, 0.05);
+    root.add(l);
+  }
+  labelAt(root, 'game spec · written by the agents', -0.4, 9.15, 0, '#a3a9b8', 0.26);
+  for (const x of XS) root.add(line(new THREE.Vector3(-0.4, 7.85, 0), new THREE.Vector3(x, BASE_Y + 2.7, 0), C.dim));
+
+  const tests = labelAt(root, '600+ automated tests · multi-player sessions run on their own', -0.4, 6.75, 0.2, '#5dcaa5', 0.24);
+  const total = labelAt(root, '10+ games and maps in production', -0.4, 7.3, 0.2, '#eef0f5', 0.3);
 
   const saved = { scale: 1, pos: new THREE.Vector3() };
   const tmp = new THREE.Vector3();
@@ -100,7 +121,7 @@ export function shipping(ctx: Ctx): Lens {
       saved.scale = w.root.scale.x;
       saved.pos.copy(w.root.position);
       w.features.water.visible = false;
-      w.root.scale.setScalar(0.088);
+      w.root.scale.setScalar(SCALE);
       w.root.position.set(XS[1], BASE_Y + 0.12, 0);
       bots.reset();
       ctx.scene.add(root);
@@ -109,51 +130,54 @@ export function shipping(ctx: Ctx): Lens {
       w.root.scale.setScalar(saved.scale);
       w.root.position.copy(saved.pos);
       w.features.water.visible = true;
+      w.features.karts.visible = true;
       ctx.scene.remove(root);
     },
     update(dt: number, p: number, time: number, cam: CamPose) {
-      const built = easeOut((p - 0.1) / 0.8);
-      bots.update(dt);
+      // Systems come online one after the other during the build phase.
+      const on = SYSTEMS.map((_, i) => p >= 0.7 + i * 0.25);
+      systems.forEach((s, i) => {
+        const k = easeOut((p - 0.6 - i * 0.25) / 0.2);
+        s.block.visible = k > 0;
+        s.block.scale.setScalar(Math.max(0.001, k));
+        s.block.rotation.y = time * 0.6 + i;
+        for (const l of s.links) l.color.setHex(on[i] ? C.teal : C.dim);
+      });
+      const ready = NEEDS.map((needs) => needs.every((n) => on[n]));
+      missing.forEach((l, i) => (l.visible = !ready[i]));
 
-      arena.scale.setScalar(Math.max(0.001, built) * 1.35);
+      // Shooter
+      for (const f of fighters) f.visible = ready[0];
       fighters[0].position.set(Math.cos(time * 0.9) * 0.9, 0.22, Math.sin(time * 0.9) * 0.9);
       fighters[1].position.set(Math.cos(time * 0.7 + 2.6) * 1.0, 0.22, Math.sin(time * 1.1 + 2.6) * 0.8);
-      const firing = Math.sin(time * 5) > 0.6;
-      tracer.visible = firing;
+      tracer.visible = ready[0] && Math.sin(time * 5) > 0.6;
       tmp.subVectors(fighters[1].position, fighters[0].position);
       tracer.scale.z = tmp.length();
       tracer.position.copy(fighters[0].position).addScaledVector(tmp, 0.5);
-      tracer.lookAt(tmp.add(arena.position).add(fighters[0].position));
+      tracer.rotation.y = Math.atan2(tmp.x, tmp.z);
 
-      const shown = Math.floor(built * cubes.length);
-      for (const c of cubes) c.visible = c.userData.order < shown;
-      w.root.scale.setScalar(0.088 * Math.max(0.02, built));
+      // Kart racer: the island with bots driving once vehicles and navigation exist
+      w.features.karts.visible = ready[1];
+      if (ready[1]) bots.update(dt);
 
-      // Gaps appear once the games exist, then get filled from the rack.
-      let closed = 0;
-      prims.forEach((pr, i) => {
-        const k = easeOut((p - 1.5 - i * 0.25) / 0.4);
-        pr.ghost.visible = p >= 0.9 && k < 1;
-        pr.ghost.rotation.y = time * 0.8;
-        pr.stay.visible = p >= 1.3;
-        pr.block.visible = k > 0;
-        pr.block.position.lerpVectors(pr.home, pr.gp, k);
-        pr.block.rotation.y = time * 0.8;
-        if (k >= 1) closed++;
-      });
+      // Voxel world: a character hopping from block to block
+      walker.visible = ready[2];
+      const step = time * 1.2, a = tops[Math.floor(step) % tops.length], b = tops[(Math.floor(step) + 7) % tops.length];
+      const f = step % 1;
+      walker.position.lerpVectors(a, b, f);
+      walker.position.y += Math.sin(f * Math.PI) * 0.35 + 0.12;
 
-      const inspecting = p >= 1;
-      agent.visible = agentLabel.visible = probe.visible = inspecting;
-      for (const l of links) l.visible = inspecting;
-      agent.rotation.y = time;
-      const target = Math.floor(time * 0.7) % 3, f = (time * 0.7) % 1;
-      probe.position.lerpVectors(agent.position, tmp.set(XS[target], BASE_Y + 2.2, 0), f);
-      total.visible = p >= 2.5;
+      tests.visible = p >= 1.9;
+      total.visible = p >= 2.6;
 
-      front(cam, -0.4, 4.2, 13.6, time, 0.9);
-      for (const pl of plinths) pl.rotation.y = 0;
+      front(cam, -0.4, 4.3, 15.8);
 
-      ctx.hud(row('games on the bench', built > 0.5 ? 3 : 0) + row('gaps found', p >= 0.9 ? 3 : 0, p >= 0.9 && closed < 3 ? 'bad' : '') + row('closed by a primitive', closed, closed === 3 ? 'ok' : ''));
+      const running = ready.filter(Boolean).length;
+      ctx.hud(
+        row('shared systems', `${on.filter(Boolean).length}/4`) +
+          row('games running', `${running}/3`, running === 3 ? 'ok' : 'bad') +
+          (p >= 1.9 ? row('automated tests', '600+', 'ok') : ''),
+      );
     },
   };
 }

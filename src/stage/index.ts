@@ -153,7 +153,7 @@ export function createStage(opts: StageOptions): Stage {
     lenses[current].update(dt, progress, time, goal);
 
     // Narrow viewports pull the camera back so the subject still fits.
-    const zoom = Math.min(1.7, Math.max(1, 1.45 / camera.aspect));
+    const zoom = Math.min(1.6, Math.max(1, 1.2 / camera.aspect));
     if (!dragging) yaw *= Math.exp(-dt * 0.5);
     offset.copy(goal.pos).sub(goal.target).multiplyScalar(zoom).applyAxisAngle(up, yaw);
     const k = snap ? 1 : 1 - Math.exp(-dt * 3.2);

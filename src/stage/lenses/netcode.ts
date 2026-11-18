@@ -36,7 +36,7 @@ export function netcode(ctx: Ctx): Lens {
     const rail = box(W + 0.6, 0.04, 0.04, basic(C.dim));
     rail.position.set(X0 + W / 2, y, 0);
     root.add(rail);
-    labelAt(root, name, X0 + 1.6, y + 0.75, 0, '#9aa7b4', 0.3);
+    labelAt(root, name, X0 + W - 1.8, y + 0.75, 0, '#a3a9b8', 0.3);
   }
   const dot = (color: number, y: number, r = 0.26, wire = false): THREE.Mesh => {
     const m = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), new THREE.MeshBasicMaterial({ color, wireframe: wire }));
@@ -51,7 +51,7 @@ export function netcode(ctx: Ctx): Lens {
   const rewindBar = box(1, 0.06, 0.06, basic(C.sun));
   rewindBar.position.y = LANES.s - 0.5;
   root.add(rewindBar);
-  const rewindLabel = labelAt(root, 'rewind', 0, LANES.s - 0.85, 0, '#f2c14e', 0.26);
+  const rewindLabel = labelAt(root, 'rewind', 0, LANES.s - 0.85, 0, '#d9b86a', 0.26);
   const shot = box(0.05, 1, 0.05, basic(C.sun));
   root.add(shot);
 

@@ -36,8 +36,8 @@ export function learning(ctx: Ctx): Lens {
     root.add(m);
     return mat;
   });
-  labelAt(root, 'lessons', NODES[0][0] + 0.2, 5.5, 0, '#9aa7b4', 0.3);
-  labelAt(root, 'planned next', 3.4, 6.55, 0, '#6f7c8a', 0.22);
+  labelAt(root, 'lessons', NODES[0][0] + 0.2, 5.5, 0, '#a3a9b8', 0.3);
+  labelAt(root, 'planned next', 3.4, 6.55, 0, '#7a8296', 0.22);
   const adaptedLabel = labelAt(root, 'adapted next', 3.4, 2.5, 0, '#5dcaa5', 0.22);
 
   const learner = new THREE.Mesh(new THREE.SphereGeometry(0.2, 14, 10), basic(C.sun));
@@ -53,21 +53,21 @@ export function learning(ctx: Ctx): Lens {
     root.add(m);
     return m.material as THREE.MeshBasicMaterial;
   });
-  labelAt(root, 'time on task', NODES[STUCK][0], NODES[STUCK][1] + 1.15, 0, '#6f7c8a', 0.22);
+  labelAt(root, 'time on task', NODES[STUCK][0], NODES[STUCK][1] + 1.15, 0, '#7a8296', 0.22);
 
   // The agent and the course documents it retrieves
   const agent = new THREE.Mesh(new THREE.OctahedronGeometry(0.32, 0), lit(C.teal));
   root.add(agent);
   const agentLabel = labelAt(root, 'LLM agent', 0, 0, 0, '#5dcaa5', 0.24);
   const docsHome = new THREE.Vector3(-3.6, 0.9, 1.5);
-  labelAt(root, 'course documentation', docsHome.x, 0.25, 1.5, '#9aa7b4', 0.24);
+  labelAt(root, 'course documentation', docsHome.x, 0.25, 1.5, '#a3a9b8', 0.24);
   for (let i = 0; i < 6; i++) {
-    const d = box(0.7, 0.05, 0.5, lit(i % 2 ? 0xdfe6ea : 0xc9d2db));
+    const d = box(0.7, 0.05, 0.5, lit(i % 2 ? 0xeef0f5 : 0xa3a9b8));
     d.position.set(docsHome.x, 0.55 + i * 0.07, 1.5);
     root.add(d);
   }
   const docs = Array.from({ length: 3 }, () => {
-    const d = box(0.42, 0.54, 0.03, basic(0xdfe6ea));
+    const d = box(0.42, 0.54, 0.03, basic(0xeef0f5));
     root.add(d);
     return d;
   });

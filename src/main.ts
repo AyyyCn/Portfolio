@@ -120,7 +120,8 @@ function start(stageEl: HTMLElement, data: StageData): void {
     loadBtn.hidden = true;
     const loading = $('stage-loading');
     loading.hidden = false;
-    const { createStage } = await import('./stage');
+    // The 3D labels are drawn to canvases, so their font has to be loaded first.
+    const [{ createStage }] = await Promise.all([import('./stage'), document.fonts.load('500 44px "Geist Mono Variable"').catch(() => [])]);
     const t0 = performance.now();
     stage = createStage({
       canvas,

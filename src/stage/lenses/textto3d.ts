@@ -35,7 +35,7 @@ function build(ctx: Ctx): Lens {
   const cards = [0.31, 0.3, 0.33, 0.28].map((hue, i) => {
     const g = new THREE.Group();
     g.position.set((i - 1.5) * 1.9, Y + 5.6, -1);
-    const card = box(1.5, 1.5, 0.05, basic(0x1a222d));
+    const card = box(1.5, 1.5, 0.05, basic(0x11141c));
     const blob = new THREE.Mesh(new THREE.CircleGeometry(0.42 + i * 0.05, 7 + i), basic(new THREE.Color().setHSL(hue, 0.25, 0.4).getHex()));
     blob.position.set(0, -0.1, 0.04);
     blob.scale.y = 0.75;
@@ -45,9 +45,9 @@ function build(ctx: Ctx): Lens {
     return { g, frame };
   });
   const BEST = 2;
-  labelAt(scene, 'reference images · ranked', 0, Y + 6.85, -1, '#9aa7b4', 0.28);
-  labelAt(scene, 'prompt → image → mesh → retopology → materials → GLB', 0, 0.35, 3.2, '#6f7c8a', 0.24);
-  const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.7, 0.4, 28), new THREE.MeshLambertMaterial({ color: 0x1a222d, flatShading: true }));
+  labelAt(scene, 'reference images · ranked', 0, Y + 6.85, -1, '#a3a9b8', 0.28);
+  labelAt(scene, 'prompt → image → mesh → retopology → materials → GLB', 0, 0.35, 3.2, '#7a8296', 0.24);
+  const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.7, 0.4, 28), new THREE.MeshLambertMaterial({ color: 0x11141c, flatShading: true }));
   pedestal.position.y = -0.2;
   const ring = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.04, 6, 40), new THREE.MeshBasicMaterial({ color: 0x5dcaa5 }));
   ring.rotation.x = Math.PI / 2;
@@ -62,7 +62,7 @@ function build(ctx: Ctx): Lens {
   const raw = new THREE.Mesh(rawGeo, grey);
   const rawWire = new THREE.Mesh(rawGeo, new THREE.MeshBasicMaterial({ color: 0x12161d, wireframe: true, transparent: true, opacity: 0.35 }));
   const low = new THREE.Mesh(lowGeo, new THREE.MeshLambertMaterial({ color: 0x9aa3ad, flatShading: true }));
-  const lowWire = new THREE.Mesh(lowGeo, new THREE.MeshBasicMaterial({ color: 0xf08a5d, wireframe: true }));
+  const lowWire = new THREE.Mesh(lowGeo, new THREE.MeshBasicMaterial({ color: 0xe0795a, wireframe: true }));
   lowWire.scale.setScalar(1.004);
 
   // Final asset: the decimated mesh with per-face colours (moss on top, rock below).

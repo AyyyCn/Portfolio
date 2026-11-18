@@ -44,8 +44,8 @@ export function profiler(ctx: Ctx): Lens {
   const playhead = box(0.04, 2.9, 0.16, basic(0xffffff, 0.9));
   playhead.position.y = 1.0;
   trace.add(playhead);
-  labelAt(trace, 'agent trace', X0 + W - 1.2, 2.75, 0, '#9aa7b4', 0.3);
-  for (const [i, name] of ['run', 'model', 'tool', 'gate'].entries()) labelAt(trace, name, X0 - 0.75, 2.1 - i * 0.5, 0, '#6f7c8a', 0.26);
+  labelAt(trace, 'agent trace', X0 + W - 1.2, 2.75, 0, '#a3a9b8', 0.3);
+  for (const [i, name] of ['run', 'model', 'tool', 'gate'].entries()) labelAt(trace, name, X0 - 0.75, 2.1 - i * 0.5, 0, '#7a8296', 0.26);
   const dimColor = new THREE.Color(C.dim);
 
   // --- horde bench -------------------------------------------------------------------
@@ -83,14 +83,14 @@ export function profiler(ctx: Ctx): Lens {
     const m = box(0.5, 1, 0.5, lit([C.teal, C.blue, C.violet][i]));
     m.position.set(i * 1.3, 0, 0);
     meter.add(m);
-    labelAt(meter, name, i * 1.3, -0.3, 0.6, '#6f7c8a', 0.2);
+    labelAt(meter, name, i * 1.3, -0.3, 0.6, '#7a8296', 0.2);
     return m;
   });
   const budget = box(3.4, 0.03, 0.03, basic(C.orange));
   budget.position.set(1.3, FULL, 0);
   meter.add(budget);
-  labelAt(meter, `${SCALE_MS} ms`, 1.3, FULL + 0.3, 0, '#f08a5d', 0.22);
-  labelAt(meter, 'cost per system', 1.3, FULL + 0.75, 0, '#9aa7b4', 0.26);
+  labelAt(meter, `${SCALE_MS} ms`, 1.3, FULL + 0.3, 0, '#e0795a', 0.22);
+  labelAt(meter, 'cost per system', 1.3, FULL + 0.75, 0, '#a3a9b8', 0.26);
 
   let aiMs = 0, xfMs = 0, count = 30;
   let ctl: Slider | null = null;

@@ -162,12 +162,12 @@ export const fr: Content = {
         },
         {
           "id": "shipping",
-          "kicker": "Livraison",
-          "title": "Livrer des jeux complets pour trouver ce qui manque au moteur",
-          "summary": "J’ai livré plus de dix jeux et cartes complets en production, et utilisé chacun pour trouver et combler un manque du moteur.",
-          "problem": "Un moteur de jeu paraît complet jusqu’à ce qu’on essaie d’y terminer un vrai jeu. Les pièces manquantes n’apparaissent qu’à ce moment-là.",
-          "built": "10+ jeux et cartes complets livrés en production : un jeu de tir tactique en ligne avec des adversaires pilotés par l’ordinateur et 34 armes définies par des données, des jeux de kart et des mondes voxel (en blocs). J’ai aussi construit un serveur MCP, une connexion standard qui permet à des assistants de programmation IA externes comme Claude Code ou Codex de construire et d’inspecter des jeux en direct.",
-          "measured": "Chaque jeu a servi de sonde de ce que couvre le moteur : chaque manque révélé a été comblé par une brique générique, utilisable par tous les jeux, et non par un correctif propre à ce jeu.",
+          "kicker": "Systèmes de gameplay",
+          "title": "Les systèmes moteur derrière dix jeux livrés",
+          "summary": "J’ai construit les systèmes de gameplay réutilisables (armes, véhicules, personnages pilotés par l’ordinateur, animation) qui permettent à des jeux très différents de tourner sur un même moteur, et livré plus de dix jeux et cartes complets pour les prouver.",
+          "problem": "Un jeu de tir, un jeu de kart et un monde en blocs demandent des choses très différentes à un moteur. Écrire du code spécifique pour chaque jeu ne tient pas à l’échelle, encore moins quand ce sont des agents IA qui assemblent le jeu.",
+          "built": "Des briques de gameplay génériques que tout jeu peut combiner : armes, véhicules simulés physiquement, navigation et comportement des personnages pilotés par l’ordinateur (PNJ), personnages et animation. Les agents les utilisent via une spécification de jeu déclarative, une description structurée du jeu qu’ils rédigent, et le même code tourne en solo et en ligne.",
+          "measured": "Chaque brique a été prouvée en livrant des jeux complets dessus : un jeu de tir tactique en ligne avec des adversaires pilotés par l’ordinateur et 34 armes définies uniquement par des données, des jeux de kart et des mondes voxel (en blocs). Chaque manque révélé par un jeu a été comblé par une brique générique, pas par un correctif isolé. Le tout est couvert par 600+ tests automatisés et par des sessions de jeu lancées automatiquement avec plusieurs joueurs simulés. J’ai aussi construit un serveur, au standard MCP, par lequel des assistants de programmation IA externes comme Claude Code ou Codex construisent et inspectent des jeux en direct.",
           "result": "10+ jeux et cartes complets en production, et un moteur enrichi d’une brique générique pour chaque manque révélé.",
           "metrics": [
             {
@@ -177,6 +177,10 @@ export const fr: Content = {
             {
               "value": "34",
               "label": "armes définies par des données dans le jeu de tir tactique"
+            },
+            {
+              "value": "600+",
+              "label": "tests automatisés"
             }
           ]
         }

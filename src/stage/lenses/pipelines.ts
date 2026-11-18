@@ -18,7 +18,7 @@ export function pipelines(ctx: Ctx): Lens {
     const b = box(X1 - X0 + 1, 0.06, 0.9, lit(C.slab));
     b.position.set((X0 + X1) / 2, y - 0.45, 0);
     root.add(b);
-    labelAt(root, title, X0 + title.length * 0.085, y + 1.05, 0, '#9aa7b4', 0.28);
+    labelAt(root, title, X0 + title.length * 0.085, y + 1.05, 0, '#a3a9b8', 0.28);
   };
   belt(ROWS.model, 'image → 3D → grip contract');
   belt(ROWS.sound, 'sound: generate → score → clean');
@@ -33,10 +33,10 @@ export function pipelines(ctx: Ctx): Lens {
     const len = 0.7 + rand() * 0.3;
     const body = box(0.16, 0.2, len, lit(color));
     body.position.set(0, 0.1, len * 0.2);
-    const grip = box(0.13, 0.34, 0.16, lit(0x2a313b));
+    const grip = box(0.13, 0.34, 0.16, lit(0x1a1e28));
     grip.position.set(0, -0.16, 0);
     grip.rotation.x = 0.25;
-    const barrel = box(0.07, 0.07, 0.4, lit(0x2a313b));
+    const barrel = box(0.07, 0.07, 0.4, lit(0x1a1e28));
     barrel.position.set(0, 0.12, len * 0.7 + 0.1);
     prop.add(body, grip, barrel);
     g.add(card, prop);
@@ -52,7 +52,7 @@ export function pipelines(ctx: Ctx): Lens {
     gizmo.add(s);
   }
   root.add(gizmo);
-  labelAt(root, 'grip contract', 1.6, ROWS.model + 1.5, 0, '#6f7c8a', 0.22);
+  labelAt(root, 'grip contract', 1.6, ROWS.model + 1.5, 0, '#7a8296', 0.22);
   const out1 = labelAt(root, '42 models aligned', X1 - 1.3, ROWS.model + 1.05, 0, '#5dcaa5', 0.28);
 
   // --- line 2: sound candidates -----------------------------------------------------------
@@ -71,7 +71,7 @@ export function pipelines(ctx: Ctx): Lens {
     root.add(g);
     return { g, bars, mat, score, phase: i / 4 };
   });
-  labelAt(root, 'score', 0.2, ROWS.sound + 0.95, 0, '#6f7c8a', 0.22);
+  labelAt(root, 'score', 0.2, ROWS.sound + 0.95, 0, '#7a8296', 0.22);
   const scoreGate = box(0.04, 1.3, 0.9, basic(C.teal, 0.35));
   scoreGate.position.set(0.2, ROWS.sound + 0.1, 0);
   root.add(scoreGate);
@@ -91,14 +91,14 @@ export function pipelines(ctx: Ctx): Lens {
     pts.frustumCulled = false;
     pts.position.set(r.x, ROWS.vfx - 0.3, 0);
     root.add(pts);
-    labelAt(root, `v${i + 1}`, r.x, ROWS.vfx - 0.75, 0.5, '#6f7c8a', 0.22);
+    labelAt(root, `v${i + 1}`, r.x, ROWS.vfx - 0.75, 0.5, '#7a8296', 0.22);
     return { r, pos, vel, life, geo, pts };
   });
   const critics = [-2.1, 1.3].map((x) => {
     const m = new THREE.Mesh(new THREE.OctahedronGeometry(0.24, 0), lit(C.violet));
     m.position.set(x, ROWS.vfx + 0.2, 0);
     root.add(m);
-    labelAt(root, 'critique', x, ROWS.vfx - 0.3, 0.5, '#6f7c8a', 0.2);
+    labelAt(root, 'critique', x, ROWS.vfx - 0.3, 0.5, '#7a8296', 0.2);
     return m;
   });
 

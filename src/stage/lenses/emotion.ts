@@ -48,9 +48,9 @@ export function emotion(ctx: Ctx): Lens {
   frame.position.z = 0.9;
   face.add(frame);
   root.add(face);
-  labelAt(root, 'camera · emotion recognition', -3.9, 7.65, 0, '#9aa7b4', 0.26);
+  labelAt(root, 'camera · emotion recognition', -3.9, 7.65, 0, '#a3a9b8', 0.26);
   const tag = STATES.map((s) => {
-    const l = label(s.key, '#e8edf2', 0.3);
+    const l = label(s.key, '#eef0f5', 0.3);
     l.position.set(-3.9, 3.45, 0.5);
     root.add(l);
     return l;
@@ -72,7 +72,7 @@ export function emotion(ctx: Ctx): Lens {
   });
   game.add(screen, ground, runner);
   root.add(game);
-  labelAt(root, 'gameplay logic · pace follows the player', 2.3, 7.65, 0, '#9aa7b4', 0.26);
+  labelAt(root, 'gameplay logic · pace follows the player', 2.3, 7.65, 0, '#a3a9b8', 0.26);
   const link = box(1.3, 0.04, 0.04, basic(C.teal));
   link.position.set(-1.45, 5.5, 0.3);
   root.add(link);
@@ -85,10 +85,10 @@ export function emotion(ctx: Ctx): Lens {
       const b = box(0.5, 1, 0.5, lit(colors[i]));
       b.position.x = (i - (names.length - 1) / 2) * 0.85;
       group.add(b);
-      labelAt(group, n, b.position.x, -0.3, 0.5, '#6f7c8a', 0.19);
+      labelAt(group, n, b.position.x, -0.3, 0.5, '#7a8296', 0.19);
       return b;
     });
-    labelAt(group, title, 0, 2.75, 0, '#9aa7b4', 0.24);
+    labelAt(group, title, 0, 2.75, 0, '#a3a9b8', 0.24);
     root.add(group);
     return { group, bars };
   };
