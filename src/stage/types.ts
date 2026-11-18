@@ -16,6 +16,7 @@ export interface Stats {
 export interface Ctx {
   world: World;
   scene: THREE.Scene;
+  sun: THREE.DirectionalLight;
   t: Record<string, string>;
   stats: Stats;
   controls: HTMLElement;

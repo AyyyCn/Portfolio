@@ -146,7 +146,10 @@ input[type='range'] { accent-color: var(--accent); }
 .tiles-headline .tile:first-child dd { font-size: clamp(1.8rem, 5vw, 2.6rem); color: var(--accent); }
 .tiles-inline { grid-template-columns: repeat(auto-fit, minmax(130px, 220px)); }
 
-.section-head { display: grid; gap: 10px; padding: 24px 0 8px; border-top: 1px solid var(--line); }
+.work-title { padding-top: 24px; border-top: 1px solid var(--line); }
+.section-head { display: grid; gap: 10px; padding: 28px 0 8px; }
+.group + .group { margin-top: clamp(48px, 10vh, 96px); padding-top: 12px; border-top: 1px solid var(--line); }
+.group-org { font-size: clamp(1.15rem, 2vw, 1.35rem); color: var(--accent); }
 .section-head p:last-child { color: #c9d2db; }
 
 .case { padding: clamp(36px, 8vh, 72px) 0 0; }
@@ -170,11 +173,17 @@ input[type='range'] { accent-color: var(--accent); }
 
 /* Bands below the replay */
 .band { max-width: 1500px; margin: 0 auto; padding: clamp(40px, 8vh, 80px) var(--gutter); border-top: 1px solid var(--line); display: grid; gap: 22px; }
-.jobs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; }
-.job { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; display: grid; gap: 12px; align-content: start; }
-.job h3 { font-size: 1.15rem; }
-.job-note { font: 0.8rem var(--mono); color: var(--dim); font-weight: 400; margin-left: 6px; }
-.job ul { padding-left: 1.1em; display: grid; gap: 8px; color: #c9d2db; font-size: 0.95rem; }
+.band-intro { color: #c9d2db; max-width: 46rem; margin-top: -10px; }
+.project-group { display: grid; gap: 14px; }
+.project-group > h3 { font: 600 0.8rem var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); }
+.projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap: 16px; }
+.project { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; }
+.project img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: var(--panel-2); border-bottom: 1px solid var(--line); }
+.project-body { padding: 14px 16px 16px; display: grid; gap: 8px; align-content: start; }
+.project-body h4 { font: 600 1.05rem/1.25 var(--sans); letter-spacing: -0.01em; text-transform: none; color: var(--text); }
+.project-body p { font-size: 0.92rem; color: #c9d2db; }
+.project-note { font: 0.74rem var(--mono) !important; color: var(--sun) !important; }
+.project-body a { font: 0.8rem var(--mono); }
 .band-split { grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: clamp(28px, 5vw, 64px); }
 .band-split > div { display: grid; gap: 18px; align-content: start; }
 .defs { display: grid; gap: 12px; }

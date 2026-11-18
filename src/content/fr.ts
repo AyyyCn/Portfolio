@@ -11,7 +11,7 @@ export const fr: Content = {
     description:
       'Ingénieur IA appliquée à Paris. Systèmes agentiques pour la 3D interactive et le jeu : harness d’agents, benchmarks, observabilité, netcode multijoueur, 3D, VFX et audio génératifs. Études de cas avec résultats mesurés.',
   },
-  nav: { work: 'Études de cas', earlier: 'Avant Arcade', toolbox: 'Outils', contact: 'Contact', skip: 'Aller au contenu' },
+  nav: { work: 'Études de cas', projects: 'Projets', toolbox: 'Outils', contact: 'Contact', skip: 'Aller au contenu' },
   hero: {
     role: 'Ingénieur IA appliquée',
     location: 'Paris, France',
@@ -27,15 +27,16 @@ export const fr: Content = {
     { value: '250 ms', label: 'de compensation de latence, vérifiée sous latence injectée' },
     { value: '10+', label: 'jeux et cartes complets livrés en production' },
   ],
-  arcade: {
-    heading: 'Études de cas',
-    role: 'Ingénieur IA appliquée, Arcade AI (moteur de jeu natif IA)',
-    dates: 'Fév. 2026 – présent · Paris',
-    intro:
-      'Ingénieur central du système d’agents qui transforme un prompt en jeu 3D jouable : boucle d’outils unique, compétences à la demande, sous-agents spécialistes (monde, logique, VFX, UI, audio) et mémoire par niveau. La fiabilité vient du système, pas du prompt : contrats typés, portes de validation, plafonds de coût et disjoncteurs d’échecs. Cinq sujets que j’y ai portés, chacun rejoué dans la vue 3D.',
-  },
+  workHeading: "Études de cas",
   phases: ['Problème', 'Construction', 'Mesure', 'Résultat'],
-  cases: [
+  work: [
+    {
+      org: "Arcade AI · Moteur de jeu natif IA",
+      role: "Ingénieur IA appliquée",
+      dates: "Fév. 2026 – présent · Paris",
+      intro: 'Ingénieur central du système d’agents qui transforme un prompt en jeu 3D jouable : boucle d’outils unique, compétences à la demande, sous-agents spécialistes (monde, logique, VFX, UI, audio) et mémoire par niveau. La fiabilité vient du système, pas du prompt : contrats typés, portes de validation, plafonds de coût et disjoncteurs d’échecs. Cinq sujets que j’y ai portés, chacun rejoué dans la vue 3D.',
+      cases: [
+
     {
       id: 'benchmark',
       kicker: 'Benchmark de génération, mené de bout en bout',
@@ -118,51 +119,195 @@ export const fr: Content = {
         { value: '34', label: 'armes pilotées par les données dans le FPS tactique' },
       ],
     },
+      ],
+    },
+    {
+      "org": "Lanterns Studio · Développement de jeux",
+      "role": "Stagiaire Programmeur IA",
+      "dates": "Juil. 2025 – Août 2025 · Tunis",
+      "intro": "Deux mois de stage sur un seul sujet : transformer un prompt texte en asset 3D qu’un jeu peut charger.",
+      "cases": [
+        {
+          "id": "textto3d",
+          "kicker": "Pipeline texte-vers-3D",
+          "title": "Du prompt à l’asset 3D prêt pour le jeu",
+          "problem": "Un maillage généré n’est pas encore un asset de jeu. Il lui faut des matériaux, un nombre de triangles raisonnable et un format que le moteur sait charger, et il faut pouvoir piloter la génération.",
+          "built": "Un pipeline de génération texte-vers-3D (prompt → maillage + matériaux PBR → GLB) basé sur EmbodiedGen, avec une application Gradio : modes auto et manuel, seeds, suppression de fond et tri d’images.",
+          "measured": "Des contrôles QA intégrés à chaque génération, et un post-traitement Blender headless : retopologie, décimation, export OBJ/GLB.",
+          "result": "Un pipeline fonctionnel du prompt au GLB, déployé sur Hugging Face Spaces avec une image Docker GPU + Blender.",
+          "metrics": [
+            {
+              "value": "prompt → GLB",
+              "label": "maillage et matériaux PBR dans un seul pipeline"
+            },
+            {
+              "value": "Hugging Face Spaces",
+              "label": "déployé avec une image Docker GPU + Blender"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "org": "AXIO · Apprentissage interactif piloté par IA",
+      "role": "Développeur Fullstack, temps partiel",
+      "dates": "Janv. 2025 – Juin 2025 · Tunis",
+      "intro": "Une plateforme d’apprentissage adaptatif, développée à temps partiel en parallèle de mon cycle ingénieur.",
+      "cases": [
+        {
+          "id": "learning",
+          "kicker": "Apprentissage adaptatif avec un agent LLM",
+          "title": "Repérer l’apprenant bloqué, et le débloquer",
+          "problem": "Chaque apprenant avance à son rythme, et un apprenant bloqué a besoin d’aide à ce moment-là, pas à la fin du cours.",
+          "built": "Une plateforme d’apprentissage adaptatif : suivi de la progression de chaque apprenant et parcours personnalisé, avec le choix des leçons suivantes. Architecture modulaire avec contrôle d’accès granulaire.",
+          "measured": "La frustration est détectée via le temps passé sur la tâche ; un agent LLM avec RAG sur les cours intervient alors pour débloquer l’apprenant. Les mises en production passent par une CI/CD avec tests unitaires et E2E.",
+          "result": "Une plateforme qui réagit à chaque apprenant, et un temps de release réduit de 35 %.",
+          "metrics": [
+            {
+              "value": "−35 %",
+              "label": "temps de release, avec CI/CD et tests automatisés"
+            },
+            {
+              "value": "Agent RAG",
+              "label": "sur la documentation des cours"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "org": "Freelance · Upwork et clients directs",
+      "role": "Ingénieur Logiciel",
+      "dates": "Juin 2023 – Mai 2025 · À distance",
+      "intro": "Deux ans de missions clients en parallèle de mes études : jeux, automatisation et outils de trading.",
+      "cases": [
+        {
+          "id": "emotion",
+          "kicker": "Missions clients",
+          "title": "Trois problèmes clients, trois systèmes livrés",
+          "problem": "Chaque client est venu avec un sujet différent : un jeu qui doit réagir à ce que ressent le joueur, une pré-production faite à la main, et des outils de trading trop gourmands en CPU.",
+          "built": "Gameplay adaptatif piloté par les émotions (plugin Unity, deep learning), avec reconnaissance faciale des émotions en temps réel reliée à la logique de jeu ; un jeu mobile hyper-casual conçu et livré sous Unity et C# ; le traitement d’images Gerber automatisé en Python ; des expert advisors MQL4/5 de gestion adaptative du risque.",
+          "measured": "Un tableau de bord d’analyse des émotions des joueurs pour le plugin de gameplay, et des tableaux de bord temps réel pour les outils de trading.",
+          "result": "Des cycles de pré-production réduits de 75 % grâce à l’automatisation Gerber, et une charge CPU réduite de 70 % sur les outils de trading (multithreading, cache).",
+          "metrics": [
+            {
+              "value": "−75 %",
+              "label": "cycles de pré-production (automatisation Gerber)"
+            },
+            {
+              "value": "−70 %",
+              "label": "charge CPU (automatisation de trading)"
+            }
+          ]
+        }
+      ]
+    },
   ],
-  earlier: {
-    heading: 'Avant Arcade',
-    jobs: [
+  projects: {
+    "heading": "Projets",
+    "intro": "Projets personnels, de game jam et universitaires : là d’où vient le goût du jeu, de l’IA et des outils.",
+    "code": "Code",
+    "groups": [
       {
-        org: 'Lanterns Studio',
-        orgNote: 'Développement de jeux',
-        role: 'Stagiaire Programmeur IA',
-        dates: 'Juil. 2025 – Août 2025',
-        place: 'Tunis, Tunisie',
-        points: [
-          'Pipeline de génération texte-vers-3D (prompt → maillage + matériaux PBR → GLB) basé sur EmbodiedGen, avec une application Gradio (modes auto et manuel, seeds, suppression de fond, tri d’images) et des contrôles QA intégrés.',
-          'Post-traitement Blender headless (retopologie, décimation, export OBJ/GLB) ; déploiement sur Hugging Face Spaces avec une image Docker GPU + Blender.',
-        ],
-        metrics: [],
+        "label": "Jeux",
+        "items": [
+          {
+            "title": "Faysa",
+            "image": "faysa",
+            "note": "Game jam, 1re place",
+            "text": "Un jeu de puzzle temporel où l’on coopère avec ses versions passées pour résoudre des défis de plateforme."
+          },
+          {
+            "title": "Nos · DreamScape: The Lucid Mission",
+            "image": "nos",
+            "note": "Game jam, 3e place",
+            "text": "Une aventure onirique : un rêveur lucide, guidé par un génie, doit sauver le monde des rêves. Chaque mission apporte un nouveau style de jeu."
+          },
+          {
+            "title": "EchoMIDI",
+            "image": "echomidi",
+            "link": "https://github.com/AyyyCn/EchoMIDI",
+            "text": "Un jeu de mémoire rythmique sous Unity URP avec support MIDI : rejouer une séquence de notes qui s’allonge, au clavier MIDI ou au piano virtuel. Mode guidé, vélocité, difficulté dynamique."
+          },
+          {
+            "title": "Fruit Slicer VR",
+            "image": "fruit",
+            "link": "https://github.com/AyyyCn/FruitSlicerVR",
+            "text": "Un jeu VR de découpe de fruits sous Unity, avec physique temps réel et collision de lame."
+          },
+          {
+            "title": "Pencil Sharpener",
+            "image": "pencil",
+            "text": "Un jeu hyper-casual avec une seule mission : tailler des crayons, vite. Pensé pour des parties courtes façon mobile."
+          },
+          {
+            "title": "The Boiz",
+            "image": "theboiz",
+            "text": "Un escape game collaboratif fait avec et pour des amis."
+          }
+        ]
       },
       {
-        org: 'AXIO',
-        orgNote: 'Apprentissage interactif piloté par IA',
-        role: 'Développeur Fullstack, temps partiel',
-        dates: 'Janv. 2025 – Juin 2025',
-        place: 'Tunis, Tunisie',
-        points: [
-          'Plateforme d’apprentissage adaptatif : suivi de la progression de chaque apprenant et parcours personnalisé (choix des leçons suivantes) ; détection de la frustration via le temps passé, puis agent LLM avec RAG sur les cours pour débloquer l’apprenant.',
-          'Architecture modulaire avec contrôle d’accès granulaire ; CI/CD avec tests unitaires et E2E.',
-        ],
-        metrics: [{ value: '−35 %', label: 'temps de release' }],
+        "label": "IA",
+        "items": [
+          {
+            "title": "Parki",
+            "image": "parki",
+            "link": "https://github.com/AyyyCn/Parki",
+            "text": "Un système de parking intelligent avec reconnaissance de plaques et suivi mobile. Python, Flutter, YOLO."
+          },
+          {
+            "title": "GameDB",
+            "image": "gamedb",
+            "link": "https://github.com/AyyyCn/Game-DB",
+            "text": "Un outil qui collecte les commentaires Reddit et YouTube pour analyser ce que les joueurs aiment ou détestent dans un jeu. Python, BERT, web scraping."
+          },
+          {
+            "title": "Formation Recommender",
+            "image": "junior",
+            "link": "https://github.com/AyyyCn/JuniorRush_ML",
+            "text": "Un système de recommandation multi-label qui propose jusqu’à trois formations par utilisateur, avec seuils de confiance et calibration. Python, XGBoost, scikit-learn."
+          }
+        ]
       },
       {
-        org: 'Freelance',
-        orgNote: 'Upwork et clients directs',
-        role: 'Ingénieur Logiciel',
-        dates: 'Juin 2023 – Mai 2025',
-        place: 'À distance',
-        points: [
-          'Gameplay adaptatif piloté par les émotions (plugin Unity, deep learning) : reconnaissance faciale des émotions en temps réel reliée à la logique de jeu, avec tableau de bord d’analyse.',
-          'Conception et livraison d’un jeu mobile hyper-casual (Unity, C#) ; automatisation du traitement d’images Gerber en Python.',
-          'Automatisation de trading pour IFXSuccess (MQL4/5) : expert advisors de gestion adaptative du risque, tableaux de bord temps réel, multithreading et cache.',
-        ],
-        metrics: [
-          { value: '−75 %', label: 'cycles de pré-production (automatisation Gerber)' },
-          { value: '−70 %', label: 'charge CPU (automatisation de trading)' },
-        ],
+        "label": "Outils",
+        "items": [
+          {
+            "title": "Img2Gerber",
+            "image": "gerber",
+            "text": "Un pipeline d’automatisation qui convertit par lots des designs en couches (PNG/SVG) en fichiers Gerber KiCad prêts pour la production. Python, API KiCad, Inkscape CLI, OpenCV."
+          },
+          {
+            "title": "Gurobi Wrapper",
+            "image": "gurobi",
+            "text": "Un outil de bureau pour résoudre des problèmes d’optimisation LP/ILP avec Gurobi, avec une interface pour les entrées, sorties et réglages."
+          }
+        ]
       },
-    ],
+      {
+        "label": "Web",
+        "items": [
+          {
+            "title": "Elmarchi",
+            "image": "elmarchi",
+            "link": "https://github.com/RaedAddala/El-Marchi",
+            "text": "Une marketplace en ligne développée en Angular, projet universitaire en équipe."
+          },
+          {
+            "title": "Tuniscape",
+            "image": "tuniscape",
+            "link": "https://github.com/ElyesBelgouthi/Tuniscape",
+            "text": "Le site d’une agence de voyage, développé avec Symfony : réservation, formulaires, rendu côté serveur."
+          },
+          {
+            "title": "InnovaBank",
+            "image": "innovabank",
+            "text": "Mon premier projet web universitaire : une interface de banque simulée en HTML, CSS et JavaScript."
+          }
+        ]
+      }
+    ]
   },
   toolbox: {
     heading: 'Outils',
@@ -203,6 +348,8 @@ export const fr: Content = {
     email: 'adamldr3@gmail.com',
     linkedin: 'https://www.linkedin.com/in/adam-ladhari',
     github: 'https://github.com/AyyyCn',
+    artstation: 'https://www.artstation.com/ayyycn',
+    youtube: 'https://www.youtube.com/@acn8713',
   },
   footer:
     'Réalisé avec Three.js et TypeScript. L’île, les karts et les simulations sont générés dans votre navigateur ; rien ici ne provient d’Arcade AI.',
@@ -212,9 +359,30 @@ export const fr: Content = {
     note: 'Les replays sont construits pour ce site afin d’illustrer chaque sujet. Les valeurs en direct décrivent cette page ; les chiffres du texte sont ceux mesurés.',
     scrub: 'Position du replay',
     load: 'Charger le replay 3D',
-    introTitle: 'Un petit monde, cinq sujets',
+    introTitle: 'Un petit monde, huit sujets',
     introHint: 'Faites défiler pour lancer le replay · glissez pour tourner',
     t: {
+      prompt: "prompt",
+      promptText: "« un rocher moussu »",
+      triangles: "triangles",
+      qa: "contrôles QA",
+      raw: "maillage brut",
+      decimated: "décimé",
+      textured: "matériaux",
+      learners: "apprenants",
+      lessons: "leçons terminées",
+      timeOnTask: "temps sur la tâche",
+      frustration: "frustration",
+      detected: "détectée",
+      agent: "agent",
+      unblocked: "débloqué",
+      watching: "surveillance",
+      emotionLabel: "émotion",
+      pace: "rythme du jeu",
+      calm: "calme",
+      frustrated: "frustré",
+      joy: "joie",
+      off: "inactif",
       requested: 'demandées',
       present: 'présentes',
       coverage: 'couverture',

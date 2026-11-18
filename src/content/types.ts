@@ -1,4 +1,4 @@
-export type LensId = 'benchmark' | 'profiler' | 'netcode' | 'pipelines' | 'shipping';
+export type LensId = 'benchmark' | 'profiler' | 'netcode' | 'pipelines' | 'shipping' | 'textto3d' | 'learning' | 'emotion';
 
 export interface Metric {
   value: string;
@@ -18,14 +18,20 @@ export interface CaseStudy {
   bar?: { before: number; after: number; beforeLabel: string; afterLabel: string };
 }
 
-export interface Job {
+export interface WorkGroup {
   org: string;
-  orgNote: string;
   role: string;
   dates: string;
-  place: string;
-  points: string[];
-  metrics: Metric[];
+  intro: string;
+  cases: CaseStudy[];
+}
+
+export interface Project {
+  title: string;
+  image: string;
+  text: string;
+  note?: string;
+  link?: string;
 }
 
 export interface Content {
@@ -34,16 +40,16 @@ export interface Content {
   altPath: string;
   altLabel: string;
   meta: { title: string; description: string };
-  nav: { work: string; earlier: string; toolbox: string; contact: string; skip: string };
+  nav: { work: string; projects: string; toolbox: string; contact: string; skip: string };
   hero: { role: string; location: string; lead: string; profile: string; cta: string };
   headline: Metric[];
-  arcade: { heading: string; role: string; dates: string; intro: string };
+  workHeading: string;
   phases: [string, string, string, string];
-  cases: CaseStudy[];
-  earlier: { heading: string; jobs: Job[] };
+  work: WorkGroup[];
+  projects: { heading: string; intro: string; code: string; groups: { label: string; items: Project[] }[] };
   toolbox: { heading: string; groups: { label: string; details: string }[] };
   education: { heading: string; items: { label: string; details: string }[] };
-  contact: { heading: string; text: string; email: string; linkedin: string; github: string };
+  contact: { heading: string; text: string; email: string; linkedin: string; github: string; artstation: string; youtube: string };
   footer: string;
   stage: {
     tag: string;

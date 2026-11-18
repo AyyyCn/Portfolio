@@ -6,6 +6,9 @@ import { overview } from './lenses/overview';
 import { pipelines } from './lenses/pipelines';
 import { profiler } from './lenses/profiler';
 import { shipping } from './lenses/shipping';
+import { emotion } from './lenses/emotion';
+import { learning } from './lenses/learning';
+import { textto3d } from './lenses/textto3d';
 import type { CamPose, Ctx, Lens } from './types';
 import { World } from './world';
 
@@ -60,6 +63,7 @@ export function createStage(opts: StageOptions): Stage {
   const ctx: Ctx = {
     world,
     scene,
+    sun,
     t: opts.t,
     stats: { frameMs: 16.7, renderMs: 0 },
     controls: opts.controls,
@@ -75,6 +79,9 @@ export function createStage(opts: StageOptions): Stage {
     netcode: netcode(ctx),
     pipelines: pipelines(ctx),
     shipping: shipping(ctx),
+    textto3d: textto3d(ctx),
+    learning: learning(ctx),
+    emotion: emotion(ctx),
   };
 
   let current: LensId | 'intro' = 'intro';

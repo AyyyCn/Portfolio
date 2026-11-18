@@ -1,4 +1,4 @@
-import type { CaseStudy, Content, Job, Metric } from './content/types';
+import type { CaseStudy, Content, Metric, Project, WorkGroup } from './content/types';
 
 const SITE = 'https://adam-ladhari.me';
 
@@ -46,14 +46,26 @@ function caseStudy(c: CaseStudy, i: number, content: Content): string {
   </article>`;
 }
 
-function job(j: Job): string {
-  return `<article class="job">
-    <header>
-      <h3>${esc(j.org)} <span class="job-note">${esc(j.orgNote)}</span></h3>
-      <p class="job-meta">${esc(j.role)} · ${esc(j.dates)} · ${esc(j.place)}</p>
+function workGroup(g: WorkGroup, first: number, content: Content): string {
+  return `<section class="group">
+    <header class="section-head">
+      <h3 class="group-org">${esc(g.org)}</h3>
+      <p class="job-meta">${esc(g.role)} · ${esc(g.dates)}</p>
+      <p>${esc(g.intro)}</p>
     </header>
-    <ul>${j.points.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>
-    ${metrics(j.metrics, 'tiles tiles-inline')}
+    ${g.cases.map((k, i) => caseStudy(k, first + i, content)).join('\n')}
+  </section>`;
+}
+
+function project(p: Project, code: string): string {
+  return `<article class="project">
+    <img src="/projects/${p.image}.jpg" alt="" loading="lazy" decoding="async" width="880" height="495" />
+    <div class="project-body">
+      <h4>${esc(p.title)}</h4>
+      ${p.note ? `<p class="project-note">${esc(p.note)}</p>` : ''}
+      <p>${esc(p.text)}</p>
+      ${p.link ? `<p><a href="${p.link}" rel="noopener">${esc(code)} · GitHub</a></p>` : ''}
+    </div>
   </article>`;
 }
 
@@ -70,7 +82,7 @@ export function renderHead(c: Content): string {
     address: { '@type': 'PostalAddress', addressLocality: 'Paris', addressCountry: 'FR' },
     worksFor: { '@type': 'Organization', name: 'Arcade AI' },
     alumniOf: { '@type': 'CollegeOrUniversity', name: 'INSAT Tunis' },
-    sameAs: [c.contact.linkedin, c.contact.github],
+    sameAs: [c.contact.linkedin, c.contact.github, c.contact.artstation, c.contact.youtube],
     knowsAbout: c.toolbox.groups.map((g) => g.label),
   };
   return `<title>${esc(c.meta.title)}</title>
@@ -97,14 +109,14 @@ export function renderBody(c: Content): string {
     phases: c.phases,
     introTitle: c.stage.introTitle,
     introHint: c.stage.introHint,
-    cases: c.cases.map((k) => ({ id: k.id, title: k.kicker })),
+    cases: c.work.flatMap((g) => g.cases).map((k) => ({ id: k.id, title: k.kicker })),
   };
   return `<a class="skip" href="#main">${esc(c.nav.skip)}</a>
   <header class="top">
     <a class="brand" href="${c.path}">Adam Ladhari</a>
     <nav aria-label="Primary">
       <a href="#work">${esc(c.nav.work)}</a>
-      <a href="#earlier">${esc(c.nav.earlier)}</a>
+      <a href="#projects">${esc(c.nav.projects)}</a>
       <a href="#toolbox">${esc(c.nav.toolbox)}</a>
       <a href="#contact">${esc(c.nav.contact)}</a>
     </nav>
@@ -150,19 +162,32 @@ export function renderBody(c: Content): string {
         </section>
 
         <section class="work" id="work">
-          <header class="section-head">
-            <h2>${esc(c.arcade.heading)}</h2>
-            <p class="job-meta">${esc(c.arcade.role)} · ${esc(c.arcade.dates)}</p>
-            <p>${esc(c.arcade.intro)}</p>
-          </header>
-          ${c.cases.map((k, i) => caseStudy(k, i, c)).join('\n')}
+          <h2 class="work-title">${esc(c.workHeading)}</h2>
+          ${(() => {
+            let n = 0;
+            return c.work
+              .map((g) => {
+                const html = workGroup(g, n, c);
+                n += g.cases.length;
+                return html;
+              })
+              .join('\n');
+          })()}
         </section>
       </div>
     </div>
 
-    <section class="band" id="earlier">
-      <h2>${esc(c.earlier.heading)}</h2>
-      <div class="jobs">${c.earlier.jobs.map(job).join('\n')}</div>
+    <section class="band" id="projects">
+      <h2>${esc(c.projects.heading)}</h2>
+      <p class="band-intro">${esc(c.projects.intro)}</p>
+      ${c.projects.groups
+        .map(
+          (g) => `<section class="project-group">
+        <h3>${esc(g.label)}</h3>
+        <div class="projects">${g.items.map((p) => project(p, c.projects.code)).join('\n')}</div>
+      </section>`,
+        )
+        .join('\n')}
     </section>
 
     <section class="band band-split">
@@ -183,6 +208,8 @@ export function renderBody(c: Content): string {
         <a class="btn btn-primary" href="mailto:${c.contact.email}">${esc(c.contact.email)}</a>
         <a class="btn" href="${c.contact.linkedin}" rel="me noopener">LinkedIn</a>
         <a class="btn" href="${c.contact.github}" rel="me noopener">GitHub</a>
+        <a class="btn" href="${c.contact.artstation}" rel="me noopener">ArtStation</a>
+        <a class="btn" href="${c.contact.youtube}" rel="me noopener">YouTube</a>
       </p>
     </section>
   </main>

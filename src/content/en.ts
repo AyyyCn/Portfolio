@@ -12,7 +12,7 @@ export const en: Content = {
     description:
       'Applied AI engineer in Paris. Agentic systems for interactive 3D and games: agent harness, benchmarks, observability, multiplayer netcode, generative 3D, VFX and audio. Case studies with measured results.',
   },
-  nav: { work: 'Case studies', earlier: 'Earlier work', toolbox: 'Toolbox', contact: 'Contact', skip: 'Skip to content' },
+  nav: { work: 'Case studies', projects: 'Projects', toolbox: 'Toolbox', contact: 'Contact', skip: 'Skip to content' },
   hero: {
     role: 'Applied AI Engineer',
     location: 'Paris, France',
@@ -28,15 +28,16 @@ export const en: Content = {
     { value: '250 ms', label: 'lag compensation rewind, verified under injected latency' },
     { value: '10+', label: 'complete games and maps shipped to production' },
   ],
-  arcade: {
-    heading: 'Case studies',
-    role: 'Applied AI Engineer, Arcade AI (AI-native game engine)',
-    dates: 'Feb 2026 – present · Paris',
-    intro:
-      'Core engineer on the agent system that turns a prompt into a playable 3D game: one tool-use loop, on-demand skills, specialist sub-agents (world, logic, VFX, UI, audio) and per-level memory. Reliability comes from the system, not the prompt: typed contracts, validation gates, cost ceilings and failure breakers. Five subjects I owned there, each replayed in the viewport.',
-  },
+  workHeading: "Case studies",
   phases: ['Problem', 'Build', 'Measure', 'Result'],
-  cases: [
+  work: [
+    {
+      org: "Arcade AI · AI-native game engine",
+      role: "Applied AI Engineer",
+      dates: "Feb 2026 – present · Paris",
+      intro: 'Core engineer on the agent system that turns a prompt into a playable 3D game: one tool-use loop, on-demand skills, specialist sub-agents (world, logic, VFX, UI, audio) and per-level memory. Reliability comes from the system, not the prompt: typed contracts, validation gates, cost ceilings and failure breakers. Five subjects I owned there, each replayed in the viewport.',
+      cases: [
+
     {
       id: 'benchmark',
       kicker: 'Generation benchmark, owned end to end',
@@ -118,51 +119,195 @@ export const en: Content = {
         { value: '34', label: 'data-driven weapons in the tactical shooter' },
       ],
     },
+      ],
+    },
+    {
+      "org": "Lanterns Studio · Game development",
+      "role": "AI Programmer Intern",
+      "dates": "Jul 2025 – Aug 2025 · Tunis",
+      "intro": "A two-month internship with one subject: turn a text prompt into a 3D asset a game can load.",
+      "cases": [
+        {
+          "id": "textto3d",
+          "kicker": "Text-to-3D pipeline",
+          "title": "From a prompt to a game-ready 3D asset",
+          "problem": "A generated mesh is not yet a game asset. It needs materials, a reasonable triangle count and a format the engine can load, and someone has to be able to steer the generation.",
+          "built": "A text-to-3D generation pipeline (prompt → mesh + PBR materials → GLB) on EmbodiedGen, with a Gradio app: auto and manual modes, seeds, background removal and image ranking.",
+          "measured": "Built-in QA checks on every generation, and headless Blender post-processing: retopology, decimation, OBJ/GLB export.",
+          "result": "A working pipeline from prompt to GLB, deployed on Hugging Face Spaces with a Docker GPU + Blender image.",
+          "metrics": [
+            {
+              "value": "prompt → GLB",
+              "label": "mesh and PBR materials in one pipeline"
+            },
+            {
+              "value": "Hugging Face Spaces",
+              "label": "deployed with a Docker GPU + Blender image"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "org": "AXIO · AI-driven interactive learning platform",
+      "role": "Full-stack Developer, part-time",
+      "dates": "Jan 2025 – Jun 2025 · Tunis",
+      "intro": "An adaptive learning platform, built part-time alongside my engineering degree.",
+      "cases": [
+        {
+          "id": "learning",
+          "kicker": "Adaptive learning with an LLM agent",
+          "title": "Noticing the stuck learner, and unblocking them",
+          "problem": "Every learner moves at a different pace, and a learner who is stuck needs help at that moment, not at the end of the course.",
+          "built": "An adaptive learning platform: it tracks each learner's progress and curates the path, choosing the next lessons to fit. Modular architecture with fine-grained access control.",
+          "measured": "Frustration is detected from time-on-task signals; when it is, an LLM agent with RAG over the course documentation steps in to unblock the learner. Releases go through CI/CD with unit and end-to-end tests.",
+          "result": "A platform that reacts to each learner, and a release time cut by 35%.",
+          "metrics": [
+            {
+              "value": "−35%",
+              "label": "release time, with CI/CD and automated tests"
+            },
+            {
+              "value": "RAG agent",
+              "label": "over the course documentation"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "org": "Freelance · Upwork and direct clients",
+      "role": "Software Engineer",
+      "dates": "Jun 2023 – May 2025 · Remote",
+      "intro": "Two years of client work in parallel with my studies: games, automation and trading tools.",
+      "cases": [
+        {
+          "id": "emotion",
+          "kicker": "Client work",
+          "title": "Three client problems, three shipped systems",
+          "problem": "Each client came with a different subject: a game that should react to how the player feels, a pre-production process done by hand, and trading tools that used too much CPU.",
+          "built": "Emotion-driven adaptive gameplay (Unity plugin, deep learning) with real-time facial emotion recognition driving gameplay logic; a hyper-casual mobile game designed and shipped in Unity and C#; Gerber image processing automated in Python; expert advisors in MQL4/5 for adaptive risk management.",
+          "measured": "A dashboard analysing players' emotional feedback for the gameplay plugin, and real-time dashboards for the trading tools.",
+          "result": "Pre-production cycles cut by 75% with the Gerber automation, and 70% lower CPU load on the trading tools through multithreading and caching.",
+          "metrics": [
+            {
+              "value": "−75%",
+              "label": "pre-production cycles (Gerber automation)"
+            },
+            {
+              "value": "−70%",
+              "label": "CPU load (trading automation)"
+            }
+          ]
+        }
+      ]
+    },
   ],
-  earlier: {
-    heading: 'Earlier work',
-    jobs: [
+  projects: {
+    "heading": "Projects",
+    "intro": "Personal, jam and university projects: where the taste for games, AI and tools comes from.",
+    "code": "Code",
+    "groups": [
       {
-        org: 'Lanterns Studio',
-        orgNote: 'Game development',
-        role: 'AI Programmer Intern',
-        dates: 'Jul 2025 – Aug 2025',
-        place: 'Tunis, Tunisia',
-        points: [
-          'Built a text-to-3D generation pipeline (prompt → mesh + PBR materials → GLB) on EmbodiedGen, with a Gradio app (auto and manual modes, seeds, background removal, image ranking) and built-in QA checks.',
-          'Headless Blender post-processing (retopology, decimation, OBJ/GLB export); deployed on Hugging Face Spaces with a Docker GPU + Blender image.',
-        ],
-        metrics: [],
+        "label": "Games",
+        "items": [
+          {
+            "title": "Faysa",
+            "image": "faysa",
+            "note": "Game jam, 1st place",
+            "text": "A time-travel puzzle game where you cooperate with past versions of yourself to solve platforming challenges."
+          },
+          {
+            "title": "Nos · DreamScape: The Lucid Mission",
+            "image": "nos",
+            "note": "Game jam, 3rd place",
+            "text": "A dream-based adventure: a lucid dreamer, guided by a genie, has to save the dream world. Each dream mission brings a new gameplay style."
+          },
+          {
+            "title": "EchoMIDI",
+            "image": "echomidi",
+            "link": "https://github.com/AyyyCn/EchoMIDI",
+            "text": "A rhythm memory game in Unity URP with MIDI support: replay an ever-growing sequence of notes on a MIDI keyboard or a virtual piano. Guided mode, velocity sensitivity, dynamic difficulty."
+          },
+          {
+            "title": "Fruit Slicer VR",
+            "image": "fruit",
+            "link": "https://github.com/AyyyCn/FruitSlicerVR",
+            "text": "A VR fruit-slicing game in Unity with real-time physics and blade collision."
+          },
+          {
+            "title": "Pencil Sharpener",
+            "image": "pencil",
+            "text": "A hyper-casual game with one job: sharpen pencils fast. Built for quick mobile-style play."
+          },
+          {
+            "title": "The Boiz",
+            "image": "theboiz",
+            "text": "A collaborative escape-room game made with and for friends."
+          }
+        ]
       },
       {
-        org: 'AXIO',
-        orgNote: 'AI-driven interactive learning platform',
-        role: 'Full-stack Developer, part-time',
-        dates: 'Jan 2025 – Jun 2025',
-        place: 'Tunis, Tunisia',
-        points: [
-          "Built an adaptive learning platform: tracks each learner's progress and curates the path, choosing the next lessons to fit; detects frustration from time-on-task signals and brings in an LLM agent with RAG over the course documentation to unblock the learner.",
-          'Modular architecture with fine-grained access control; CI/CD with unit and end-to-end tests.',
-        ],
-        metrics: [{ value: '−35%', label: 'release time' }],
+        "label": "AI",
+        "items": [
+          {
+            "title": "Parki",
+            "image": "parki",
+            "link": "https://github.com/AyyyCn/Parki",
+            "text": "A smart parking system with licence plate recognition and mobile tracking. Python, Flutter, YOLO."
+          },
+          {
+            "title": "GameDB",
+            "image": "gamedb",
+            "link": "https://github.com/AyyyCn/Game-DB",
+            "text": "A tool that scrapes Reddit and YouTube comments to analyse what players love or hate about a game. Python, BERT, web scraping."
+          },
+          {
+            "title": "Formation Recommender",
+            "image": "junior",
+            "link": "https://github.com/AyyyCn/JuniorRush_ML",
+            "text": "A multi-label recommender that suggests up to three training programmes per user, with confidence thresholds and model calibration. Python, XGBoost, scikit-learn."
+          }
+        ]
       },
       {
-        org: 'Freelance',
-        orgNote: 'Upwork and direct clients',
-        role: 'Software Engineer',
-        dates: 'Jun 2023 – May 2025',
-        place: 'Remote',
-        points: [
-          "Emotion-driven adaptive gameplay (Unity plugin, deep learning): real-time facial emotion recognition driving gameplay logic, with a dashboard analysing players' emotional feedback.",
-          'Designed and shipped a hyper-casual mobile game (Unity, C#); automated Gerber image processing in Python.',
-          'Trading automation for IFXSuccess (MQL4/5): expert advisors for adaptive risk management and real-time dashboards, with multithreading and caching.',
-        ],
-        metrics: [
-          { value: '−75%', label: 'pre-production cycles (Gerber automation)' },
-          { value: '−70%', label: 'CPU load (trading automation)' },
-        ],
+        "label": "Tools",
+        "items": [
+          {
+            "title": "Img2Gerber",
+            "image": "gerber",
+            "text": "An automation pipeline that converts layered image designs (PNG/SVG) into production-ready KiCad Gerber files, in batch. Python, KiCad API, Inkscape CLI, OpenCV."
+          },
+          {
+            "title": "Gurobi Wrapper",
+            "image": "gurobi",
+            "text": "A desktop tool to solve LP/ILP optimisation problems with Gurobi, with a GUI for inputs, outputs and settings."
+          }
+        ]
       },
-    ],
+      {
+        "label": "Web",
+        "items": [
+          {
+            "title": "Elmarchi",
+            "image": "elmarchi",
+            "link": "https://github.com/RaedAddala/El-Marchi",
+            "text": "An online marketplace built in Angular as a university group project."
+          },
+          {
+            "title": "Tuniscape",
+            "image": "tuniscape",
+            "link": "https://github.com/ElyesBelgouthi/Tuniscape",
+            "text": "A travel agency website built with Symfony: booking modules, forms, server-side rendering."
+          },
+          {
+            "title": "InnovaBank",
+            "image": "innovabank",
+            "text": "My first university web project: a simulated bank interface in plain HTML, CSS and JavaScript."
+          }
+        ]
+      }
+    ]
   },
   toolbox: {
     heading: 'Toolbox',
@@ -203,6 +348,8 @@ export const en: Content = {
     email: 'adamldr3@gmail.com',
     linkedin: 'https://www.linkedin.com/in/adam-ladhari',
     github: 'https://github.com/AyyyCn',
+    artstation: 'https://www.artstation.com/ayyycn',
+    youtube: 'https://www.youtube.com/@acn8713',
   },
   footer: 'Built with Three.js and TypeScript. The island, the karts and the simulations are generated in your browser; nothing here comes from Arcade AI.',
   stage: {
@@ -211,9 +358,30 @@ export const en: Content = {
     note: 'Replays are built for this site to illustrate each subject. Live readouts describe this page; the figures in the text are the measured ones.',
     scrub: 'Replay position',
     load: 'Load the 3D replay',
-    introTitle: 'One small world, five subjects',
+    introTitle: 'One small world, eight subjects',
     introHint: 'Scroll to start the replay · drag to orbit',
     t: {
+      prompt: "prompt",
+      promptText: "\"a mossy boulder\"",
+      triangles: "triangles",
+      qa: "QA checks",
+      raw: "raw mesh",
+      decimated: "decimated",
+      textured: "materials",
+      learners: "learners",
+      lessons: "lessons done",
+      timeOnTask: "time on task",
+      frustration: "frustration",
+      detected: "detected",
+      agent: "agent",
+      unblocked: "unblocked",
+      watching: "watching",
+      emotionLabel: "emotion",
+      pace: "game pace",
+      calm: "calm",
+      frustrated: "frustrated",
+      joy: "joy",
+      off: "off",
       requested: 'requested',
       present: 'present',
       coverage: 'coverage',
