@@ -9,6 +9,8 @@ export interface CaseStudy {
   id: LensId;
   title: string;
   kicker: string;
+  /** One plain sentence a non-specialist can read on its own. */
+  summary: string;
   problem: string;
   built: string;
   measured: string;
@@ -41,9 +43,10 @@ export interface Content {
   altLabel: string;
   meta: { title: string; description: string };
   nav: { work: string; projects: string; toolbox: string; contact: string; skip: string };
-  hero: { role: string; location: string; lead: string; profile: string; cta: string };
+  hero: { role: string; location: string; lead: string; profile: string; cta: string; what: { title: string; text: string }[] };
   headline: Metric[];
   workHeading: string;
+  workIntro: string;
   phases: [string, string, string, string];
   work: WorkGroup[];
   projects: { heading: string; intro: string; code: string; groups: { label: string; items: Project[] }[] };
@@ -52,6 +55,8 @@ export interface Content {
   contact: { heading: string; text: string; email: string; linkedin: string; github: string; artstation: string; youtube: string };
   footer: string;
   stage: {
+    /** Short phase names for the timeline tabs. */
+    phases: [string, string, string, string];
     tag: string;
     aria: string;
     note: string;

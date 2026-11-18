@@ -9,140 +9,202 @@ export const fr: Content = {
   meta: {
     title: 'Adam Ladhari · Ingénieur IA appliquée, systèmes agentiques pour la 3D interactive',
     description:
-      'Ingénieur IA appliquée à Paris. Systèmes agentiques pour la 3D interactive et le jeu : harness d’agents, benchmarks, observabilité, netcode multijoueur, 3D, VFX et audio génératifs. Études de cas avec résultats mesurés.',
+      'Adam Ladhari, ingénieur IA appliquée à Paris. Je conçois des agents IA qui transforment une idée écrite en jeu 3D jouable, et le moteur de jeu qu’ils pilotent. Études de cas avec résultats mesurés : benchmarks d’agents, observabilité, multijoueur en ligne, 3D, effets et sons générés.',
   },
   nav: { work: 'Études de cas', projects: 'Projets', toolbox: 'Outils', contact: 'Contact', skip: 'Aller au contenu' },
   hero: {
-    role: 'Ingénieur IA appliquée',
-    location: 'Paris, France',
-    lead: 'Systèmes agentiques pour la 3D interactive.',
-    profile:
-      'Je prends un sujet de bout en bout : cadrer le problème, construire, instrumenter, mesurer, livrer. Chez Arcade AI, cela couvre les agents qui transforment une conversation en jeu multijoueur et le moteur qu’ils pilotent : 3D, gameplay, VFX, audio, UI et réseau.',
-    cta: 'Lancer le replay',
+    "role": "Ingénieur IA appliquée",
+    "location": "Paris, France",
+    "lead": "Je conçois des agents IA qui transforment une idée écrite en jeu 3D jouable.",
+    "profile": "Chez Arcade AI, on décrit un jeu avec ses mots et des agents IA le construisent : le monde, les règles, les effets visuels, le son, l’interface et le multijoueur en ligne. Je travaille sur ces agents et sur le moteur de jeu qu’ils pilotent. Sur chaque sujet que je prends, je cadre le problème, je construis la solution, je la mesure et je la livre.",
+    "cta": "Voir les réalisations",
+    "what": [
+      {
+        "title": "Agents IA",
+        "text": "Des programmes bâtis sur de grands modèles de langage (GPT, Gemini, Claude) qui planifient, utilisent des outils et vérifient leur propre travail, au lieu de répondre une seule fois."
+      },
+      {
+        "title": "Moteur de jeu et 3D",
+        "text": "Le logiciel qui fait tourner un jeu : mondes 3D, physique, personnages, effets visuels, son et multijoueur en ligne."
+      },
+      {
+        "title": "Résultats mesurés",
+        "text": "Benchmarks, profileurs et tests automatisés, pour que les décisions reposent sur des chiffres et non sur des impressions."
+      }
+    ]
   },
   headline: [
-    { value: '8 % → 92 %', label: 'des fonctionnalités demandées, stratégie par checklist face à une sortie simplement valide' },
-    { value: '7', label: 'architectures d’agents comparées à la production' },
-    { value: '≈100', label: 'PNJ actifs à 60 FPS, budget mesuré' },
-    { value: '250 ms', label: 'de compensation de latence, vérifiée sous latence injectée' },
-    { value: '10+', label: 'jeux et cartes complets livrés en production' },
+    {
+      "value": "8 % → 92 %",
+      "label": "des fonctionnalités demandées par le joueur se retrouvent dans le jeu généré : une sortie qui passe seulement les contrôles de format, puis la stratégie par checklist"
+    },
+    {
+      "value": "7",
+      "label": "façons d’organiser les agents IA, comparées sur le même banc d’essai"
+    },
+    {
+      "value": "≈100",
+      "label": "personnages pilotés par l’ordinateur à 60 images par seconde, limite mesurée"
+    },
+    {
+      "value": "250 ms",
+      "label": "de délai réseau absorbé sans fausser les tirs en ligne"
+    },
+    {
+      "value": "10+",
+      "label": "jeux et cartes complets livrés en production"
+    }
   ],
   workHeading: "Études de cas",
-  phases: ['Problème', 'Construction', 'Mesure', 'Résultat'],
+  workIntro: "Chaque cas suit les mêmes quatre étapes : le problème, ce que j’ai construit, comment je l’ai mesuré, et le résultat. Le panneau 3D le rejoue au fil du défilement.",
+  phases: [
+    "Problème",
+    "Ce que j’ai construit",
+    "Comment j’ai mesuré",
+    "Résultat"
+  ],
   work: [
     {
-      org: "Arcade AI · Moteur de jeu natif IA",
-      role: "Ingénieur IA appliquée",
-      dates: "Fév. 2026 – présent · Paris",
-      intro: 'Ingénieur central du système d’agents qui transforme un prompt en jeu 3D jouable : boucle d’outils unique, compétences à la demande, sous-agents spécialistes (monde, logique, VFX, UI, audio) et mémoire par niveau. La fiabilité vient du système, pas du prompt : contrats typés, portes de validation, plafonds de coût et disjoncteurs d’échecs. Cinq sujets que j’y ai portés, chacun rejoué dans la vue 3D.',
-      cases: [
-
-    {
-      id: 'benchmark',
-      kicker: 'Benchmark de génération, mené de bout en bout',
-      title: 'Un jeu valide n’est pas le jeu demandé',
-      problem:
-        'Un agent peut produire une sortie qui passe toutes les validations de schéma et rester un jeu creux. Quelle architecture d’agents construit réellement ce que le joueur a demandé, et à quel coût ?',
-      built:
-        'J’ai cadré et mené une étude de 7 architectures d’agents face à la référence de production, et construit ce qu’il fallait pour cela : le banc d’essai, un score de couverture fonctionnelle et le rapport de résultats.',
-      measured:
-        'La référence de production : 4,6 minutes médianes pour un premier jeu, 21 appels modèle. Chaque architecture est notée sur la part des fonctionnalités demandées présentes dans le jeu final.',
-      result:
-        'Une sortie valide peut rester un jeu creux, avec 8 % des fonctionnalités demandées. Une stratégie par checklist atteint 92 %.',
-      metrics: [
-        { value: '7', label: 'architectures comparées' },
-        { value: '4,6 min', label: 'médiane de référence, premier jeu' },
-        { value: '21', label: 'appels modèle de référence' },
-      ],
-      bar: { before: 8, after: 92, beforeLabel: 'sortie valide', afterLabel: 'stratégie par checklist' },
-    },
-    {
-      id: 'profiler',
-      kicker: 'Observabilité',
-      title: 'Remplacer les impressions par des chiffres',
-      problem:
-        'Sans instruments, « l’agent s’est trompé quelque part » et « ça rame » restent des impressions. Les décisions sur les agents comme sur les performances du moteur demandent des chiffres.',
-      built:
-        'Un débogueur de traces d’agents, et un panneau de profilage dans le moteur qui affiche le coût par système et par image.',
-      measured:
-        'Un benchmark de horde : augmenter le nombre de PNJ actifs et lire le coût de chaque système sur le profileur.',
-      result: 'Un budget mesuré d’environ 100 PNJ actifs à 60 FPS.',
-      metrics: [
-        { value: '≈100', label: 'PNJ actifs à 60 FPS' },
-        { value: 'par système', label: 'coût par image dans le profileur' },
-      ],
-    },
-    {
-      id: 'netcode',
-      kicker: 'Netcode multijoueur, prouvé sous latence',
-      title: 'Déplacement et tir équitables sur un vrai réseau',
-      problem:
-        'Sur un vrai réseau, chaque joueur voit le passé. Le déplacement doit rester immédiat et les tirs doivent être jugés équitablement, alors que le serveur reste la seule autorité.',
-      built:
-        'Déplacement et tir server-authoritative sur Node.js, Colyseus et Rapier, avec prédiction client, réconciliation et compensation de latence.',
-      measured:
-        'Des sessions de jeu automatisées à deux clients avec latence injectée : le comportement est vérifié par une exécution, pas au ressenti.',
-      result: 'La compensation de latence remonte jusqu’à 250 ms, vérifiée par ces sessions.',
-      metrics: [
-        { value: '250 ms', label: 'de compensation de latence' },
-        { value: '2 clients', label: 'sessions automatisées, latence injectée' },
-      ],
-    },
-    {
-      id: 'pipelines',
-      kicker: 'Autonomie multi-domaines',
-      title: 'Pipelines 3D, VFX et audio montés de zéro',
-      problem:
-        'Un jeu généré a besoin de modèles, d’effets et de sons, et chaque asset généré doit s’intégrer au moteur sans retouche manuelle.',
-      built:
-        'J’ai monté de zéro, sans relais, les pipelines 3D, VFX et audio : modèles d’armes image-vers-3D, sons générés et VFX génératifs.',
-      measured:
-        'Chaque pipeline contrôle sa propre sortie : sélection et nettoyage automatiques pour les sons, alignement automatique sur un contrat de prise en main pour les modèles, boucle multimodale rendu → critique → retouche pour les VFX.',
-      result: '97 sons générés et 42 modèles d’armes image-vers-3D, alignés automatiquement sur le contrat de prise en main.',
-      metrics: [
-        { value: '97', label: 'sons générés, sélectionnés et nettoyés automatiquement' },
-        { value: '42', label: 'modèles d’armes image-vers-3D, alignés automatiquement' },
-      ],
-    },
-    {
-      id: 'shipping',
-      kicker: 'Livraison',
-      title: 'Des jeux complets comme sondes de couverture du moteur',
-      problem: 'Un moteur ne révèle ses manques que lorsqu’on y livre un jeu complet.',
-      built:
-        '10+ jeux et cartes complets livrés en production : un FPS tactique en ligne avec bots et 34 armes pilotées par les données, des jeux de kart, des mondes voxel. Et un serveur MCP pour que des agents de code externes (Claude Code, Codex) construisent et inspectent des jeux en direct.',
-      measured:
-        'Chaque jeu est une sonde de couverture : chaque manque révélé a été comblé par une primitive générique du moteur, pas par un correctif isolé.',
-      result: '10+ jeux et cartes complets en production, et un moteur enrichi d’une primitive générique pour chaque manque révélé.',
-      metrics: [
-        { value: '10+', label: 'jeux et cartes complets en production' },
-        { value: '34', label: 'armes pilotées par les données dans le FPS tactique' },
-      ],
-    },
-      ],
+      "org": "Arcade AI · Moteur de jeu natif IA",
+      "role": "Ingénieur IA appliquée",
+      "dates": "Fév. 2026 – présent · Paris",
+      "intro": "Arcade AI est un moteur de jeu où les jeux se créent par la conversation : on décrit le jeu voulu, et des agents IA construisent un jeu 3D multijoueur jouable. Je suis ingénieur central sur ce système d’agents et sur le moteur en dessous. Le système est un agent qui travaille en boucle (réfléchir, utiliser un outil, vérifier le résultat), aidé par des agents spécialistes pour le monde, les règles du jeu, les effets visuels, l’interface et le son, avec une mémoire par niveau. Sa fiabilité vient de contrôles intégrés au système, pas de l’espoir que l’IA se comporte bien : formats de sortie stricts, étapes de validation, plafonds de coût et arrêts automatiques en cas d’échecs répétés. Cinq sujets que j’y ai portés :",
+      "cases": [
+        {
+          "id": "benchmark",
+          "kicker": "Benchmark d’architectures d’agents IA",
+          "title": "L’IA construit-elle le jeu qui a été demandé ?",
+          "summary": "J’ai mené l’étude montrant qu’un jeu généré peut passer tous les contrôles automatiques et ne contenir que 8 % de ce qui était demandé, et qu’une approche par checklist atteint 92 %.",
+          "problem": "Quand une IA génère un jeu, des contrôles automatiques vérifient que la sortie a le bon format. Mais un jeu peut avoir le bon format et être presque vide. Il fallait savoir quelle façon d’organiser les agents livre réellement ce que le joueur a décrit, et à quel coût en temps et en appels au modèle d’IA.",
+          "built": "J’ai cadré et mené une étude comparant 7 architectures d’agents, c’est-à-dire 7 façons différentes d’organiser les agents, à la version en production. J’ai construit ce qu’il fallait pour cela : le banc d’essai qui les exécute toutes, un score qui compte combien de fonctionnalités demandées sont réellement présentes dans le jeu final, et le rapport de résultats.",
+          "measured": "La version en production demandait en médiane 4,6 minutes et 21 appels au modèle d’IA pour produire un premier jeu. Chaque architecture a été notée de la même façon : la part des fonctionnalités demandées présentes dans le jeu final.",
+          "result": "Une sortie qui passe les contrôles de format peut rester un jeu creux, avec seulement 8 % des fonctionnalités demandées. Une stratégie par checklist atteint 92 %.",
+          "metrics": [
+            {
+              "value": "7",
+              "label": "architectures d’agents comparées"
+            },
+            {
+              "value": "4,6 min",
+              "label": "temps médian pour un premier jeu, version en production"
+            },
+            {
+              "value": "21",
+              "label": "appels au modèle d’IA, version en production"
+            }
+          ],
+          "bar": {
+            "before": 8,
+            "after": 92,
+            "beforeLabel": "passe les contrôles de format",
+            "afterLabel": "stratégie par checklist"
+          }
+        },
+        {
+          "id": "profiler",
+          "kicker": "Observabilité",
+          "title": "Voir ce que font réellement l’IA et le moteur",
+          "summary": "J’ai construit les outils qui montrent, étape par étape, ce qu’un agent IA a fait, et combien de temps de calcul coûte chaque partie du jeu.",
+          "problem": "Quand un agent IA donne un mauvais résultat, ou qu’un jeu rame, la première explication est souvent une supposition. Sans instruments, personne ne peut dire où cela a dérapé ni quelle partie est lente.",
+          "built": "Deux outils. Un débogueur de traces, qui enregistre chaque étape d’un agent et permet de les inspecter ensuite. Et un panneau de profilage dans le moteur, qui montre combien de temps chaque système du jeu consomme à chaque image affichée.",
+          "measured": "Un test de charge, le benchmark de horde : ajouter de plus en plus de personnages pilotés par l’ordinateur (PNJ) et lire sur le profileur ce que coûte chaque système.",
+          "result": "Une limite mesurée à la place d’une impression : environ 100 PNJ actifs alors que le jeu tourne encore à 60 images par seconde.",
+          "metrics": [
+            {
+              "value": "≈100",
+              "label": "PNJ actifs à 60 images par seconde"
+            },
+            {
+              "value": "par système",
+              "label": "coût de chaque image, affiché dans le profileur"
+            }
+          ]
+        },
+        {
+          "id": "netcode",
+          "kicker": "Multijoueur en ligne",
+          "title": "Rendre un jeu en ligne immédiat et équitable",
+          "summary": "J’ai construit la couche réseau qui garde un jeu en ligne réactif et équitable quand les joueurs ont une connexion lente, et je l’ai prouvé par des sessions de jeu automatisées.",
+          "problem": "En ligne, chaque message met du temps à voyager : chaque joueur voit donc une version légèrement ancienne du jeu. Sans précaution, le personnage réagit en retard et des tirs qui semblaient justes manquent leur cible. Et seul le serveur doit décider de ce qui s’est réellement passé.",
+          "built": "Un déplacement et un tir où le serveur a le dernier mot (server-authoritative), avec Node.js, Colyseus et Rapier. L’appareil du joueur affiche tout de suite le résultat d’une action, puis se corrige si le serveur n’est pas d’accord (prédiction client et réconciliation). Pour les tirs, le serveur remonte dans le temps jusqu’à la position de la cible au moment où le joueur a tiré (compensation de latence).",
+          "measured": "Des sessions de jeu automatisées à deux clients, avec un délai réseau injecté volontairement : le comportement est vérifié par une exécution, pas au ressenti.",
+          "result": "La compensation de latence remonte jusqu’à 250 ms, vérifiée par ces sessions automatisées.",
+          "metrics": [
+            {
+              "value": "250 ms",
+              "label": "de délai que le serveur peut remonter"
+            },
+            {
+              "value": "2 clients",
+              "label": "sessions automatisées avec délai injecté"
+            }
+          ]
+        },
+        {
+          "id": "pipelines",
+          "kicker": "Modèles 3D, effets et sons générés",
+          "title": "Trois pipelines de contenu montés seul, de zéro",
+          "summary": "J’ai construit, sans relais, les systèmes qui génèrent les modèles 3D, les effets visuels et les sons d’un jeu, chacun contrôlant sa propre sortie.",
+          "problem": "Un jeu généré a besoin d’objets, d’effets visuels et de sons. L’IA peut les générer, mais chaque résultat doit s’intégrer au moteur sans qu’une personne le corrige à la main.",
+          "built": "Trois pipelines, c’est-à-dire des chaînes de production automatiques, montés de zéro en autonomie : des modèles d’armes 3D générés à partir d’images, des effets sonores générés et des effets visuels (VFX) générés.",
+          "measured": "Chaque pipeline contrôle sa propre sortie. Sons : les candidats sont notés automatiquement, puis nettoyés. Modèles 3D : chacun est aligné automatiquement sur un contrat de prise en main, une règle fixe sur la façon dont un personnage le tient. Effets visuels : l’effet est rendu, un modèle d’IA regarde l’image et la critique, puis l’effet est retouché, en boucle.",
+          "result": "97 effets sonores générés et 42 modèles d’armes 3D, tous alignés automatiquement sur le contrat de prise en main.",
+          "metrics": [
+            {
+              "value": "97",
+              "label": "effets sonores générés, notés et nettoyés automatiquement"
+            },
+            {
+              "value": "42",
+              "label": "modèles d’armes 3D générés à partir d’images, alignés automatiquement"
+            }
+          ]
+        },
+        {
+          "id": "shipping",
+          "kicker": "Livraison",
+          "title": "Livrer des jeux complets pour trouver ce qui manque au moteur",
+          "summary": "J’ai livré plus de dix jeux et cartes complets en production, et utilisé chacun pour trouver et combler un manque du moteur.",
+          "problem": "Un moteur de jeu paraît complet jusqu’à ce qu’on essaie d’y terminer un vrai jeu. Les pièces manquantes n’apparaissent qu’à ce moment-là.",
+          "built": "10+ jeux et cartes complets livrés en production : un jeu de tir tactique en ligne avec des adversaires pilotés par l’ordinateur et 34 armes définies par des données, des jeux de kart et des mondes voxel (en blocs). J’ai aussi construit un serveur MCP, une connexion standard qui permet à des assistants de programmation IA externes comme Claude Code ou Codex de construire et d’inspecter des jeux en direct.",
+          "measured": "Chaque jeu a servi de sonde de ce que couvre le moteur : chaque manque révélé a été comblé par une brique générique, utilisable par tous les jeux, et non par un correctif propre à ce jeu.",
+          "result": "10+ jeux et cartes complets en production, et un moteur enrichi d’une brique générique pour chaque manque révélé.",
+          "metrics": [
+            {
+              "value": "10+",
+              "label": "jeux et cartes complets en production"
+            },
+            {
+              "value": "34",
+              "label": "armes définies par des données dans le jeu de tir tactique"
+            }
+          ]
+        }
+      ]
     },
     {
       "org": "Lanterns Studio · Développement de jeux",
       "role": "Stagiaire Programmeur IA",
       "dates": "Juil. 2025 – Août 2025 · Tunis",
-      "intro": "Deux mois de stage sur un seul sujet : transformer un prompt texte en asset 3D qu’un jeu peut charger.",
+      "intro": "Deux mois de stage dans un studio de jeux, sur un seul sujet : transformer une description écrite en objet 3D utilisable par un jeu.",
       "cases": [
         {
           "id": "textto3d",
-          "kicker": "Pipeline texte-vers-3D",
-          "title": "Du prompt à l’asset 3D prêt pour le jeu",
-          "problem": "Un maillage généré n’est pas encore un asset de jeu. Il lui faut des matériaux, un nombre de triangles raisonnable et un format que le moteur sait charger, et il faut pouvoir piloter la génération.",
-          "built": "Un pipeline de génération texte-vers-3D (prompt → maillage + matériaux PBR → GLB) basé sur EmbodiedGen, avec une application Gradio : modes auto et manuel, seeds, suppression de fond et tri d’images.",
-          "measured": "Des contrôles QA intégrés à chaque génération, et un post-traitement Blender headless : retopologie, décimation, export OBJ/GLB.",
-          "result": "Un pipeline fonctionnel du prompt au GLB, déployé sur Hugging Face Spaces avec une image Docker GPU + Blender.",
+          "kicker": "Du texte à la 3D",
+          "title": "D’une phrase à un objet 3D prêt pour le jeu",
+          "summary": "J’ai construit un outil qui transforme une description écrite en objet 3D avec ses matériaux, dans un fichier qu’un jeu peut charger.",
+          "problem": "L’IA sait produire une forme 3D à partir d’une phrase, mais une forme brute n’est pas encore un asset de jeu. Il lui faut des matériaux, un nombre de triangles raisonnable et un format de fichier que le moteur sait charger, et la personne qui utilise l’outil doit pouvoir orienter le résultat.",
+          "built": "Un pipeline de génération basé sur EmbodiedGen, un système de génération texte-vers-3D : à partir du texte, il produit un maillage 3D avec des matériaux réalistes (PBR) et exporte un fichier GLB, un format 3D standard. Autour, une application réalisée avec Gradio : modes automatique et manuel, seeds pour reproduire un résultat, suppression de fond et tri des images candidates.",
+          "measured": "Des contrôles qualité intégrés à chaque génération, puis un nettoyage automatique dans Blender sans interface graphique : reconstruction d’un maillage plus propre (retopologie), réduction du nombre de triangles (décimation) et export en OBJ ou GLB.",
+          "result": "Un pipeline fonctionnel de la phrase au fichier GLB, déployé en ligne sur Hugging Face Spaces avec une image Docker incluant le support GPU et Blender.",
           "metrics": [
             {
-              "value": "prompt → GLB",
-              "label": "maillage et matériaux PBR dans un seul pipeline"
+              "value": "texte → GLB",
+              "label": "maillage et matériaux réalistes dans un seul pipeline"
             },
             {
               "value": "Hugging Face Spaces",
-              "label": "déployé avec une image Docker GPU + Blender"
+              "label": "déployé en ligne, image Docker GPU + Blender"
             }
           ]
         }
@@ -152,24 +214,25 @@ export const fr: Content = {
       "org": "AXIO · Apprentissage interactif piloté par IA",
       "role": "Développeur Fullstack, temps partiel",
       "dates": "Janv. 2025 – Juin 2025 · Tunis",
-      "intro": "Une plateforme d’apprentissage adaptatif, développée à temps partiel en parallèle de mon cycle ingénieur.",
+      "intro": "AXIO est une plateforme d’apprentissage en ligne qui s’adapte à chaque apprenant. J’y ai travaillé à temps partiel pendant mon cycle ingénieur, côté serveur comme côté interface.",
       "cases": [
         {
           "id": "learning",
-          "kicker": "Apprentissage adaptatif avec un agent LLM",
-          "title": "Repérer l’apprenant bloqué, et le débloquer",
+          "kicker": "Apprentissage adaptatif avec un assistant IA",
+          "title": "Repérer l’apprenant bloqué, et l’aider à ce moment-là",
+          "summary": "J’ai construit une plateforme d’apprentissage qui adapte le parcours à chaque apprenant et fait intervenir un assistant IA lorsqu’elle détecte qu’il est bloqué.",
           "problem": "Chaque apprenant avance à son rythme, et un apprenant bloqué a besoin d’aide à ce moment-là, pas à la fin du cours.",
-          "built": "Une plateforme d’apprentissage adaptatif : suivi de la progression de chaque apprenant et parcours personnalisé, avec le choix des leçons suivantes. Architecture modulaire avec contrôle d’accès granulaire.",
-          "measured": "La frustration est détectée via le temps passé sur la tâche ; un agent LLM avec RAG sur les cours intervient alors pour débloquer l’apprenant. Les mises en production passent par une CI/CD avec tests unitaires et E2E.",
+          "built": "Une plateforme d’apprentissage adaptatif : elle suit la progression de chaque apprenant et personnalise son parcours en choisissant les leçons suivantes. Elle est construite en modules indépendants, avec un contrôle fin de qui peut accéder à quoi.",
+          "measured": "La plateforme détecte la frustration à partir du temps passé sur une tâche. Un agent IA intervient alors et répond à partir des cours eux-mêmes, une technique appelée RAG (génération augmentée par la recherche). Chaque mise en production passe par des tests automatisés, unitaires et de bout en bout (CI/CD).",
           "result": "Une plateforme qui réagit à chaque apprenant, et un temps de release réduit de 35 %.",
           "metrics": [
             {
               "value": "−35 %",
-              "label": "temps de release, avec CI/CD et tests automatisés"
+              "label": "temps de release, grâce aux tests et à la livraison automatisés"
             },
             {
-              "value": "Agent RAG",
-              "label": "sur la documentation des cours"
+              "value": "Agent IA + RAG",
+              "label": "répond à partir de la documentation des cours"
             }
           ]
         }
@@ -179,29 +242,30 @@ export const fr: Content = {
       "org": "Freelance · Upwork et clients directs",
       "role": "Ingénieur Logiciel",
       "dates": "Juin 2023 – Mai 2025 · À distance",
-      "intro": "Deux ans de missions clients en parallèle de mes études : jeux, automatisation et outils de trading.",
+      "intro": "Deux ans de missions freelance pour des clients, en parallèle de mes études : jeux, automatisation et outils de trading.",
       "cases": [
         {
           "id": "emotion",
-          "kicker": "Missions clients",
-          "title": "Trois problèmes clients, trois systèmes livrés",
-          "problem": "Chaque client est venu avec un sujet différent : un jeu qui doit réagir à ce que ressent le joueur, une pré-production faite à la main, et des outils de trading trop gourmands en CPU.",
-          "built": "Gameplay adaptatif piloté par les émotions (plugin Unity, deep learning), avec reconnaissance faciale des émotions en temps réel reliée à la logique de jeu ; un jeu mobile hyper-casual conçu et livré sous Unity et C# ; le traitement d’images Gerber automatisé en Python ; des expert advisors MQL4/5 de gestion adaptative du risque.",
-          "measured": "Un tableau de bord d’analyse des émotions des joueurs pour le plugin de gameplay, et des tableaux de bord temps réel pour les outils de trading.",
-          "result": "Des cycles de pré-production réduits de 75 % grâce à l’automatisation Gerber, et une charge CPU réduite de 70 % sur les outils de trading (multithreading, cache).",
+          "kicker": "Projets clients",
+          "title": "Trois clients, trois problèmes, trois systèmes livrés",
+          "summary": "En freelance, j’ai livré un système de jeu qui réagit aux émotions du joueur, une automatisation qui a réduit de 75 % les cycles de pré-production, et des outils de trading consommant 70 % de CPU en moins.",
+          "problem": "Chaque client est venu avec un besoin différent : un jeu qui s’adapte à ce que ressent le joueur, des fichiers d’images de circuits imprimés (Gerber) traités à la main avant la production, et des programmes de trading automatisé qui sollicitaient trop le processeur.",
+          "built": "Un plugin pour le moteur de jeu Unity qui reconnaît en temps réel l’émotion du joueur sur son visage grâce au deep learning et pilote la logique du jeu avec. Un jeu mobile hyper-casual, conçu et livré avec Unity et C#. Un programme Python qui traite automatiquement les images Gerber. Et des expert advisors (programmes de trading automatisé, en MQL4/5) qui gèrent le risque de façon adaptative.",
+          "measured": "Un tableau de bord d’analyse des émotions des joueurs pour le plugin de jeu, et des tableaux de bord temps réel pour les programmes de trading.",
+          "result": "Des cycles de pré-production réduits de 75 % grâce à l’automatisation Gerber, et une charge CPU réduite de 70 % sur les programmes de trading (multithreading, cache).",
           "metrics": [
             {
               "value": "−75 %",
-              "label": "cycles de pré-production (automatisation Gerber)"
+              "label": "cycles de pré-production, automatisation Gerber"
             },
             {
               "value": "−70 %",
-              "label": "charge CPU (automatisation de trading)"
+              "label": "charge CPU, programmes de trading"
             }
           ]
         }
       ]
-    },
+    }
   ],
   projects: {
     "heading": "Projets",
@@ -354,6 +418,7 @@ export const fr: Content = {
   footer:
     'Réalisé avec Three.js et TypeScript. L’île, les karts et les simulations sont générés dans votre navigateur ; rien ici ne provient d’Arcade AI.',
   stage: {
+    phases: ['Problème', 'Construction', 'Mesure', 'Résultat'],
     tag: 'Replay',
     aria: 'Replay 3D des études de cas',
     note: 'Les replays sont construits pour ce site afin d’illustrer chaque sujet. Les valeurs en direct décrivent cette page ; les chiffres du texte sont ceux mesurés.',

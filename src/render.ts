@@ -33,6 +33,7 @@ function caseStudy(c: CaseStudy, i: number, content: Content): string {
     <header class="case-head">
       <p class="kicker"><span class="case-num">${n}</span> ${esc(c.kicker)}</p>
       <h3>${esc(c.title)}</h3>
+      <p class="case-summary">${esc(c.summary)}</p>
     </header>
     ${phases
       .map(
@@ -110,7 +111,7 @@ export function renderHead(c: Content): string {
 export function renderBody(c: Content): string {
   const stageData = {
     t: c.stage.t,
-    phases: c.phases,
+    phases: c.stage.phases,
     introTitle: c.stage.introTitle,
     introHint: c.stage.introHint,
     cases: c.work.flatMap((g) => g.cases).map((k) => ({ id: k.id, title: k.kicker })),
@@ -143,7 +144,7 @@ export function renderBody(c: Content): string {
         </div>
         <div class="timeline" id="timeline">
           <ol class="phase-tabs">
-            ${c.phases.map((p, i) => `<li><button type="button" data-goto="${i}">${esc(p)}</button></li>`).join('')}
+            ${c.stage.phases.map((p, i) => `<li><button type="button" data-goto="${i}">${esc(p)}</button></li>`).join('')}
           </ol>
           <input id="scrub" type="range" min="0" max="300" value="0" aria-label="${esc(c.stage.scrub)}" />
         </div>
@@ -163,11 +164,13 @@ export function renderBody(c: Content): string {
             <a class="btn" href="${c.contact.linkedin}" rel="me noopener">LinkedIn</a>
             <a class="btn" href="${c.contact.github}" rel="me noopener">GitHub</a>
           </p>
+          <ul class="what">${c.hero.what.map((w) => `<li><strong>${esc(w.title)}</strong><span>${esc(w.text)}</span></li>`).join('')}</ul>
           ${metrics(c.headline, 'tiles tiles-headline')}
         </section>
 
         <section class="work" id="work">
           <h2 class="work-title">${esc(c.workHeading)}</h2>
+          <p class="work-intro">${esc(c.workIntro)}</p>
           ${(() => {
             let n = 0;
             return c.work

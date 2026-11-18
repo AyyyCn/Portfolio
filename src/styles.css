@@ -138,6 +138,12 @@ input[type='range'] { accent-color: var(--accent); }
 .lead { font-size: clamp(1.25rem, 2.6vw, 1.7rem); line-height: 1.25; color: var(--accent); letter-spacing: -0.01em; }
 .profile { color: #c9d2db; max-width: 40rem; font-size: 1.05rem; }
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.what { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 10px; }
+.what li { display: grid; grid-template-columns: minmax(0, 10.5rem) 1fr; gap: 14px; padding: 10px 0; border-top: 1px solid var(--line); }
+.what strong { font: 600 0.82rem var(--mono); color: var(--accent); letter-spacing: 0.02em; }
+.what span { color: #c9d2db; font-size: 0.95rem; }
+.work-intro { color: #c9d2db; margin-top: 10px; }
+.case-summary { font-size: 1.12rem; line-height: 1.5; color: var(--text); border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; margin-top: 6px; max-width: 38rem; }
 
 .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 8px; }
 .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 4px; }
@@ -213,6 +219,7 @@ input[type='range'] { accent-color: var(--accent); }
   .has-stage .phase { min-height: 40svh; }
   html.has-stage { scroll-padding-top: calc(var(--top) + 44svh + 12px); }
   .bar { grid-template-columns: minmax(0, 7.5rem) 1fr 3rem; }
+  .what li { grid-template-columns: 1fr; gap: 4px; }
 }
 
 @media print {

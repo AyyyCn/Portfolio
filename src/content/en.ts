@@ -10,139 +10,202 @@ export const en: Content = {
   meta: {
     title: 'Adam Ladhari · Applied AI Engineer, agentic systems for interactive 3D',
     description:
-      'Applied AI engineer in Paris. Agentic systems for interactive 3D and games: agent harness, benchmarks, observability, multiplayer netcode, generative 3D, VFX and audio. Case studies with measured results.',
+      'Adam Ladhari, applied AI engineer in Paris. I build AI agents that turn a written idea into a playable 3D game, and the game engine they control. Case studies with measured results: agent benchmarks, observability, online multiplayer, generated 3D, effects and sound.',
   },
   nav: { work: 'Case studies', projects: 'Projects', toolbox: 'Toolbox', contact: 'Contact', skip: 'Skip to content' },
   hero: {
-    role: 'Applied AI Engineer',
-    location: 'Paris, France',
-    lead: 'Agentic systems for interactive 3D.',
-    profile:
-      'I take a subject end to end: frame the problem, build it, instrument it, measure it, ship it. At Arcade AI that covers the agents that turn a conversation into a multiplayer game and the engine they drive: 3D, gameplay, VFX, audio, UI and networking.',
-    cta: 'Start the replay',
+    "role": "Applied AI Engineer",
+    "location": "Paris, France",
+    "lead": "I build AI agents that turn a written idea into a playable 3D game.",
+    "profile": "At Arcade AI, someone describes a game in plain words and AI agents build it: the world, the rules, the visual effects, the sound, the interface and the online multiplayer. I work on those agents and on the game engine they control. On every subject I take on, I frame the problem, build the solution, measure it and ship it.",
+    "cta": "See the work",
+    "what": [
+      {
+        "title": "AI agents",
+        "text": "Programs built on large language models (GPT, Gemini, Claude) that plan, use tools and check their own work, instead of answering once."
+      },
+      {
+        "title": "Game engine and 3D",
+        "text": "The software that runs a game: 3D worlds, physics, characters, visual effects, sound and online multiplayer."
+      },
+      {
+        "title": "Measured results",
+        "text": "Benchmarks, profilers and automated tests, so that decisions rest on numbers and not on impressions."
+      }
+    ]
   },
   headline: [
-    { value: '8% → 92%', label: 'requested features built, checklist strategy vs schema-valid output' },
-    { value: '7', label: 'agent architectures benchmarked against production' },
-    { value: '≈100', label: 'active NPCs at 60 FPS, measured budget' },
-    { value: '250 ms', label: 'lag compensation rewind, verified under injected latency' },
-    { value: '10+', label: 'complete games and maps shipped to production' },
+    {
+      "value": "8% → 92%",
+      "label": "of the features a player asked for end up in the generated game: an output that only passes format checks, versus the checklist strategy"
+    },
+    {
+      "value": "7",
+      "label": "ways of organising the AI agents, compared on the same test bench"
+    },
+    {
+      "value": "≈100",
+      "label": "computer-controlled characters at a smooth 60 images per second, a measured limit"
+    },
+    {
+      "value": "250 ms",
+      "label": "of network delay absorbed while online shots still land fairly"
+    },
+    {
+      "value": "10+",
+      "label": "complete games and maps shipped to production"
+    }
   ],
   workHeading: "Case studies",
-  phases: ['Problem', 'Build', 'Measure', 'Result'],
+  workIntro: "Each case follows the same four steps: the problem, what I built, how I measured it, and the result. The 3D panel replays it as you scroll.",
+  phases: [
+    "Problem",
+    "What I built",
+    "How I measured",
+    "Result"
+  ],
   work: [
     {
-      org: "Arcade AI · AI-native game engine",
-      role: "Applied AI Engineer",
-      dates: "Feb 2026 – present · Paris",
-      intro: 'Core engineer on the agent system that turns a prompt into a playable 3D game: one tool-use loop, on-demand skills, specialist sub-agents (world, logic, VFX, UI, audio) and per-level memory. Reliability comes from the system, not the prompt: typed contracts, validation gates, cost ceilings and failure breakers. Five subjects I owned there, each replayed in the viewport.',
-      cases: [
-
-    {
-      id: 'benchmark',
-      kicker: 'Generation benchmark, owned end to end',
-      title: 'A valid game is not the game that was asked for',
-      problem:
-        'An agent can return output that passes every schema check and still be a hollow game. Which agent architecture actually builds what the player asked for, and at what cost?',
-      built:
-        'I framed and ran a study of 7 agent architectures against the production baseline, and built what it needed: the test rig, a feature-coverage score, and the results deck.',
-      measured:
-        'The production baseline: 4.6 minutes median for a first build, 21 model calls. Each architecture was scored on the share of requested features present in the finished game.',
-      result:
-        'Schema-valid output can still be a hollow game, with 8% of the requested features. A checklist strategy reaches 92%.',
-      metrics: [
-        { value: '7', label: 'architectures compared' },
-        { value: '4.6 min', label: 'baseline median first build' },
-        { value: '21', label: 'baseline model calls' },
-      ],
-      bar: { before: 8, after: 92, beforeLabel: 'schema-valid output', afterLabel: 'checklist strategy' },
-    },
-    {
-      id: 'profiler',
-      kicker: 'Observability',
-      title: 'Replacing impressions with numbers',
-      problem:
-        'Without instruments, "the agent went wrong somewhere" and "it feels slow" are impressions. Decisions about agents and about engine performance need numbers.',
-      built:
-        'An agent trace debugger, and an in-engine profiler panel that shows frame cost per system.',
-      measured:
-        'A horde benchmark: raise the number of active NPCs and read the frame cost of each system off the profiler.',
-      result: 'A measured budget of about 100 active NPCs at 60 FPS.',
-      metrics: [
-        { value: '≈100', label: 'active NPCs at 60 FPS' },
-        { value: 'per system', label: 'frame cost in the profiler panel' },
-      ],
-    },
-    {
-      id: 'netcode',
-      kicker: 'Multiplayer netcode, proven under latency',
-      title: 'Fair movement and shooting on a real network',
-      problem:
-        'On a real network every player sees the past. Movement has to feel immediate and hits have to be judged fairly, while the server stays the only authority.',
-      built:
-        'Server-authoritative movement and shooting on Node.js, Colyseus and Rapier, with client prediction, reconciliation and lag compensation.',
-      measured:
-        'Automated two-client play sessions with injected latency, so the behaviour is verified by a run and not by feel.',
-      result: 'Lag compensation rewinds up to 250 ms, verified by those sessions.',
-      metrics: [
-        { value: '250 ms', label: 'lag compensation rewind' },
-        { value: '2 clients', label: 'automated sessions, injected latency' },
-      ],
-    },
-    {
-      id: 'pipelines',
-      kicker: 'Autonomy across domains',
-      title: '3D, VFX and audio pipelines from zero',
-      problem:
-        'A generated game needs models, effects and sound, and each generated asset has to fit the engine without a person fixing it by hand.',
-      built:
-        'I took the 3D, VFX and audio pipelines from zero without hand-off: image-to-3D weapon models, generated sound cues, and generative VFX.',
-      measured:
-        'Every pipeline checks its own output: automatic candidate scoring and clean-up for sound, automatic alignment to a grip contract for models, and a multimodal render → critique → revise loop for VFX.',
-      result: '97 generated sound cues and 42 image-to-3D weapon models, auto-aligned to the grip contract.',
-      metrics: [
-        { value: '97', label: 'generated sound cues, scored and cleaned automatically' },
-        { value: '42', label: 'image-to-3D weapon models, auto-aligned' },
-      ],
-    },
-    {
-      id: 'shipping',
-      kicker: 'Shipping',
-      title: 'Complete games as engine coverage probes',
-      problem: 'An engine only shows its gaps when someone ships a complete game on it.',
-      built:
-        '10+ complete games and maps delivered to production: an online tactical shooter with bots and 34 data-driven weapons, kart racers, voxel worlds. Plus an MCP server so external coding agents (Claude Code, Codex) build and inspect games live.',
-      measured: 'Each game is a coverage probe: every gap it exposed was closed with a generic engine primitive, not a one-off fix.',
-      result: '10+ complete games and maps in production, and an engine that gained a generic primitive for every gap they exposed.',
-      metrics: [
-        { value: '10+', label: 'complete games and maps in production' },
-        { value: '34', label: 'data-driven weapons in the tactical shooter' },
-      ],
-    },
-      ],
+      "org": "Arcade AI · AI-native game engine",
+      "role": "Applied AI Engineer",
+      "dates": "Feb 2026 – present · Paris",
+      "intro": "Arcade AI is a game engine where games are made by conversation: you describe the game you want, and AI agents build a playable 3D multiplayer game. I am a core engineer on that agent system and on the engine underneath. The system is one agent working in a loop (think, use a tool, check the result), helped by specialist agents for the world, the game rules, the visual effects, the interface and the sound, with a memory for each level. Its reliability comes from checks built into the system, not from hoping the AI behaves: strict output formats, validation steps, cost limits and automatic stops when it keeps failing. Five subjects I owned there:",
+      "cases": [
+        {
+          "id": "benchmark",
+          "kicker": "Benchmark of AI agent designs",
+          "title": "Does the AI build the game that was asked for?",
+          "summary": "I ran the study showing that a generated game can pass every automatic check and still contain only 8% of what was asked for, and that a checklist approach reaches 92%.",
+          "problem": "When an AI generates a game, automatic checks verify that the output has the right format. But a game can have the right format and be nearly empty. We needed to know which way of organising the agents really delivers what the player described, and at what cost in time and in calls to the AI model.",
+          "built": "I framed and ran a study comparing 7 agent architectures, meaning 7 different ways of organising the agents, against the version running in production. I built what the study needed: the test bench that runs them all, a score that counts how many of the requested features are really present in the finished game, and the report presenting the results.",
+          "measured": "The production version needed a median of 4.6 minutes and 21 calls to the AI model to produce a first game. Every architecture was scored the same way: the share of requested features present in the finished game.",
+          "result": "An output that passes the format checks can still be a hollow game, with only 8% of the requested features. A checklist strategy reaches 92%.",
+          "metrics": [
+            {
+              "value": "7",
+              "label": "agent architectures compared"
+            },
+            {
+              "value": "4.6 min",
+              "label": "median time for a first game, production version"
+            },
+            {
+              "value": "21",
+              "label": "calls to the AI model, production version"
+            }
+          ],
+          "bar": {
+            "before": 8,
+            "after": 92,
+            "beforeLabel": "passes format checks",
+            "afterLabel": "checklist strategy"
+          }
+        },
+        {
+          "id": "profiler",
+          "kicker": "Observability",
+          "title": "Seeing what the AI and the engine are really doing",
+          "summary": "I built the tools that show, step by step, what an AI agent did, and how much computing time each part of the game costs.",
+          "problem": "When an AI agent gives a bad result, or a game runs slowly, the first explanation is usually a guess. Without instruments, nobody can say where it went wrong or which part is slow.",
+          "built": "Two tools. A trace debugger, which records every step an agent takes and lets you inspect them afterwards. And a profiler panel inside the engine, which shows how much time each system of the game uses in every image it draws.",
+          "measured": "A stress test, the horde benchmark: add more and more computer-controlled characters (NPCs) and read on the profiler what each system costs.",
+          "result": "A measured limit instead of an impression: about 100 active NPCs while the game still runs at 60 images per second.",
+          "metrics": [
+            {
+              "value": "≈100",
+              "label": "active NPCs at 60 images per second"
+            },
+            {
+              "value": "per system",
+              "label": "cost of each image, shown in the profiler"
+            }
+          ]
+        },
+        {
+          "id": "netcode",
+          "kicker": "Online multiplayer",
+          "title": "Making an online game feel instant and fair",
+          "summary": "I built the networking that keeps an online game responsive and fair when players have slow connections, and proved it with automated play sessions.",
+          "problem": "Online, every message takes time to travel, so each player sees a slightly old version of the game. Without care, your character reacts late and shots that looked on target miss. And only the server should decide what really happened.",
+          "built": "Movement and shooting where the server has the final say (server-authoritative), built with Node.js, Colyseus and Rapier. The player's device shows the result of an action immediately, then corrects itself if the server disagrees (client prediction and reconciliation). For shots, the server looks back in time to where the target was when the player fired (lag compensation).",
+          "measured": "Automated play sessions with two clients and network delay injected on purpose, so the behaviour is verified by a run and not by feel.",
+          "result": "Lag compensation looks back up to 250 ms, verified by those automated sessions.",
+          "metrics": [
+            {
+              "value": "250 ms",
+              "label": "of delay the server can look back"
+            },
+            {
+              "value": "2 clients",
+              "label": "automated sessions with injected delay"
+            }
+          ]
+        },
+        {
+          "id": "pipelines",
+          "kicker": "Generated 3D models, effects and sound",
+          "title": "Three content pipelines built alone, from scratch",
+          "summary": "I built, without handing off to anyone, the systems that generate a game's 3D models, visual effects and sounds, each one checking its own output.",
+          "problem": "A generated game needs objects, visual effects and sounds. AI can generate them, but each result has to fit the engine without a person fixing it by hand.",
+          "built": "Three pipelines, meaning automatic production lines, taken from nothing to working on my own: 3D weapon models generated from images, generated sound effects, and generated visual effects (VFX).",
+          "measured": "Each pipeline checks its own output. Sounds: candidates are scored automatically, then cleaned up. 3D models: each one is automatically aligned to a grip contract, a fixed rule for how a character holds it. Visual effects: the effect is rendered, an AI model looks at the image and criticises it, and the effect is revised, in a loop.",
+          "result": "97 generated sound effects and 42 3D weapon models, all aligned automatically to the grip contract.",
+          "metrics": [
+            {
+              "value": "97",
+              "label": "generated sound effects, scored and cleaned automatically"
+            },
+            {
+              "value": "42",
+              "label": "3D weapon models generated from images, aligned automatically"
+            }
+          ]
+        },
+        {
+          "id": "shipping",
+          "kicker": "Shipping",
+          "title": "Shipping complete games to find what the engine is missing",
+          "summary": "I delivered more than ten complete games and maps to production, and used each one to find and close a gap in the engine.",
+          "problem": "A game engine looks complete until someone tries to finish a real game with it. The missing pieces only show up then.",
+          "built": "10+ complete games and maps delivered to production: an online tactical shooter with computer-controlled opponents and 34 weapons defined by data, kart racing games, and voxel (block-based) worlds. I also built an MCP server, a standard connection that lets outside AI coding assistants such as Claude Code or Codex build and inspect games live.",
+          "measured": "Each game served as a probe of what the engine covers: every gap it revealed was closed with a generic building block, usable by any game, and not with a fix for that one game.",
+          "result": "10+ complete games and maps in production, and an engine that gained a generic building block for every gap they exposed.",
+          "metrics": [
+            {
+              "value": "10+",
+              "label": "complete games and maps in production"
+            },
+            {
+              "value": "34",
+              "label": "weapons defined by data in the tactical shooter"
+            }
+          ]
+        }
+      ]
     },
     {
       "org": "Lanterns Studio · Game development",
       "role": "AI Programmer Intern",
       "dates": "Jul 2025 – Aug 2025 · Tunis",
-      "intro": "A two-month internship with one subject: turn a text prompt into a 3D asset a game can load.",
+      "intro": "A two-month internship in a game studio, on one subject: turning a written description into a 3D object a game can use.",
       "cases": [
         {
           "id": "textto3d",
-          "kicker": "Text-to-3D pipeline",
-          "title": "From a prompt to a game-ready 3D asset",
-          "problem": "A generated mesh is not yet a game asset. It needs materials, a reasonable triangle count and a format the engine can load, and someone has to be able to steer the generation.",
-          "built": "A text-to-3D generation pipeline (prompt → mesh + PBR materials → GLB) on EmbodiedGen, with a Gradio app: auto and manual modes, seeds, background removal and image ranking.",
-          "measured": "Built-in QA checks on every generation, and headless Blender post-processing: retopology, decimation, OBJ/GLB export.",
-          "result": "A working pipeline from prompt to GLB, deployed on Hugging Face Spaces with a Docker GPU + Blender image.",
+          "kicker": "Text to 3D",
+          "title": "From a sentence to a 3D object ready for a game",
+          "summary": "I built a tool that turns a written description into a 3D object with its materials, in a file a game can load.",
+          "problem": "AI can produce a 3D shape from a sentence, but a raw shape is not yet a game asset. It needs materials, a reasonable number of triangles and a file format the engine can load, and the person using the tool needs some control over the result.",
+          "built": "A generation pipeline based on EmbodiedGen, a text-to-3D generation system: from the text it produces a 3D mesh with realistic materials (PBR) and exports a GLB file, a standard 3D format. Around it, an app built with Gradio: automatic and manual modes, seeds to reproduce a result, background removal and ranking of the candidate images.",
+          "measured": "Quality checks built into every generation, then automatic clean-up in Blender running without a screen: rebuilding a cleaner mesh (retopology), reducing the triangle count (decimation) and exporting to OBJ or GLB.",
+          "result": "A working pipeline from a sentence to a GLB file, deployed online on Hugging Face Spaces with a Docker image that includes GPU support and Blender.",
           "metrics": [
             {
-              "value": "prompt → GLB",
-              "label": "mesh and PBR materials in one pipeline"
+              "value": "text → GLB",
+              "label": "mesh and realistic materials in one pipeline"
             },
             {
               "value": "Hugging Face Spaces",
-              "label": "deployed with a Docker GPU + Blender image"
+              "label": "deployed online, Docker GPU + Blender image"
             }
           ]
         }
@@ -152,24 +215,25 @@ export const en: Content = {
       "org": "AXIO · AI-driven interactive learning platform",
       "role": "Full-stack Developer, part-time",
       "dates": "Jan 2025 – Jun 2025 · Tunis",
-      "intro": "An adaptive learning platform, built part-time alongside my engineering degree.",
+      "intro": "AXIO is an online learning platform that adapts to each learner. I worked on it part-time during my engineering degree, on both the server side and the interface.",
       "cases": [
         {
           "id": "learning",
-          "kicker": "Adaptive learning with an LLM agent",
-          "title": "Noticing the stuck learner, and unblocking them",
+          "kicker": "Adaptive learning with an AI assistant",
+          "title": "Noticing when a learner is stuck, and helping at that moment",
+          "summary": "I built a learning platform that adapts the course to each learner and brings in an AI assistant when it detects they are stuck.",
           "problem": "Every learner moves at a different pace, and a learner who is stuck needs help at that moment, not at the end of the course.",
-          "built": "An adaptive learning platform: it tracks each learner's progress and curates the path, choosing the next lessons to fit. Modular architecture with fine-grained access control.",
-          "measured": "Frustration is detected from time-on-task signals; when it is, an LLM agent with RAG over the course documentation steps in to unblock the learner. Releases go through CI/CD with unit and end-to-end tests.",
+          "built": "An adaptive learning platform: it tracks each learner's progress and curates the path, choosing the next lessons to fit. It is built as independent modules, with fine-grained control over who can access what.",
+          "measured": "The platform detects frustration from how long a learner spends on a task. When it does, an AI agent steps in and answers from the course documentation itself, a technique called RAG (retrieval-augmented generation). Every release goes through automated unit and end-to-end tests (CI/CD).",
           "result": "A platform that reacts to each learner, and a release time cut by 35%.",
           "metrics": [
             {
               "value": "−35%",
-              "label": "release time, with CI/CD and automated tests"
+              "label": "release time, thanks to automated tests and delivery"
             },
             {
-              "value": "RAG agent",
-              "label": "over the course documentation"
+              "value": "AI agent + RAG",
+              "label": "answers from the course documentation"
             }
           ]
         }
@@ -179,29 +243,30 @@ export const en: Content = {
       "org": "Freelance · Upwork and direct clients",
       "role": "Software Engineer",
       "dates": "Jun 2023 – May 2025 · Remote",
-      "intro": "Two years of client work in parallel with my studies: games, automation and trading tools.",
+      "intro": "Two years of freelance work for clients, alongside my studies: games, automation and trading tools.",
       "cases": [
         {
           "id": "emotion",
-          "kicker": "Client work",
-          "title": "Three client problems, three shipped systems",
-          "problem": "Each client came with a different subject: a game that should react to how the player feels, a pre-production process done by hand, and trading tools that used too much CPU.",
-          "built": "Emotion-driven adaptive gameplay (Unity plugin, deep learning) with real-time facial emotion recognition driving gameplay logic; a hyper-casual mobile game designed and shipped in Unity and C#; Gerber image processing automated in Python; expert advisors in MQL4/5 for adaptive risk management.",
-          "measured": "A dashboard analysing players' emotional feedback for the gameplay plugin, and real-time dashboards for the trading tools.",
-          "result": "Pre-production cycles cut by 75% with the Gerber automation, and 70% lower CPU load on the trading tools through multithreading and caching.",
+          "kicker": "Client projects",
+          "title": "Three clients, three problems, three delivered systems",
+          "summary": "As a freelancer I delivered a game system that reacts to the player's emotions, an automation that cut pre-production cycles by 75%, and trading tools using 70% less CPU.",
+          "problem": "Each client came with a different need: a game that adapts to what the player feels, circuit-board image files (Gerber) processed by hand before production, and automated trading programs that used too much of the computer's processor.",
+          "built": "A plugin for the Unity game engine that recognises the player's facial emotion in real time with deep learning and drives the game logic with it. A hyper-casual mobile game, designed and shipped with Unity and C#. A Python program that processes Gerber images automatically. And expert advisors (automated trading programs, in MQL4/5) that manage risk adaptively.",
+          "measured": "A dashboard analysing players' emotional feedback for the game plugin, and real-time dashboards for the trading programs.",
+          "result": "Pre-production cycles cut by 75% with the Gerber automation, and 70% lower CPU load on the trading programs through multithreading and caching.",
           "metrics": [
             {
               "value": "−75%",
-              "label": "pre-production cycles (Gerber automation)"
+              "label": "pre-production cycles, Gerber automation"
             },
             {
               "value": "−70%",
-              "label": "CPU load (trading automation)"
+              "label": "CPU load, trading programs"
             }
           ]
         }
       ]
-    },
+    }
   ],
   projects: {
     "heading": "Projects",
@@ -353,6 +418,7 @@ export const en: Content = {
   },
   footer: 'Built with Three.js and TypeScript. The island, the karts and the simulations are generated in your browser; nothing here comes from Arcade AI.',
   stage: {
+    phases: ['Problem', 'Build', 'Measure', 'Result'],
     tag: 'Replay',
     aria: '3D replay of the case studies',
     note: 'Replays are built for this site to illustrate each subject. Live readouts describe this page; the figures in the text are the measured ones.',
