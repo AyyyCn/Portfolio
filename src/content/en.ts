@@ -16,7 +16,7 @@ export const en: Content = {
   hero: {
     "role": "Applied AI Engineer",
     "location": "Paris, France",
-    "lead": "I design AI agents for interactive 3D and games, and I measure that they work.",
+    "lead": "I design AI agents for interactive 3D and games, and I measure that they work",
     "profile": "I am an applied AI engineer. I take a subject from start to finish: frame the problem, build the solution, instrument it, measure it and ship it. My ground is where AI agents meet real-time 3D: agent systems, game engines, online multiplayer, generated 3D, effects and sound. Today I do this at Arcade AI, on the agents that turn a written idea into a playable multiplayer game and on the engine they control.",
     "cta": "See the work",
     "what": [

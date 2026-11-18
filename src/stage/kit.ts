@@ -63,8 +63,8 @@ export function line(a: THREE.Vector3, b: THREE.Vector3, color: number = C.dim):
   return new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), new THREE.LineBasicMaterial({ color }));
 }
 
-/** Front-on camera with a slow sway. */
-export function front(cam: CamPose, x: number, y: number, dist: number, time: number, sway = 0.8): void {
-  cam.pos.set(x + Math.sin(time * 0.25) * sway, y + 0.4, dist);
+/** Front-on camera. */
+export function front(cam: CamPose, x: number, y: number, dist: number, _time = 0, _sway = 0): void {
+  cam.pos.set(x, y + 0.4, dist);
   cam.target.set(x, y, 0);
 }

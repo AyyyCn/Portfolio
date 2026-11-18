@@ -212,7 +212,7 @@ export function benchmark(ctx: Ctx): Lens {
         cam.pos.set(5.6, 3.4, 7.2);
         cam.target.set(2.8, 3, 0);
       } else {
-        cam.pos.set(Math.sin(time * 0.2) * 2.5 - 0.9, 5, 13.6);
+        cam.pos.set(-0.9, 5, 13.6);
         cam.target.set(-0.9, 4, -0.5);
       }
 

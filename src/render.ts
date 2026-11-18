@@ -38,7 +38,7 @@ function caseStudy(c: CaseStudy, i: number, content: Content): string {
     ${phases
       .map(
         ([label, text], p) => `<section class="phase" data-phase="${p}">
-      <h4>${esc(label)}</h4>
+      <h4><span class="ticks" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i${k <= p ? ' class="on"' : ''}></i>`).join('')}</span>${esc(label)}</h4>
       <p>${esc(text)}</p>
       ${p === 3 ? bar(c) + metrics(c.metrics) : ''}
     </section>`,
@@ -161,8 +161,6 @@ export function renderBody(c: Content): string {
           <p class="actions">
             <a class="btn btn-primary" href="#work">${esc(c.hero.cta)}</a>
             <a class="btn" href="mailto:${c.contact.email}">${esc(c.contact.email)}</a>
-            <a class="btn" href="${c.contact.linkedin}" rel="me noopener">LinkedIn</a>
-            <a class="btn" href="${c.contact.github}" rel="me noopener">GitHub</a>
           </p>
           <ul class="what">${c.hero.what.map((w) => `<li><strong>${esc(w.title)}</strong><span>${esc(w.text)}</span></li>`).join('')}</ul>
           ${metrics(c.headline, 'tiles tiles-headline')}

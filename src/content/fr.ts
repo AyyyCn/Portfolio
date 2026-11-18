@@ -15,7 +15,7 @@ export const fr: Content = {
   hero: {
     "role": "Ingénieur IA appliquée",
     "location": "Paris, France",
-    "lead": "Je conçois des agents IA pour la 3D interactive et le jeu vidéo, et je mesure qu’ils fonctionnent.",
+    "lead": "Je conçois des agents IA pour la 3D interactive et le jeu vidéo, et je mesure qu’ils fonctionnent",
     "profile": "Je suis ingénieur IA appliquée. Je prends un sujet de bout en bout : cadrer le problème, construire la solution, l’instrumenter, la mesurer et la livrer. Mon terrain est la rencontre entre les agents IA et la 3D temps réel : systèmes d’agents, moteurs de jeu, multijoueur en ligne, 3D, effets et sons générés. Aujourd’hui, je le fais chez Arcade AI, sur les agents qui transforment une idée écrite en jeu multijoueur jouable et sur le moteur qu’ils pilotent.",
     "cta": "Voir les réalisations",
     "what": [

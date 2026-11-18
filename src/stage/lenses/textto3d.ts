@@ -112,7 +112,7 @@ function build(ctx: Ctx): Lens {
         c.g.position.y = Y + 5.6 + Math.sin(time * 1.2 + i) * 0.05;
       });
 
-      cam.pos.set(Math.sin(time * 0.2) * 1.2, Y + 3.6, 12.2);
+      cam.pos.set(0, Y + 3.6, 12.2);
       cam.target.set(0, Y + 2.9, 0);
 
       const t = ctx.t;

@@ -28,7 +28,7 @@ export interface StageOptions {
   onReady?: () => void;
 }
 
-const BG = 0x0a0e14;
+const BG = 0x07080d;
 
 export function createStage(opts: StageOptions): Stage {
   const { canvas, lowPower } = opts;
