@@ -358,6 +358,7 @@ export const en: Content = {
     note: 'Replays are built for this site to illustrate each subject. Live readouts describe this page; the figures in the text are the measured ones.',
     scrub: 'Replay position',
     load: 'Load the 3D replay',
+    loading: 'Loading the 3D replay…',
     introTitle: 'One small world, eight subjects',
     introHint: 'Scroll to start the replay · drag to orbit',
     t: {

@@ -118,6 +118,8 @@ function start(stageEl: HTMLElement, data: StageData): void {
 
   const load = async (): Promise<void> => {
     loadBtn.hidden = true;
+    const loading = $('stage-loading');
+    loading.hidden = false;
     const { createStage } = await import('./stage');
     const t0 = performance.now();
     stage = createStage({
@@ -126,6 +128,10 @@ function start(stageEl: HTMLElement, data: StageData): void {
       controls: $('stage-controls'),
       t: { ...data.t, introHint: data.introHint },
       lowPower: narrow.matches || (navigator.hardwareConcurrency ?? 8) <= 4,
+      onReady: () => {
+        loading.hidden = true;
+        performance.measure('stage-first-frame', { start: t0, end: performance.now() });
+      },
     });
     performance.measure('stage-init', { start: t0, end: performance.now() });
     new IntersectionObserver(([e]) => stage?.setVisible(e.isIntersecting)).observe(stageEl);

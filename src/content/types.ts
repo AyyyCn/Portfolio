@@ -57,6 +57,7 @@ export interface Content {
     note: string;
     scrub: string;
     load: string;
+    loading: string;
     introTitle: string;
     introHint: string;
     /** Strings used by the 3D lenses (HUD labels, controls). */

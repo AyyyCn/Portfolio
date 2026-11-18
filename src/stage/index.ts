@@ -24,6 +24,8 @@ export interface StageOptions {
   controls: HTMLElement;
   t: Record<string, string>;
   lowPower: boolean;
+  /** Called once, after the first frame has been drawn. */
+  onReady?: () => void;
 }
 
 const BG = 0x0a0e14;
@@ -125,6 +127,7 @@ export function createStage(opts: StageOptions): Stage {
   const offset = new THREE.Vector3();
   const up = new THREE.Vector3(0, 1, 0);
   let time = 0;
+  let drawn = false;
   let lastNow = performance.now();
 
   const frame = (): void => {
@@ -162,6 +165,11 @@ export function createStage(opts: StageOptions): Stage {
     const t0 = performance.now();
     renderer.render(scene, camera);
     ctx.stats.renderMs += (performance.now() - t0 - ctx.stats.renderMs) * 0.08;
+    if (!drawn) {
+      drawn = true;
+      performance.measure('stage-first-render', { start: t0, end: performance.now() });
+      opts.onReady?.();
+    }
 
     if (hudHtml !== hudShown && t0 - hudAt > 110) {
       opts.hud.innerHTML = hudShown = hudHtml;

@@ -99,6 +99,10 @@ export function renderHead(c: Content): string {
     <meta property="og:title" content="${esc(c.meta.title)}" />
     <meta property="og:description" content="${esc(c.meta.description)}" />
     <meta property="og:url" content="${url}" />
+    <meta property="og:image" content="${SITE}/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:locale" content="${c.lang === 'fr' ? 'fr_FR' : 'en_US'}" />
     <script type="application/ld+json">${JSON.stringify(ld).replace(/</g, '\\u003c')}</script>`;
 }
@@ -135,6 +139,7 @@ export function renderBody(c: Content): string {
           <div class="hud" id="hud" aria-hidden="true"></div>
           <div class="stage-controls" id="stage-controls"></div>
           <button class="stage-load" id="stage-load" type="button" hidden>${esc(c.stage.load)}</button>
+          <p class="stage-loading" id="stage-loading" hidden>${esc(c.stage.loading)}</p>
         </div>
         <div class="timeline" id="timeline">
           <ol class="phase-tabs">

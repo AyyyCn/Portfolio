@@ -359,6 +359,7 @@ export const fr: Content = {
     note: 'Les replays sont construits pour ce site afin d’illustrer chaque sujet. Les valeurs en direct décrivent cette page ; les chiffres du texte sont ceux mesurés.',
     scrub: 'Position du replay',
     load: 'Charger le replay 3D',
+    loading: 'Chargement du replay 3D…',
     introTitle: 'Un petit monde, huit sujets',
     introHint: 'Faites défiler pour lancer le replay · glissez pour tourner',
     t: {

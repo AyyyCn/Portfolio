@@ -109,6 +109,7 @@ html:not(.has-stage) .story { max-width: 52rem; margin: 0 auto; }
 
 input[type='range'] { accent-color: var(--accent); }
 
+.stage-loading { position: absolute; inset: 0; margin: auto; width: max-content; height: max-content; font: 0.78rem var(--mono); color: var(--dim); }
 .stage-load { position: absolute; inset: 0; margin: auto; width: max-content; height: max-content; }
 .stage-load, .btn {
   font: 0.85rem var(--mono); color: var(--text); background: var(--panel-2);

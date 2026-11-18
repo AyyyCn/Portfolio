@@ -24,7 +24,7 @@ function boulder(detail: number): THREE.BufferGeometry {
 }
 
 /** A prompt becomes a dense raw mesh, is decimated, then gets its materials. */
-export function textto3d(ctx: Ctx): Lens {
+function build(ctx: Ctx): Lens {
   const root = new THREE.Group();
   root.position.y = Y;
   const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.7, 0.4, 28), new THREE.MeshLambertMaterial({ color: 0x1a222d, flatShading: true }));
@@ -93,5 +93,16 @@ export function textto3d(ctx: Ctx): Lens {
       if (stage === 3) html += row(t.textured, '✓', 'ok');
       ctx.hud(html);
     },
+  };
+}
+
+/** The dense mesh is only generated the first time this replay is shown. */
+export function textto3d(ctx: Ctx): Lens {
+  let lens: Lens | null = null;
+  const get = (): Lens => (lens ??= build(ctx));
+  return {
+    enter: () => get().enter(),
+    exit: () => lens?.exit(),
+    update: (dt, p, time, cam) => get().update(dt, p, time, cam),
   };
 }
