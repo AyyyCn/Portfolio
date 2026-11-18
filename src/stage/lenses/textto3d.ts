@@ -1,8 +1,9 @@
 import * as THREE from 'three';
+import { C, basic, box, labelAt, sceneRoot } from '../kit';
 import { row, type CamPose, type Ctx, type Lens } from '../types';
 import { easeOut } from '../world';
 
-const Y = 12.5;
+const Y = 1.2;
 
 /** Deterministic lumpy displacement, shared by the raw and the decimated mesh. */
 function boulder(detail: number): THREE.BufferGeometry {
@@ -25,8 +26,27 @@ function boulder(detail: number): THREE.BufferGeometry {
 
 /** A prompt becomes a dense raw mesh, is decimated, then gets its materials. */
 function build(ctx: Ctx): Lens {
+  const scene = sceneRoot();
   const root = new THREE.Group();
   root.position.y = Y;
+  scene.add(root);
+
+  // Reference images generated from the prompt; the ranking keeps one.
+  const cards = [0.31, 0.3, 0.33, 0.28].map((hue, i) => {
+    const g = new THREE.Group();
+    g.position.set((i - 1.5) * 1.9, Y + 5.6, -1);
+    const card = box(1.5, 1.5, 0.05, basic(0x1a222d));
+    const blob = new THREE.Mesh(new THREE.CircleGeometry(0.42 + i * 0.05, 7 + i), basic(new THREE.Color().setHSL(hue, 0.25, 0.4).getHex()));
+    blob.position.set(0, -0.1, 0.04);
+    blob.scale.y = 0.75;
+    const frame = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1.6, 1.6, 0.06)), new THREE.LineBasicMaterial({ color: C.teal }));
+    g.add(card, blob, frame);
+    scene.add(g);
+    return { g, frame };
+  });
+  const BEST = 2;
+  labelAt(scene, 'reference images · ranked', 0, Y + 6.85, -1, '#9aa7b4', 0.28);
+  labelAt(scene, 'prompt → image → mesh → retopology → materials → GLB', 0, 0.35, 3.2, '#6f7c8a', 0.24);
   const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.7, 0.4, 28), new THREE.MeshLambertMaterial({ color: 0x1a222d, flatShading: true }));
   pedestal.position.y = -0.2;
   const ring = new THREE.Mesh(new THREE.TorusGeometry(2.05, 0.04, 6, 40), new THREE.MeshBasicMaterial({ color: 0x5dcaa5 }));
@@ -69,10 +89,12 @@ function build(ctx: Ctx): Lens {
 
   return {
     enter() {
-      ctx.scene.add(root);
+      ctx.world.root.visible = false;
+      ctx.scene.add(scene);
     },
     exit() {
-      ctx.scene.remove(root);
+      ctx.world.root.visible = true;
+      ctx.scene.remove(scene);
     },
     update(_dt: number, p: number, time: number, cam: CamPose) {
       const stage = p < 0.45 ? 0 : p < 1.55 ? 1 : p < 2.55 ? 2 : 3;
@@ -83,8 +105,15 @@ function build(ctx: Ctx): Lens {
       turn.scale.setScalar(Math.max(0.001, grow));
       turn.rotation.y = time * 0.35;
 
-      cam.pos.set(Math.sin(time * 0.2) * 1.5, Y + 3.4, 8.2);
-      cam.target.set(0, Y + 1.1, 0);
+      cards.forEach((c, i) => {
+        const ranked = p >= 0.25;
+        c.frame.visible = ranked && i === BEST;
+        c.g.scale.setScalar(ranked && i !== BEST ? 0.78 : 1);
+        c.g.position.y = Y + 5.6 + Math.sin(time * 1.2 + i) * 0.05;
+      });
+
+      cam.pos.set(Math.sin(time * 0.2) * 1.2, Y + 3.6, 12.2);
+      cam.target.set(0, Y + 2.9, 0);
 
       const t = ctx.t;
       let html = row(t.prompt, t.promptText);

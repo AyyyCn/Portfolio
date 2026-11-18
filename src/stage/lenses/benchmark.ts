@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { cells, row, type CamPose, type Ctx, type Lens } from '../types';
+import { label } from '../kit';
 import { clamp01, easeOut } from '../world';
 
 // The harness itself, not a game: a tool-use loop (model → tool → validation
@@ -16,24 +17,6 @@ const SPECIALISTS: { name: string; color: number; tiles: number[] }[] = [
   { name: 'audio', color: 0xf2c14e, tiles: [10] },
 ];
 const OWNER = Array.from({ length: FEATURES }, (_, i) => SPECIALISTS.findIndex((s) => s.tiles.includes(i)));
-
-function label(text: string, color = '#9aa7b4', height = 0.42): THREE.Sprite {
-  const canvas = document.createElement('canvas');
-  const g = canvas.getContext('2d')!;
-  const font = '600 44px ui-monospace, Menlo, Consolas, monospace';
-  g.font = font;
-  canvas.width = Math.ceil(g.measureText(text).width) + 16;
-  canvas.height = 60;
-  g.font = font;
-  g.fillStyle = color;
-  g.textBaseline = 'middle';
-  g.fillText(text, 8, 32);
-  const tex = new THREE.CanvasTexture(canvas);
-  tex.colorSpace = THREE.SRGBColorSpace;
-  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false }));
-  sprite.scale.set((canvas.width / canvas.height) * height, height, 1);
-  return sprite;
-}
 
 export function benchmark(ctx: Ctx): Lens {
   const root = new THREE.Group();
@@ -68,7 +51,7 @@ export function benchmark(ctx: Ctx): Lens {
   const token = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 8), basic(0xffffff));
   root.add(model, tool, gate, token);
   for (const [text, a, dx, dy] of [['model', A_MODEL, 0, 0.75], ['tool', A_TOOL, 0.95, -0.35], ['gate', A_GATE, -0.15, -1.0]] as const) {
-    const l = label(text);
+    const l = label(text, '#9aa7b4', 0.42);
     onRing(a, l.position);
     l.position.x += dx;
     l.position.y += dy;

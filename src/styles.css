@@ -206,8 +206,8 @@ input[type='range'] { accent-color: var(--accent); }
   .top nav { justify-content: flex-start; }
   .stage-head { padding: 6px 12px; min-height: 30px; }
   .timeline { padding: 4px 12px 6px; }
-  .hud { left: 8px; top: 8px; font-size: 0.68rem; padding: 6px 8px; }
-  .stage-controls { right: 8px; top: auto; bottom: 8px; }
+  .hud { left: 8px; top: auto; bottom: 8px; font-size: 0.64rem; line-height: 1.4; padding: 5px 8px; background: rgba(10, 14, 20, 0.6); }
+  .stage-controls { right: 8px; top: 8px; }
   .ctl input[type='range'] { width: 90px; }
   .hero { min-height: 0; padding-top: 28px; }
   .has-stage .phase { min-height: 40svh; }
