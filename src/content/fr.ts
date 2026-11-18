@@ -9,14 +9,14 @@ export const fr: Content = {
   meta: {
     title: 'Adam Ladhari · Ingénieur IA appliquée, systèmes agentiques pour la 3D interactive',
     description:
-      'Adam Ladhari, ingénieur IA appliquée à Paris. Je conçois des agents IA qui transforment une idée écrite en jeu 3D jouable, et le moteur de jeu qu’ils pilotent. Études de cas avec résultats mesurés : benchmarks d’agents, observabilité, multijoueur en ligne, 3D, effets et sons générés.',
+      "Adam Ladhari, ingénieur IA appliquée à Paris. Je conçois des agents IA pour la 3D interactive et le jeu vidéo, et je mène chaque sujet du problème au résultat mesuré. Études de cas : benchmarks d’agents, observabilité, multijoueur en ligne, 3D, effets et sons générés.",
   },
   nav: { work: 'Études de cas', projects: 'Projets', toolbox: 'Outils', contact: 'Contact', skip: 'Aller au contenu' },
   hero: {
     "role": "Ingénieur IA appliquée",
     "location": "Paris, France",
-    "lead": "Je conçois des agents IA qui transforment une idée écrite en jeu 3D jouable.",
-    "profile": "Chez Arcade AI, on décrit un jeu avec ses mots et des agents IA le construisent : le monde, les règles, les effets visuels, le son, l’interface et le multijoueur en ligne. Je travaille sur ces agents et sur le moteur de jeu qu’ils pilotent. Sur chaque sujet que je prends, je cadre le problème, je construis la solution, je la mesure et je la livre.",
+    "lead": "Je conçois des agents IA pour la 3D interactive et le jeu vidéo, et je mesure qu’ils fonctionnent.",
+    "profile": "Je suis ingénieur IA appliquée. Je prends un sujet de bout en bout : cadrer le problème, construire la solution, l’instrumenter, la mesurer et la livrer. Mon terrain est la rencontre entre les agents IA et la 3D temps réel : systèmes d’agents, moteurs de jeu, multijoueur en ligne, 3D, effets et sons générés. Aujourd’hui, je le fais chez Arcade AI, sur les agents qui transforment une idée écrite en jeu multijoueur jouable et sur le moteur qu’ils pilotent.",
     "cta": "Voir les réalisations",
     "what": [
       {

@@ -10,14 +10,14 @@ export const en: Content = {
   meta: {
     title: 'Adam Ladhari · Applied AI Engineer, agentic systems for interactive 3D',
     description:
-      'Adam Ladhari, applied AI engineer in Paris. I build AI agents that turn a written idea into a playable 3D game, and the game engine they control. Case studies with measured results: agent benchmarks, observability, online multiplayer, generated 3D, effects and sound.',
+      "Adam Ladhari, applied AI engineer in Paris. I design AI agents for interactive 3D and games, and take each subject from problem to measured result. Case studies: agent benchmarks, observability, online multiplayer, generated 3D, effects and sound.",
   },
   nav: { work: 'Case studies', projects: 'Projects', toolbox: 'Toolbox', contact: 'Contact', skip: 'Skip to content' },
   hero: {
     "role": "Applied AI Engineer",
     "location": "Paris, France",
-    "lead": "I build AI agents that turn a written idea into a playable 3D game.",
-    "profile": "At Arcade AI, someone describes a game in plain words and AI agents build it: the world, the rules, the visual effects, the sound, the interface and the online multiplayer. I work on those agents and on the game engine they control. On every subject I take on, I frame the problem, build the solution, measure it and ship it.",
+    "lead": "I design AI agents for interactive 3D and games, and I measure that they work.",
+    "profile": "I am an applied AI engineer. I take a subject from start to finish: frame the problem, build the solution, instrument it, measure it and ship it. My ground is where AI agents meet real-time 3D: agent systems, game engines, online multiplayer, generated 3D, effects and sound. Today I do this at Arcade AI, on the agents that turn a written idea into a playable multiplayer game and on the engine they control.",
     "cta": "See the work",
     "what": [
       {
