@@ -11,7 +11,8 @@ export function overview(ctx: Ctx): Lens {
   const w = ctx.world;
   const bots = new Bots(w);
   let clock = 0;
-  let built = false;
+  // ?built skips the opening (used when capturing the share image).
+  let built = new URLSearchParams(location.search).has('built');
 
   return {
     enter() {
