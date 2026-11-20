@@ -1,4 +1,4 @@
-import type { CaseStudy, Content, Metric, Project, WorkGroup } from './content/types';
+import type { CaseStudy, Content, Job, Metric, Project } from './content/types';
 
 const SITE = 'https://adam-ladhari.me';
 
@@ -21,41 +21,46 @@ function bar(c: CaseStudy): string {
   </div>`;
 }
 
-function caseStudy(c: CaseStudy, i: number, content: Content): string {
-  const n = String(i + 1).padStart(2, '0');
-  const phases: [string, string][] = [
-    [content.phases[0], c.problem],
-    [content.phases[1], c.built],
-    [content.phases[2], c.measured],
-    [content.phases[3], c.result],
-  ];
-  return `<article class="case" id="case-${c.id}" data-case="${i}" data-lens="${c.id}">
-    <header class="case-head">
-      <p class="kicker"><span class="case-num">${n}</span> ${esc(c.kicker)}</p>
+function workCard(c: CaseStudy, org: string, i: number, content: Content): string {
+  const w = content.workSection;
+  const steps: string[] = [c.problem, c.built, c.measured, c.result];
+  return `<article class="work-card" id="case-${c.id}" data-case="${i}" data-lens="${c.id}">
+    <button class="work-thumb" type="button" data-open="${i}" aria-label="${esc(w.demo)}: ${esc(c.title)}" tabindex="-1">
+      <img src="/work/${c.id}.jpg" alt="" loading="lazy" decoding="async" width="1200" height="675" />
+    </button>
+    <div class="work-body">
+      <p class="kicker">${esc(org)} · ${esc(c.kicker)}</p>
       <h3>${esc(c.title)}</h3>
-      <p class="case-summary">${esc(c.summary)}</p>
-    </header>
-    ${phases
-      .map(
-        ([label, text], p) => `<section class="phase" data-phase="${p}">
-      <h4><span class="ticks" aria-hidden="true">${[0, 1, 2, 3].map((k) => `<i${k <= p ? ' class="on"' : ''}></i>`).join('')}</span>${esc(label)}</h4>
-      <p>${esc(text)}</p>
-      ${p === 3 ? bar(c) + metrics(c.metrics) : ''}
-    </section>`,
-      )
-      .join('\n')}
+      <p class="work-summary">${esc(c.summary)}</p>
+      ${c.metrics.length ? `<p class="work-figure"><strong>${esc(c.metrics[0].value)}</strong> ${esc(c.metrics[0].label)}</p>` : ''}
+      <p class="work-actions">
+        <button class="btn btn-primary btn-sm" type="button" data-open="${i}" hidden>${esc(w.demo)}</button>
+      </p>
+      <details class="work-details">
+        <summary>${esc(w.read)}</summary>
+        ${steps
+          .map(
+            (text, k) => `<section class="step" data-step="${k}">
+          <h4>${esc(content.phases[k])}</h4>
+          <p>${esc(text)}</p>
+          ${k === 3 ? bar(c) + metrics(c.metrics) : ''}
+        </section>`,
+          )
+          .join('')}
+      </details>
+    </div>
   </article>`;
 }
 
-function workGroup(g: WorkGroup, first: number, content: Content): string {
-  return `<section class="group">
-    <header class="section-head">
-      <h3 class="group-org">${esc(g.org)}</h3>
-      <p class="job-meta">${esc(g.role)} · ${esc(g.dates)}</p>
-      <p>${esc(g.intro)}</p>
-    </header>
-    ${g.cases.map((k, i) => caseStudy(k, first + i, content)).join('\n')}
-  </section>`;
+function job(j: Job): string {
+  return `<li class="job">
+    <div class="job-when"><span>${esc(j.dates)}</span><span>${esc(j.place)}</span></div>
+    <div class="job-what">
+      <h3>${esc(j.role)}</h3>
+      <p class="job-org"><strong>${esc(j.org)}</strong> · ${esc(j.orgNote)}</p>
+      ${j.points.length ? `<ul>${j.points.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
+    </div>
+  </li>`;
 }
 
 function project(p: Project, code: string): string {
@@ -109,92 +114,70 @@ export function renderHead(c: Content): string {
 }
 
 export function renderBody(c: Content): string {
+  const all = c.work.flatMap((g) => g.cases.map((k) => ({ k, org: g.org.split(' · ')[0] })));
   const stageData = {
     t: c.stage.t,
-    phases: c.stage.phases,
-    introTitle: c.stage.introTitle,
+    phases: c.phases,
     introHint: c.stage.introHint,
-    introCaption: c.stage.introCaption,
-    cases: c.work.flatMap((g) => g.cases).map((k) => ({ id: k.id, title: k.kicker, captions: k.captions })),
+    cases: all.map(({ k, org }) => ({ id: k.id, title: k.title, org, kicker: k.kicker, captions: k.captions })),
   };
+  const w = c.workSection;
   return `<a class="skip" href="#main">${esc(c.nav.skip)}</a>
   <header class="top">
     <a class="brand" href="${c.path}">Adam Ladhari</a>
     <nav aria-label="Primary">
+      <a href="#about">${esc(c.nav.about)}</a>
+      <a href="#experience">${esc(c.nav.experience)}</a>
       <a href="#work">${esc(c.nav.work)}</a>
       <a href="#projects">${esc(c.nav.projects)}</a>
-      <a href="#toolbox">${esc(c.nav.toolbox)}</a>
       <a href="#contact">${esc(c.nav.contact)}</a>
     </nav>
     <a class="lang" href="${c.altPath}" hreflang="${c.lang === 'fr' ? 'en' : 'fr'}" lang="${c.lang === 'fr' ? 'en' : 'fr'}">${esc(c.altLabel)}</a>
   </header>
 
   <main id="main">
-    <div class="replay">
-      <aside class="stage" id="stage" hidden aria-label="${esc(c.stage.aria)}">
-        <div class="stage-head">
-          <span class="stage-tag">${esc(c.stage.tag)}</span>
-          <span class="stage-title" id="stage-title">${esc(c.stage.introTitle)}</span>
-          <span class="stage-nav">
-            <button type="button" id="stage-prev" aria-label="${esc(c.stage.prev)}">←</button>
-            <span id="stage-count"></span>
-            <button type="button" id="stage-next" aria-label="${esc(c.stage.next)}">→</button>
-          </span>
-        </div>
-        <div class="stage-view">
-          <canvas id="stage-canvas"></canvas>
-          <div class="hud" id="hud" aria-hidden="true"></div>
-          <div class="stage-controls" id="stage-controls"></div>
-          <button class="stage-load" id="stage-load" type="button" hidden>${esc(c.stage.load)}</button>
-          <p class="stage-loading" id="stage-loading" hidden>${esc(c.stage.loading)}</p>
-        </div>
-        <p class="stage-caption" id="stage-caption" aria-hidden="true">${esc(c.stage.introCaption)}</p>
-        <div class="timeline" id="timeline">
-          <ol class="phase-tabs">
-            ${c.stage.phases.map((p, i) => `<li><button type="button" data-goto="${i}">${esc(p)}</button></li>`).join('')}
-          </ol>
-          <input id="scrub" type="range" min="0" max="300" value="0" aria-label="${esc(c.stage.scrub)}" />
-        </div>
-        <p class="stage-note">${esc(c.stage.note)}</p>
-        <script type="application/json" id="stage-data">${JSON.stringify(stageData).replace(/</g, '\\u003c')}</script>
-      </aside>
-
-      <div class="story">
-        <section class="hero" id="top">
-          <p class="eyebrow">${esc(c.hero.role)} · ${esc(c.hero.location)}</p>
-          <h1>Adam Ladhari</h1>
-          <p class="lead">${esc(c.hero.lead)}</p>
-          <p class="actions">
-            <a class="btn btn-primary" href="#work">${esc(c.hero.cta)}</a>
-            <a class="btn" href="#summary">${esc(c.hero.cta2)}</a>
-          </p>
-          <p class="cue">${esc(c.hero.cue)}</p>
-        </section>
-
-        <section class="summary" id="summary">
-          <h2>${esc(c.hero.summary)}</h2>
-          <p class="profile">${esc(c.hero.profile)}</p>
-          <ul class="what">${c.hero.what.map((w) => `<li><strong>${esc(w.title)}</strong><span>${esc(w.text)}</span></li>`).join('')}</ul>
-          ${metrics(c.headline, 'tiles tiles-headline')}
-          <p class="actions"><a class="btn" href="mailto:${c.contact.email}">${esc(c.contact.email)}</a></p>
-        </section>
-
-        <section class="work" id="work">
-          <h2 class="work-title">${esc(c.workHeading)}</h2>
-          <p class="work-intro">${esc(c.workIntro)}</p>
-          ${(() => {
-            let n = 0;
-            return c.work
-              .map((g) => {
-                const html = workGroup(g, n, c);
-                n += g.cases.length;
-                return html;
-              })
-              .join('\n');
-          })()}
-        </section>
+    <section class="hero" id="top">
+      <div class="hero-text">
+        <p class="eyebrow">${esc(c.hero.role)} · ${esc(c.hero.location)}</p>
+        <h1>${esc(c.hero.greeting)}</h1>
+        <p class="lead">${esc(c.hero.lead)}</p>
+        <p class="intro">${esc(c.hero.intro)}</p>
+        <p class="actions">
+          <a class="btn btn-primary" href="#work">${esc(c.hero.cta)}</a>
+          <a class="btn" href="#contact">${esc(c.hero.cta2)}</a>
+        </p>
+        <p class="links">
+          <a href="${c.contact.linkedin}" rel="me noopener">LinkedIn</a>
+          <a href="${c.contact.github}" rel="me noopener">GitHub</a>
+          <a href="mailto:${c.contact.email}">${esc(c.contact.email)}</a>
+        </p>
       </div>
-    </div>
+      <figure class="hero-visual">
+        <div class="viewer-slot" id="hero-slot">
+          <img class="viewer-poster" src="/og-island.jpg" alt="" width="1200" height="900" />
+        </div>
+        <figcaption>${esc(c.hero.viewer)}</figcaption>
+      </figure>
+    </section>
+
+    <section class="band about" id="about">
+      <h2>${esc(c.about.heading)}</h2>
+      <div class="about-grid">
+        <div class="about-text">${c.about.paragraphs.map((p) => `<p>${esc(p)}</p>`).join('')}</div>
+        <dl class="facts">${c.about.facts.map((f) => `<div><dt>${esc(f.label)}</dt><dd>${esc(f.value)}</dd></div>`).join('')}</dl>
+      </div>
+    </section>
+
+    <section class="band" id="experience">
+      <h2>${esc(c.experience.heading)}</h2>
+      <ol class="timeline-list">${c.experience.jobs.map(job).join('')}</ol>
+    </section>
+
+    <section class="band" id="work">
+      <h2>${esc(w.heading)}</h2>
+      <p class="band-intro">${esc(w.intro)}</p>
+      <div class="work-grid">${all.map(({ k, org }, i) => workCard(k, org, i, c)).join('')}</div>
+    </section>
 
     <section class="band" id="projects">
       <h2>${esc(c.projects.heading)}</h2>
@@ -203,18 +186,18 @@ export function renderBody(c: Content): string {
         .map(
           (g) => `<section class="project-group">
         <h3>${esc(g.label)}</h3>
-        <div class="projects">${g.items.map((p) => project(p, c.projects.code)).join('\n')}</div>
+        <div class="projects">${g.items.map((p) => project(p, c.projects.code)).join('')}</div>
       </section>`,
         )
-        .join('\n')}
+        .join('')}
     </section>
 
     <section class="band band-split">
-      <div id="toolbox">
+      <div id="skills">
         <h2>${esc(c.toolbox.heading)}</h2>
         <dl class="defs">${c.toolbox.groups.map((g) => `<div><dt>${esc(g.label)}</dt><dd>${esc(g.details)}</dd></div>`).join('')}</dl>
       </div>
-      <div id="education">
+      <div id="awards">
         <h2>${esc(c.education.heading)}</h2>
         <dl class="defs">${c.education.items.map((g) => `<div><dt>${esc(g.label)}</dt><dd>${esc(g.details)}</dd></div>`).join('')}</dl>
       </div>
@@ -233,5 +216,35 @@ export function renderBody(c: Content): string {
     </section>
   </main>
 
-  <footer class="foot"><p>© Adam Ladhari. ${esc(c.footer)}</p></footer>`;
+  <footer class="foot"><p>© Adam Ladhari. ${esc(c.footer)}</p></footer>
+
+  <div class="viewer" id="viewer" hidden>
+    <canvas id="stage-canvas" aria-label="${esc(c.stage.aria)}"></canvas>
+    <div class="hud" id="hud" aria-hidden="true"></div>
+    <div class="stage-controls" id="stage-controls"></div>
+    <p class="stage-loading" id="stage-loading" hidden>${esc(c.stage.loading)}</p>
+  </div>
+
+  <dialog class="demo" id="demo" aria-labelledby="demo-title">
+    <div class="demo-inner">
+      <header class="demo-head">
+        <div>
+          <p class="kicker" id="demo-kicker"></p>
+          <h2 id="demo-title"></h2>
+        </div>
+        <button class="icon-btn" type="button" id="demo-close" aria-label="${esc(w.close)}">✕</button>
+      </header>
+      <div class="demo-stage">
+        <div class="viewer-slot" id="demo-slot"></div>
+        <p class="demo-caption" id="demo-caption" aria-live="polite"></p>
+      </div>
+      <nav class="demo-steps" aria-label="${esc(c.stage.scrub)}">
+        <button class="icon-btn" type="button" id="demo-prev" aria-label="${esc(w.prev)}">←</button>
+        <ol>${c.phases.map((p, i) => `<li><button type="button" data-step="${i}"><span class="step-num">${i + 1}</span>${esc(p)}</button></li>`).join('')}</ol>
+        <button class="icon-btn" type="button" id="demo-next" aria-label="${esc(w.next)}">→</button>
+      </nav>
+      <div class="demo-text" id="demo-text"></div>
+    </div>
+  </dialog>
+  <script type="application/json" id="stage-data">${JSON.stringify(stageData).replace(/</g, '\\u003c')}</script>`;
 }

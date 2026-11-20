@@ -1,20 +1,20 @@
 import type { LensId } from './content/types';
 import type { Stage } from './stage';
 
-// The page is complete static HTML. Everything here is enhancement: scroll
-// tracking for the case studies and, when the device can do it, the 3D replay.
+// The page is complete static HTML. This adds the 3D: an island in the hero,
+// and one interactive demo per piece of work, opened on demand in a dialog.
 
 interface StageData {
   t: Record<string, string>;
   phases: string[];
-  introTitle: string;
   introHint: string;
-  introCaption: string;
-  cases: { id: LensId; title: string; captions: string[] }[];
+  cases: { id: LensId; title: string; org: string; kicker: string; captions: string[] }[];
 }
 
-const stageEl = document.getElementById('stage');
+const $ = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;
+const params = new URLSearchParams(location.search);
 const dataEl = document.getElementById('stage-data');
+const data = JSON.parse(dataEl?.textContent ?? '{}') as StageData;
 
 function webglAvailable(): boolean {
   try {
@@ -24,165 +24,162 @@ function webglAvailable(): boolean {
   }
 }
 
-// ?static forces the text-only page (what a device without WebGL gets).
-const forceStatic = new URLSearchParams(location.search).has('static');
+const viewer = $('viewer');
+const heroSlot = $('hero-slot');
+const demoSlot = $('demo-slot');
+const narrow = window.matchMedia('(max-width: 899px)');
+let stage: Stage | null = null;
 
-if (stageEl && dataEl && !forceStatic && webglAvailable()) start(stageEl, JSON.parse(dataEl.textContent ?? '{}') as StageData);
+async function loadStage(): Promise<Stage> {
+  if (stage) return stage;
+  const loading = $('stage-loading');
+  loading.hidden = false;
+  // The 3D labels are drawn to canvases, so their font has to be loaded first.
+  const [{ createStage }] = await Promise.all([
+    import('./stage'),
+    document.fonts.load('500 44px "Geist Mono Variable"').catch(() => []),
+  ]);
+  if (stage) return stage;
+  stage = createStage({
+    canvas: $<HTMLCanvasElement>('stage-canvas'),
+    hud: $('hud'),
+    controls: $('stage-controls'),
+    t: { ...data.t, introHint: data.introHint },
+    lowPower: narrow.matches || (navigator.hardwareConcurrency ?? 8) <= 4,
+    onReady: () => {
+      loading.hidden = true;
+      document.documentElement.classList.add('stage-ready');
+    },
+  });
+  // Moving the viewer between the hero and the dialog can queue several entries: the last one is current.
+  new IntersectionObserver((entries) => stage?.setVisible(entries[entries.length - 1].isIntersecting)).observe(viewer);
+  return stage;
+}
 
-function start(stageEl: HTMLElement, data: StageData): void {
-  const $ = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;
-  const canvas = $<HTMLCanvasElement>('stage-canvas');
-  const title = $('stage-title');
-  const timeline = $('timeline');
-  const scrub = $<HTMLInputElement>('scrub');
-  const loadBtn = $<HTMLButtonElement>('stage-load');
-  const tabs = [...timeline.querySelectorAll<HTMLButtonElement>('[data-goto]')];
-  const caption = $('stage-caption');
-  const count = $('stage-count');
-  const prevBtn = $<HTMLButtonElement>('stage-prev');
-  const nextBtn = $<HTMLButtonElement>('stage-next');
-  const cases = [...document.querySelectorAll<HTMLElement>('.case')].map((el) => ({
-    el,
-    phases: [...el.querySelectorAll<HTMLElement>('.phase')],
-  }));
-  const narrow = window.matchMedia('(max-width: 899px)');
+/** Capture mode renders one scene full-window, for the static thumbnails. */
+function capture(): void {
+  document.documentElement.classList.add('capture');
+  viewer.hidden = false;
+  document.body.append(viewer);
+  const lens = params.get('capture') as LensId | 'intro';
+  const p = Number(params.get('p') ?? 3);
+  void loadStage().then((s) => s.setState(lens, p));
+}
 
-  stageEl.hidden = false;
+function start(): void {
   document.documentElement.classList.add('has-stage');
-
-  let stage: Stage | null = null;
-  let active = -2;
-  let p = 0;
-  let scrubbing = false;
-
-  /** The viewport line the story is "read" at: mid-screen, or mid-way below the pinned stage. */
-  const refY = (): number => {
-    if (!narrow.matches) return window.innerHeight * 0.5;
-    const bottom = stageEl.getBoundingClientRect().bottom;
-    return bottom + (window.innerHeight - bottom) * 0.45;
-  };
-  const centre = (el: HTMLElement): number => {
-    const r = el.getBoundingClientRect();
-    return r.top + r.height / 2;
-  };
-
-  const render = (): void => {
-    const ref = refY();
-    let next = -1;
-    cases.forEach((c, i) => {
-      if (c.el.getBoundingClientRect().top <= ref) next = i;
-    });
-    let np = 0;
-    if (next >= 0) {
-      const cs = cases[next].phases.map(centre);
-      if (ref >= cs[3]) np = 3;
-      else if (ref > cs[0]) {
-        const k = cs.findIndex((c, i) => i < 3 && ref >= c && ref < cs[i + 1]);
-        np = k + (ref - cs[k]) / (cs[k + 1] - cs[k]);
-      }
-    }
-    const phase = Math.round(np);
-    if (next !== active) {
-      title.textContent = next < 0 ? data.introTitle : data.cases[next].title;
-      count.textContent = next < 0 ? '' : `${String(next + 1).padStart(2, '0')} / ${String(cases.length).padStart(2, '0')}`;
-      prevBtn.disabled = next < 0;
-      nextBtn.disabled = next >= cases.length - 1;
-      timeline.classList.toggle('off', next < 0);
-      // A short dip so one scene does not snap into the next.
-      canvas.classList.remove('swap');
-      void canvas.offsetWidth;
-      canvas.classList.add('swap');
-    }
-    const line = next < 0 ? data.introCaption : data.cases[next].captions[phase];
-    if (caption.textContent !== line) caption.textContent = line;
-    cases.forEach((c, i) => c.phases.forEach((el, k) => el.classList.toggle('on', i === next && k === phase)));
-    tabs.forEach((b, k) => b.classList.toggle('on', next >= 0 && k === phase));
-    if (!scrubbing) scrub.value = String(Math.round(np * 100));
-    active = next;
-    p = np;
-    stage?.setState(next < 0 ? 'intro' : data.cases[next].id, np);
-  };
-
-  let queued = false;
-  const onScroll = (): void => {
-    if (queued) return;
-    queued = true;
-    requestAnimationFrame(() => {
-      queued = false;
-      render();
-    });
-  };
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll);
-
-  /** Scroll so that replay position q of the active case sits on the reading line. */
-  const goto = (q: number, smooth: boolean): void => {
-    if (active < 0) return;
-    const cs = cases[active].phases.map(centre);
-    const k = Math.min(2, Math.floor(q));
-    const y = cs[k] + (cs[k + 1] - cs[k]) * (q - k);
-    window.scrollTo({ top: window.scrollY + y - refY(), behavior: smooth ? 'smooth' : 'instant' });
-  };
-  scrub.addEventListener('input', () => {
-    scrubbing = true;
-    goto(Number(scrub.value) / 100, false);
-  });
-  scrub.addEventListener('change', () => (scrubbing = false));
-  tabs.forEach((b) => b.addEventListener('click', () => goto(Number(b.dataset.goto), true)));
-
-  /** Jump to a step of a case (or back to the top for case -1). */
-  const jump = (caseIndex: number, phase: number): void => {
-    if (caseIndex < 0) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-    const y = centre(cases[Math.min(cases.length - 1, caseIndex)].phases[phase]);
-    window.scrollTo({ top: window.scrollY + y - refY(), behavior: 'smooth' });
-  };
-  prevBtn.addEventListener('click', () => jump(active - 1, 0));
-  nextBtn.addEventListener('click', () => jump(active + 1, 0));
-  // Arrow keys step through the tour one step at a time.
-  window.addEventListener('keydown', (e) => {
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
-    const tag = (e.target as HTMLElement).tagName;
-    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-    const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-    if (!dir) return;
-    e.preventDefault();
-    const step = (active < 0 ? -1 : active * 4 + Math.round(p)) + dir;
-    if (step < 0) jump(-1, 0);
-    else if (step < cases.length * 4) jump(Math.floor(step / 4), step % 4);
+  viewer.hidden = false;
+  heroSlot.append(viewer);
+  document.querySelectorAll<HTMLElement>('[data-open]').forEach((b) => {
+    b.hidden = false;
+    b.tabIndex = 0;
   });
 
-  const load = async (): Promise<void> => {
-    loadBtn.hidden = true;
-    const loading = $('stage-loading');
-    loading.hidden = false;
-    // The 3D labels are drawn to canvases, so their font has to be loaded first.
-    const [{ createStage }] = await Promise.all([import('./stage'), document.fonts.load('500 44px "Geist Mono Variable"').catch(() => [])]);
-    const t0 = performance.now();
-    stage = createStage({
-      canvas,
-      hud: $('hud'),
-      controls: $('stage-controls'),
-      t: { ...data.t, introHint: data.introHint },
-      lowPower: narrow.matches || (navigator.hardwareConcurrency ?? 8) <= 4,
-      // Width of the soft fade on the left edge of the view (none on narrow screens).
-      inset: () => (narrow.matches ? 0 : 96),
-      onReady: () => {
-        loading.hidden = true;
-        performance.measure('stage-first-frame', { start: t0, end: performance.now() });
-      },
-    });
-    performance.measure('stage-init', { start: t0, end: performance.now() });
-    new IntersectionObserver(([e]) => stage?.setVisible(e.isIntersecting)).observe(stageEl);
-    stage.setState(active < 0 ? 'intro' : data.cases[active].id, p);
-  };
-
-  render();
+  // The hero island loads right away unless the visitor asked for less motion or data.
   const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || conn?.saveData) {
-    loadBtn.hidden = false;
-    loadBtn.addEventListener('click', () => void load(), { once: true });
-  } else void load();
+  const quiet = window.matchMedia('(prefers-reduced-motion: reduce)').matches || conn?.saveData;
+  if (!quiet) void loadStage().then((s) => s.setState('intro', 0));
+
+  // --- demo dialog --------------------------------------------------------------
+  const dialog = $<HTMLDialogElement>('demo');
+  const kicker = $('demo-kicker');
+  const title = $('demo-title');
+  const caption = $('demo-caption');
+  const text = $('demo-text');
+  const stepBtns = [...dialog.querySelectorAll<HTMLButtonElement>('[data-step]')];
+  const prev = $<HTMLButtonElement>('demo-prev');
+  const next = $<HTMLButtonElement>('demo-next');
+
+  let current = -1;
+  let target = 0;
+  let p = 0;
+  let autoplay = true;
+  let stepTimer = 0;
+  let raf = 0;
+  let last = 0;
+
+  const show = (step: number, user: boolean): void => {
+    target = Math.max(0, Math.min(3, step));
+    if (user) autoplay = false;
+    stepTimer = 0;
+    stepBtns.forEach((b, k) => {
+      b.classList.toggle('on', k === target);
+      b.classList.toggle('done', k < target);
+      if (k === target) b.setAttribute('aria-current', 'step');
+      else b.removeAttribute('aria-current');
+    });
+    prev.disabled = target === 0;
+    next.disabled = target === 3;
+    caption.textContent = data.cases[current].captions[target];
+    const card = document.querySelectorAll<HTMLElement>('.work-card')[current];
+    const section = card.querySelector<HTMLElement>(`.step[data-step="${target}"]`);
+    text.replaceChildren(...(section ? [section.cloneNode(true)] : []));
+  };
+
+  // Moves the replay towards the chosen step at a steady pace, so each step plays out.
+  const tick = (now: number): void => {
+    // Real elapsed time, so autoplay keeps its pace even when frames are throttled.
+    const elapsed = Math.max(0, (now - last) / 1000 || 0);
+    const dt = Math.min(0.25, elapsed);
+    last = now;
+    const speed = 0.7;
+    p = p < target ? Math.min(target, p + speed * dt) : Math.max(target, p - speed * 2 * dt);
+    stage?.setState(data.cases[current].id, p);
+    if (autoplay && target < 3 && Math.abs(p - target) < 1e-3) {
+      stepTimer += elapsed;
+      if (stepTimer > 5) show(target + 1, false);
+    }
+    raf = requestAnimationFrame(tick);
+  };
+
+  const open = async (index: number): Promise<void> => {
+    current = index;
+    const c = data.cases[index];
+    kicker.textContent = `${c.org} · ${c.kicker}`;
+    title.textContent = c.title;
+    p = 0;
+    autoplay = true;
+    show(0, false);
+    demoSlot.append(viewer);
+    dialog.showModal();
+    const s = await loadStage();
+    s.setState(c.id, 0);
+    last = performance.now();
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(tick);
+  };
+
+  const close = (): void => {
+    cancelAnimationFrame(raf);
+    heroSlot.append(viewer);
+    stage?.setState('intro', 0);
+    current = -1;
+  };
+
+  document.querySelectorAll<HTMLElement>('[data-open]').forEach((b) =>
+    b.addEventListener('click', () => void open(Number(b.dataset.open))),
+  );
+  stepBtns.forEach((b) => b.addEventListener('click', () => show(Number(b.dataset.step), true)));
+  prev.addEventListener('click', () => show(target - 1, true));
+  next.addEventListener('click', () => show(target + 1, true));
+  $('demo-close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('close', close);
+  // A click on the backdrop closes the dialog.
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+  dialog.addEventListener('keydown', (e) => {
+    if ((e.target as HTMLElement).tagName === 'INPUT') return;
+    if (e.key === 'ArrowRight') show(target + 1, true);
+    else if (e.key === 'ArrowLeft') show(target - 1, true);
+  });
+  // Any interaction with the scene itself stops the autoplay.
+  viewer.addEventListener('pointerdown', () => {
+    if (current >= 0) autoplay = false;
+  });
+}
+
+if (dataEl && webglAvailable() && !params.has('static')) {
+  if (params.has('capture')) capture();
+  else start();
 }

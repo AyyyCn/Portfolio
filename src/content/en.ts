@@ -12,61 +12,114 @@ export const en: Content = {
     description:
       "Adam Ladhari, applied AI engineer in Paris. I design AI agents for interactive 3D and games, and take each subject from problem to measured result. Case studies: agent benchmarks, observability, online multiplayer, generated 3D, effects and sound.",
   },
-  nav: { work: 'Case studies', projects: 'Projects', toolbox: 'Toolbox', contact: 'Contact', skip: 'Skip to content' },
+  nav: { about: 'About', experience: 'Experience', work: 'Work', projects: 'Projects', contact: 'Contact', skip: 'Skip to content' },
   hero: {
+    "greeting": "Hi, I'm Adam",
     "role": "Applied AI Engineer",
     "location": "Paris, France",
-    "lead": "I design AI agents for interactive 3D and games, and I measure that they work",
-    "profile": "I am an applied AI engineer. I take a subject from start to finish: frame the problem, build the solution, instrument it, measure it and ship it. My ground is where AI agents meet real-time 3D: agent systems, game engines, online multiplayer, generated 3D, effects and sound. Today I do this at Arcade AI, on the agents that turn a written idea into a playable multiplayer game and on the engine they control.",
-    "cta": "Start the tour",
-    "cta2": "Read the summary",
-    "cue": "Scroll to start · ← → to step",
-    "summary": "In short",
-    "what": [
+    "lead": "I build AI systems for interactive 3D and games.",
+    "intro": "I'm an applied AI engineer at Arcade AI, where people describe a game in plain words and AI agents build it. I work on those agents and on the game engine they control. Before that, I built a text-to-3D tool for a game studio, an AI learning platform, and games and tools for freelance clients.",
+    "cta": "See my work",
+    "cta2": "Get in touch",
+    "viewer": "A small game world, generated in your browser. Drag to turn it"
+  },
+  about: {
+    "heading": "About me",
+    "paragraphs": [
+      "I'm a software engineer specialised in applied AI. I graduated in software engineering from INSAT in Tunis in 2026, after internships and freelance work in games, 3D and AI, and I now work in Paris at Arcade AI.",
+      "What I enjoy most is owning a subject from start to finish: understanding the problem, building the solution, and checking with real tests and measurements that it works before it ships.",
+      "Games are where it started. I won one game jam and placed third in another, and I still build small games and AI experiments to understand how things work."
+    ],
+    "facts": [
       {
-        "title": "AI agents",
-        "text": "Programs built on large language models (GPT, Gemini, Claude) that plan, use tools and check their own work, instead of answering once."
+        "label": "Based in",
+        "value": "Paris, France"
       },
       {
-        "title": "Game engine and 3D",
-        "text": "The software that runs a game: 3D worlds, physics, characters, visual effects, sound and online multiplayer."
+        "label": "Currently",
+        "value": "Applied AI Engineer, Arcade AI"
       },
       {
-        "title": "Measured results",
-        "text": "Benchmarks, profilers and automated tests, so that decisions rest on numbers and not on impressions."
+        "label": "Education",
+        "value": "Software engineering degree, INSAT Tunis, 2026"
+      },
+      {
+        "label": "Focus",
+        "value": "AI agents, game engines, online multiplayer, generated 3D"
       }
     ]
   },
-  headline: [
-    {
-      "value": "8% → 92%",
-      "label": "of the features a player asked for end up in the generated game: an output that only passes format checks, versus the checklist strategy"
-    },
-    {
-      "value": "7",
-      "label": "ways of organising the AI agents, compared on the same test bench"
-    },
-    {
-      "value": "≈100",
-      "label": "computer-controlled characters at a smooth 60 images per second, a measured limit"
-    },
-    {
-      "value": "250 ms",
-      "label": "of network delay absorbed while online shots still land fairly"
-    },
-    {
-      "value": "10+",
-      "label": "complete games and maps shipped to production"
-    }
-  ],
-  workHeading: "Case studies",
-  workIntro: "Each case follows the same four steps: the problem, what I built, how I measured it, and the result. The 3D panel replays it as you scroll.",
-  phases: [
-    "Problem",
-    "What I built",
-    "How I measured",
-    "Result"
-  ],
+  experience: {
+    "heading": "Experience",
+    "jobs": [
+      {
+        "org": "Arcade AI",
+        "orgNote": "AI-native game engine",
+        "role": "Applied AI Engineer",
+        "dates": "Feb 2026 – present",
+        "place": "Paris",
+        "points": [
+          "Core engineer on the AI agent system that turns a written description into a playable 3D multiplayer game, and on the engine it controls.",
+          "Led a study of 7 agent designs: a checklist strategy delivers 92% of the requested game features, against 8% for output that only passes format checks.",
+          "Built the online multiplayer: the server decides what happens, the player's view reacts instantly, and shots stay fair with up to 250 ms of network delay.",
+          "Built, on my own and from scratch, the pipelines that generate 3D models, sounds and visual effects, and the tools to debug agents and profile the engine.",
+          "Shipped 10+ complete games and maps to production, including an online tactical shooter with 34 weapons, kart racers and voxel worlds."
+        ]
+      },
+      {
+        "org": "Lanterns Studio",
+        "orgNote": "Game studio",
+        "role": "AI Programmer Intern",
+        "dates": "Jul – Aug 2025",
+        "place": "Tunis",
+        "points": [
+          "Built a text-to-3D pipeline: from a sentence to a 3D model with realistic materials, in a file a game can load.",
+          "Added automatic clean-up in Blender and quality checks, and deployed the tool online on Hugging Face Spaces."
+        ]
+      },
+      {
+        "org": "AXIO",
+        "orgNote": "AI learning platform",
+        "role": "Full-stack Developer, part-time",
+        "dates": "Jan – Jun 2025",
+        "place": "Tunis",
+        "points": [
+          "Built an adaptive learning platform that picks each learner's next lessons and brings in an AI assistant when a learner gets stuck.",
+          "Set up automated tests and delivery, which cut release time by 35%."
+        ]
+      },
+      {
+        "org": "Freelance",
+        "orgNote": "Upwork and direct clients",
+        "role": "Software Engineer",
+        "dates": "Jun 2023 – May 2025",
+        "place": "Remote",
+        "points": [
+          "A Unity plugin that reads the player's facial emotion in real time and adapts the gameplay to it.",
+          "A hyper-casual mobile game, designed and shipped in Unity.",
+          "Automations that cut a client's pre-production cycles by 75%, and trading tools that use 70% less CPU."
+        ]
+      },
+      {
+        "org": "INSAT",
+        "orgNote": "Engineering school, Tunis",
+        "role": "National Engineering Degree in Software Engineering",
+        "dates": "2021 – 2026",
+        "place": "Tunis",
+        "points": []
+      }
+    ]
+  },
+  workSection: {
+    "heading": "Selected work",
+    "intro": "Eight things I built, explained in plain words. Each one comes with an interactive 3D demo you can open.",
+    "demo": "Open the 3D demo",
+    "read": "Read the details",
+    "close": "Close",
+    "prev": "Previous step",
+    "next": "Next step"
+  },
+  phases: ["The problem", "What I built", "How I checked it", "The result"],
   work: [
     {
       "org": "Arcade AI · AI-native game engine",
@@ -284,7 +337,7 @@ export const en: Content = {
     }
   ],
   projects: {
-    "heading": "Projects",
+    "heading": "More projects",
     "intro": "Personal, jam and university projects: where the taste for games, AI and tools comes from.",
     "code": "Code",
     "groups": [
@@ -390,7 +443,7 @@ export const en: Content = {
     ]
   },
   toolbox: {
-    heading: 'Toolbox',
+    heading: 'Skills',
     groups: [
       {
         label: 'Agentic AI',
@@ -414,9 +467,8 @@ export const en: Content = {
     ],
   },
   education: {
-    heading: 'Education and awards',
+    heading: 'Awards and certificates',
     items: [
-      { label: 'Education', details: 'National Engineering Degree in Software Engineering, INSAT Tunis (2021 – 2026)' },
       { label: 'NVIDIA', details: 'Efficient Large Language Model (LLM) Customization certificate (Oct 2024)' },
       { label: 'Game jams', details: 'Android Club Game Jam, 1st place; Playground Game Jam, 3rd place (2024)' },
       { label: 'CTF', details: 'SparkCTF, 1st place; Cybersphere CTF, 2nd place (2024)' },

@@ -37,7 +37,7 @@ export function overview(ctx: Ctx): Lens {
       } else bots.reset();
 
       const a = time * 0.07 + 0.9;
-      cam.pos.set(Math.cos(a) * 40, 21, Math.sin(a) * 40);
+      cam.pos.set(Math.cos(a) * 41, 23, Math.sin(a) * 41);
       cam.target.set(0, 1, 0);
 
       if (done < FEATURES.length) {

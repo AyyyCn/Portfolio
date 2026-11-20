@@ -30,6 +30,15 @@ export interface WorkGroup {
   cases: CaseStudy[];
 }
 
+export interface Job {
+  org: string;
+  orgNote: string;
+  role: string;
+  dates: string;
+  place: string;
+  points: string[];
+}
+
 export interface Project {
   title: string;
   image: string;
@@ -44,11 +53,11 @@ export interface Content {
   altPath: string;
   altLabel: string;
   meta: { title: string; description: string };
-  nav: { work: string; projects: string; toolbox: string; contact: string; skip: string };
-  hero: { role: string; location: string; lead: string; profile: string; cta: string; cta2: string; cue: string; summary: string; what: { title: string; text: string }[] };
-  headline: Metric[];
-  workHeading: string;
-  workIntro: string;
+  nav: { about: string; experience: string; work: string; projects: string; contact: string; skip: string };
+  hero: { greeting: string; role: string; location: string; lead: string; intro: string; cta: string; cta2: string; viewer: string };
+  about: { heading: string; paragraphs: string[]; facts: { label: string; value: string }[] };
+  experience: { heading: string; jobs: Job[] };
+  workSection: { heading: string; intro: string; demo: string; read: string; close: string; prev: string; next: string };
   phases: [string, string, string, string];
   work: WorkGroup[];
   projects: { heading: string; intro: string; code: string; groups: { label: string; items: Project[] }[] };

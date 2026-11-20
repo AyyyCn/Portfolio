@@ -11,61 +11,114 @@ export const fr: Content = {
     description:
       "Adam Ladhari, ingénieur IA appliquée à Paris. Je conçois des agents IA pour la 3D interactive et le jeu vidéo, et je mène chaque sujet du problème au résultat mesuré. Études de cas : benchmarks d’agents, observabilité, multijoueur en ligne, 3D, effets et sons générés.",
   },
-  nav: { work: 'Études de cas', projects: 'Projets', toolbox: 'Outils', contact: 'Contact', skip: 'Aller au contenu' },
+  nav: { about: 'À propos', experience: 'Parcours', work: 'Réalisations', projects: 'Projets', contact: 'Contact', skip: 'Aller au contenu' },
   hero: {
+    "greeting": "Bonjour, je suis Adam",
     "role": "Ingénieur IA appliquée",
     "location": "Paris, France",
-    "lead": "Je conçois des agents IA pour la 3D interactive et le jeu vidéo, et je mesure qu’ils fonctionnent",
-    "profile": "Je suis ingénieur IA appliquée. Je prends un sujet de bout en bout : cadrer le problème, construire la solution, l’instrumenter, la mesurer et la livrer. Mon terrain est la rencontre entre les agents IA et la 3D temps réel : systèmes d’agents, moteurs de jeu, multijoueur en ligne, 3D, effets et sons générés. Aujourd’hui, je le fais chez Arcade AI, sur les agents qui transforment une idée écrite en jeu multijoueur jouable et sur le moteur qu’ils pilotent.",
-    "cta": "Commencer la visite",
-    "cta2": "Lire le résumé",
-    "cue": "Faites défiler pour commencer · ← → pour avancer",
-    "summary": "En bref",
-    "what": [
+    "lead": "Je conçois des systèmes d’IA pour la 3D interactive et le jeu vidéo.",
+    "intro": "Je suis ingénieur IA appliquée chez Arcade AI, où l’on décrit un jeu avec ses mots et où des agents IA le construisent. Je travaille sur ces agents et sur le moteur de jeu qu’ils pilotent. Avant cela, j’ai construit un outil texte-vers-3D pour un studio de jeux, une plateforme d’apprentissage avec IA, et des jeux et outils pour des clients en freelance.",
+    "cta": "Voir mes réalisations",
+    "cta2": "Me contacter",
+    "viewer": "Un petit monde de jeu, généré dans votre navigateur. Faites-le tourner à la souris"
+  },
+  about: {
+    "heading": "À propos",
+    "paragraphs": [
+      "Je suis ingénieur logiciel spécialisé en IA appliquée. Diplômé en génie logiciel de l’INSAT à Tunis en 2026, après des stages et des missions freelance dans le jeu vidéo, la 3D et l’IA, je travaille aujourd’hui à Paris chez Arcade AI.",
+      "Ce que j’aime le plus, c’est porter un sujet de bout en bout : comprendre le problème, construire la solution, et vérifier par de vrais tests et de vraies mesures qu’elle fonctionne avant de la livrer.",
+      "Tout a commencé par le jeu vidéo. J’ai remporté une game jam et terminé troisième d’une autre, et je continue de créer de petits jeux et des expériences d’IA pour comprendre comment les choses fonctionnent."
+    ],
+    "facts": [
       {
-        "title": "Agents IA",
-        "text": "Des programmes bâtis sur de grands modèles de langage (GPT, Gemini, Claude) qui planifient, utilisent des outils et vérifient leur propre travail, au lieu de répondre une seule fois."
+        "label": "Basé à",
+        "value": "Paris, France"
       },
       {
-        "title": "Moteur de jeu et 3D",
-        "text": "Le logiciel qui fait tourner un jeu : mondes 3D, physique, personnages, effets visuels, son et multijoueur en ligne."
+        "label": "Actuellement",
+        "value": "Ingénieur IA appliquée, Arcade AI"
       },
       {
-        "title": "Résultats mesurés",
-        "text": "Benchmarks, profileurs et tests automatisés, pour que les décisions reposent sur des chiffres et non sur des impressions."
+        "label": "Formation",
+        "value": "Diplôme d’ingénieur en génie logiciel, INSAT Tunis, 2026"
+      },
+      {
+        "label": "Domaines",
+        "value": "Agents IA, moteurs de jeu, multijoueur en ligne, 3D générée"
       }
     ]
   },
-  headline: [
-    {
-      "value": "8 % → 92 %",
-      "label": "des fonctionnalités demandées par le joueur se retrouvent dans le jeu généré : une sortie qui passe seulement les contrôles de format, puis la stratégie par checklist"
-    },
-    {
-      "value": "7",
-      "label": "façons d’organiser les agents IA, comparées sur le même banc d’essai"
-    },
-    {
-      "value": "≈100",
-      "label": "personnages pilotés par l’ordinateur à 60 images par seconde, limite mesurée"
-    },
-    {
-      "value": "250 ms",
-      "label": "de délai réseau absorbé sans fausser les tirs en ligne"
-    },
-    {
-      "value": "10+",
-      "label": "jeux et cartes complets livrés en production"
-    }
-  ],
-  workHeading: "Études de cas",
-  workIntro: "Chaque cas suit les mêmes quatre étapes : le problème, ce que j’ai construit, comment je l’ai mesuré, et le résultat. Le panneau 3D le rejoue au fil du défilement.",
-  phases: [
-    "Problème",
-    "Ce que j’ai construit",
-    "Comment j’ai mesuré",
-    "Résultat"
-  ],
+  experience: {
+    "heading": "Parcours",
+    "jobs": [
+      {
+        "org": "Arcade AI",
+        "orgNote": "Moteur de jeu natif IA",
+        "role": "Ingénieur IA appliquée",
+        "dates": "Fév. 2026 – présent",
+        "place": "Paris",
+        "points": [
+          "Ingénieur central du système d’agents IA qui transforme une description écrite en jeu 3D multijoueur jouable, et du moteur qu’il pilote.",
+          "Mené une étude de 7 architectures d’agents : une stratégie par checklist livre 92 % des fonctionnalités demandées, contre 8 % pour une sortie qui passe seulement les contrôles de format.",
+          "Construit le multijoueur en ligne : le serveur décide de ce qui se passe, la vue du joueur réagit immédiatement, et les tirs restent équitables jusqu’à 250 ms de délai réseau.",
+          "Construit seul, de zéro, les pipelines qui génèrent modèles 3D, sons et effets visuels, ainsi que les outils pour déboguer les agents et profiler le moteur.",
+          "Livré 10+ jeux et cartes complets en production, dont un jeu de tir tactique en ligne avec 34 armes, des jeux de kart et des mondes voxel."
+        ]
+      },
+      {
+        "org": "Lanterns Studio",
+        "orgNote": "Studio de jeux",
+        "role": "Stagiaire Programmeur IA",
+        "dates": "Juil. – Août 2025",
+        "place": "Tunis",
+        "points": [
+          "Construit un pipeline texte-vers-3D : d’une phrase à un modèle 3D avec des matériaux réalistes, dans un fichier qu’un jeu peut charger.",
+          "Ajouté un nettoyage automatique dans Blender et des contrôles qualité, et déployé l’outil en ligne sur Hugging Face Spaces."
+        ]
+      },
+      {
+        "org": "AXIO",
+        "orgNote": "Plateforme d’apprentissage avec IA",
+        "role": "Développeur Fullstack, temps partiel",
+        "dates": "Janv. – Juin 2025",
+        "place": "Tunis",
+        "points": [
+          "Construit une plateforme d’apprentissage adaptatif qui choisit les prochaines leçons de chaque apprenant et fait intervenir un assistant IA quand il bloque.",
+          "Mis en place les tests et la livraison automatisés, ce qui a réduit le temps de release de 35 %."
+        ]
+      },
+      {
+        "org": "Freelance",
+        "orgNote": "Upwork et clients directs",
+        "role": "Ingénieur Logiciel",
+        "dates": "Juin 2023 – Mai 2025",
+        "place": "À distance",
+        "points": [
+          "Un plugin Unity qui lit en temps réel l’émotion sur le visage du joueur et adapte le gameplay.",
+          "Un jeu mobile hyper-casual, conçu et livré sous Unity.",
+          "Des automatisations qui ont réduit de 75 % les cycles de pré-production d’un client, et des outils de trading consommant 70 % de CPU en moins."
+        ]
+      },
+      {
+        "org": "INSAT",
+        "orgNote": "École d’ingénieurs, Tunis",
+        "role": "Diplôme National d’Ingénieur en Génie Logiciel",
+        "dates": "2021 – 2026",
+        "place": "Tunis",
+        "points": []
+      }
+    ]
+  },
+  workSection: {
+    "heading": "Réalisations",
+    "intro": "Huit choses que j’ai construites, expliquées simplement. Chacune s’accompagne d’une démo 3D interactive à ouvrir.",
+    "demo": "Ouvrir la démo 3D",
+    "read": "Lire le détail",
+    "close": "Fermer",
+    "prev": "Étape précédente",
+    "next": "Étape suivante"
+  },
+  phases: ["Le problème", "Ce que j’ai construit", "Comment je l’ai vérifié", "Le résultat"],
   work: [
     {
       "org": "Arcade AI · Moteur de jeu natif IA",
@@ -283,7 +336,7 @@ export const fr: Content = {
     }
   ],
   projects: {
-    "heading": "Projets",
+    "heading": "Autres projets",
     "intro": "Projets personnels, de game jam et universitaires : là d’où vient le goût du jeu, de l’IA et des outils.",
     "code": "Code",
     "groups": [
@@ -389,7 +442,7 @@ export const fr: Content = {
     ]
   },
   toolbox: {
-    heading: 'Outils',
+    heading: 'Compétences',
     groups: [
       {
         label: 'IA agentique',
@@ -413,9 +466,8 @@ export const fr: Content = {
     ],
   },
   education: {
-    heading: 'Formation et distinctions',
+    heading: 'Distinctions et certifications',
     items: [
-      { label: 'Formation', details: 'Diplôme National d’Ingénieur en Génie Logiciel, INSAT Tunis (2021 – 2026)' },
       { label: 'NVIDIA', details: 'Certification « Efficient Large Language Model (LLM) Customization » (oct. 2024)' },
       { label: 'Game jams', details: 'Android Club Game Jam, 1re place ; Playground Game Jam, 3e place (2024)' },
       { label: 'CTF', details: 'SparkCTF, 1re place ; Cybersphere CTF, 2e place (2024)' },
