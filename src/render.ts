@@ -102,7 +102,7 @@ export function renderHead(c: Content): string {
   return `<title>${esc(c.meta.title)}</title>
     <meta name="description" content="${esc(c.meta.description)}" />
     <meta name="author" content="Adam Ladhari" />
-    <meta name="theme-color" content="#f7f6f2" />
+    <meta name="theme-color" content="#fbfbfa" />
     <meta name="color-scheme" content="light" />
     <link rel="canonical" href="${url}" />
     <link rel="alternate" hreflang="en" href="${SITE}/" />
