@@ -1,7 +1,8 @@
 @import '@fontsource-variable/geist/index.css';
 @import '@fontsource-variable/geist-mono/index.css';
 
-/* Apple-like: system type, white and light-grey bands, centred headlines, rounded tiles, blue pills.
+/* iOS-style liquid glass: frosted translucent panels over a soft colour field, system type,
+   centred headlines, capsule controls.
    The 3D case demos stay dark, framed like screens.
    Earlier design pass followed "unslop" by Damir Sokolovsky (@heydamir), CC BY 4.0. */
 
@@ -171,7 +172,6 @@ input[type='range'] { accent-color: var(--v-accent); }
 
 /* Sections */
 .band { max-width: 1024px; margin: 0 auto; padding: 112px var(--gutter); display: grid; gap: 40px; }
-.band:nth-of-type(even) { background: var(--alt); box-shadow: 0 0 0 100vmax var(--alt); clip-path: inset(0 -100vmax); }
 .band > h2 { text-align: center; }
 .band-intro { color: var(--text-2); max-width: 680px; margin: -24px auto 0; text-align: center; font-size: 21px; line-height: 1.38; letter-spacing: 0.011em; }
 
@@ -284,6 +284,86 @@ input[type='range'] { accent-color: var(--v-accent); }
 .contact p { color: var(--text-2); font-size: 21px; }
 .foot { background: var(--alt); box-shadow: 0 0 0 100vmax var(--alt); clip-path: inset(0 -100vmax); padding: 24px var(--gutter) 40px; color: var(--text-3); font-size: 12px; line-height: 18px; max-width: 1024px; margin: 0 auto; }
 
+/* ---------------------------------------------------------------------------
+   Liquid glass layer: everything above sits on this colour field.
+   --------------------------------------------------------------------------- */
+:root {
+  --glass: rgba(255, 255, 255, 0.46);
+  --glass-strong: rgba(255, 255, 255, 0.72);
+  --glass-edge: rgba(255, 255, 255, 0.75);
+  --glass-blur: blur(28px) saturate(180%);
+  --glass-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.25), 0 1px 1px rgba(16, 32, 48, 0.04), 0 16px 40px -16px rgba(16, 32, 48, 0.22);
+}
+body { background: #e9eef3; }
+body::before {
+  content: ''; position: fixed; inset: -10vmax; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(40vmax 34vmax at 8% 6%, rgba(92, 170, 172, 0.85), transparent 68%),
+    radial-gradient(38vmax 32vmax at 92% 12%, rgba(110, 160, 245, 0.85), transparent 68%),
+    radial-gradient(42vmax 34vmax at 78% 82%, rgba(250, 185, 120, 0.75), transparent 68%),
+    radial-gradient(38vmax 30vmax at 14% 88%, rgba(175, 140, 240, 0.7), transparent 68%),
+    radial-gradient(30vmax 26vmax at 50% 48%, rgba(255, 255, 255, 0.9), transparent 70%),
+    #e4ebf2;
+}
+.glass, .top, .facts div, .timeline-list, .work-card, .project, .band-split > div, .hero-visual, .demo, .contact .actions .btn:not(.btn-primary) {
+  background: var(--glass);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow);
+}
+
+/* Floating capsule nav */
+.top {
+  position: sticky; top: 12px; margin: 12px auto 0; width: max-content; max-width: calc(100vw - 24px);
+  height: 52px; padding: 0 8px 0 22px; gap: 28px; border-radius: 980px;
+  background: var(--glass-strong);
+}
+.top nav { flex: 0 1 auto; gap: 24px; }
+.top nav a { line-height: 52px; font-size: 13px; color: var(--text); opacity: 0.8; }
+.top nav a:hover { opacity: 1; }
+.top .lang { line-height: 36px; padding: 0 14px; border-radius: 980px; background: rgba(255, 255, 255, 0.6); color: var(--text); font-size: 13px; }
+.top .lang:hover { background: #fff; }
+html { scroll-padding-top: 84px; }
+
+/* Buttons: tinted glass capsules */
+.btn { border: 1px solid var(--glass-edge); background: var(--glass); color: var(--text); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); box-shadow: var(--glass-shadow); }
+.btn:hover { background: var(--glass-strong); color: var(--text); }
+.btn-primary { background: rgba(0, 113, 227, 0.88); border-color: rgba(255, 255, 255, 0.35); color: #fff; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 10px 24px -10px rgba(0, 113, 227, 0.6); }
+.btn-primary:hover { background: rgba(0, 119, 237, 0.95); color: #fff; }
+.icon-btn { background: var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); }
+
+/* Hero: the island in a glass frame */
+.hero { padding-top: 72px; }
+.hero-visual { padding: 10px 10px 14px; border-radius: 36px; gap: 10px; }
+.hero-visual .viewer-slot { border-radius: 27px; }
+.hero-visual figcaption { padding: 0 16px; }
+#hero-slot .hud { background: rgba(255, 255, 255, 0.6); border: 1px solid var(--glass-edge); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); border-radius: 14px; }
+
+/* Panels */
+.facts div { border-radius: 22px; }
+.timeline-list { padding: 8px 36px; border-radius: 32px; }
+.job:first-child { padding-top: 32px; }
+.work-card { border-radius: 32px; }
+.work-card:hover { box-shadow: var(--glass-shadow), 0 30px 60px -30px rgba(16, 32, 48, 0.35); }
+.work-thumb { margin: 8px 8px 0; border-radius: 25px; }
+.work-play { background: rgba(255, 255, 255, 0.7); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-edge); }
+.work-details { border-top-color: rgba(0, 0, 0, 0.07); }
+.tile { background: rgba(255, 255, 255, 0.55); border: 1px solid var(--glass-edge); }
+.project { border-radius: 26px; }
+.project img { margin: 6px 6px 0; width: calc(100% - 12px); border-radius: 20px; }
+.band-split > div { border-radius: 32px; }
+.defs > div { border-bottom-color: rgba(0, 0, 0, 0.07); }
+.foot { background: transparent; box-shadow: none; clip-path: none; border-top: 0; text-align: center; }
+
+/* Demo: a glass sheet over a blurred page */
+.demo { background: rgba(255, 255, 255, 0.68); border-radius: 34px; }
+.demo::backdrop { background: rgba(20, 30, 45, 0.18); -webkit-backdrop-filter: blur(24px) saturate(160%); backdrop-filter: blur(24px) saturate(160%); }
+.demo-steps ol button { background: rgba(255, 255, 255, 0.55); border: 1px solid var(--glass-edge); }
+.demo-steps ol button:hover { background: rgba(255, 255, 255, 0.85); }
+.demo-steps ol button.on { background: rgba(29, 29, 31, 0.88); border-color: rgba(255, 255, 255, 0.2); }
+.hud, .ctl { -webkit-backdrop-filter: blur(16px) saturate(160%); backdrop-filter: blur(16px) saturate(160%); background: rgba(7, 8, 13, 0.55); border-radius: 12px; }
+
 /* Narrow screens */
 @media (max-width: 1099px) {
   .demo-inner { grid-template-columns: 1fr; grid-template-areas: 'head' 'stage' 'steps' 'text'; }
@@ -291,6 +371,11 @@ input[type='range'] { accent-color: var(--v-accent); }
   .demo-steps { padding: 12px 28px; }
 }
 @media (max-width: 899px) {
+  .top { width: auto; margin: 10px 10px 0; padding: 0 6px 0 18px; justify-content: space-between; height: 48px; }
+  .timeline-list { padding: 4px 20px; border-radius: 26px; }
+  .hero-visual { padding: 6px 6px 10px; border-radius: 24px; }
+  .hero-visual .viewer-slot { border-radius: 19px; }
+  .demo { border-radius: 0; background: rgba(255, 255, 255, 0.82); }
   :root { --gutter: 20px; --top: 48px; }
   h1 { font-size: 48px; line-height: 1.08; }
   h2 { font-size: 36px; line-height: 1.1; }
