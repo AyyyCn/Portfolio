@@ -26,3 +26,5 @@ dist-ssr
 platform.glb
 scene_optimized.glb
 .claude
+.vercel
+.env*
