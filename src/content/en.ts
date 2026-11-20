@@ -10,7 +10,7 @@ export const en: Content = {
   meta: {
     title: 'Adam Ladhari · Applied AI Engineer, agentic systems for interactive 3D',
     description:
-      "Adam Ladhari, applied AI engineer in Paris. I design AI agents for interactive 3D and games, and take each subject from problem to measured result. Case studies: agent benchmarks, observability, online multiplayer, generated 3D, effects and sound.",
+      "Adam Ladhari, applied AI engineer in Paris. I build agentic systems for interactive 3D: AI agents that build games, and the engine they drive, with its visual effects, shaders, multiplayer and vehicles.",
   },
   nav: { about: 'About', experience: 'Experience', work: 'Work', projects: 'Projects', contact: 'Contact', skip: 'Skip to content' },
   hero: {
@@ -18,7 +18,7 @@ export const en: Content = {
     "role": "Applied AI Engineer",
     "location": "Paris, France",
     "lead": "I build AI systems for interactive 3D and games.",
-    "intro": "I'm an applied AI engineer at Arcade AI, where people describe a game in plain words and AI agents build it. I work on those agents and on the game engine they control. Before that, I built a text-to-3D tool for a game studio, an AI learning platform, and games and tools for freelance clients.",
+    "intro": "I'm an applied AI engineer at Arcade AI, where AI agents turn a conversation into a multiplayer game. I work on those agents and on the engine they drive: visual effects, shaders, networking, vehicles and the gameplay core. Before that, I built a text-to-3D tool for a game studio, an adaptive learning platform, and games and tools for freelance clients.",
     "cta": "See my work",
     "cta2": "Get in touch",
     "viewer": "A small game world, generated in your browser. Drag to turn it"
@@ -45,7 +45,7 @@ export const en: Content = {
       },
       {
         "label": "Focus",
-        "value": "AI agents, game engines, online multiplayer, generated 3D"
+        "value": "AI agents, game engines, online multiplayer, generated effects and 3D"
       }
     ]
   },
@@ -59,11 +59,12 @@ export const en: Content = {
         "dates": "Feb 2026 – present",
         "place": "Paris",
         "points": [
-          "Core engineer on the AI agent system that turns a written description into a playable 3D multiplayer game, and on the engine it controls.",
-          "Led a study of 7 agent designs: a checklist strategy delivers 92% of the requested game features, against 8% for output that only passes format checks.",
-          "Built the online multiplayer: the server decides what happens, the player's view reacts instantly, and shots stay fair with up to 250 ms of network delay.",
-          "Built, on my own and from scratch, the pipelines that generate 3D models, sounds and visual effects, and the tools to debug agents and profile the engine.",
-          "Shipped 10+ complete games and maps to production, including an online tactical shooter with 34 weapons, kart racers and voxel worlds."
+          "Agent harness: core engineer on the agent system that turns a prompt into a playable 3D game, with specialist sub-agents for the world, logic, effects, interface and audio, made reliable by typed contracts, validation gates, cost ceilings and failure breakers.",
+          "Text-to-VFX: built the system that compiles a written description into a visual effect, renders it, has an AI critique it and revises it until it reads right. It is backed by a preset library, an authoring workshop and a runtime API used by every game.",
+          "Multiplayer: server-authoritative netcode with client prediction and lag compensation up to 250 ms, solo and online kept identical by tests, deployed on Kubernetes (GKE).",
+          "Core engine: extended the engine with generic primitives (gravity fields, portals, voxel worlds, hit regions, abilities) that make new kinds of games possible. 100 complete games shipped to production on it.",
+          "Shaders and materials: shaders generated from a prompt, validated offscreen and tuned live, in one material model the agents can use.",
+          "Vehicles: designed and built the physics-driven vehicle system, playable solo and online against AI opponents, and used across circuit racing, kart battles and portal races."
         ]
       },
       {
@@ -84,8 +85,8 @@ export const en: Content = {
         "dates": "Jan – Jun 2025",
         "place": "Tunis",
         "points": [
-          "Built an adaptive learning platform that picks each learner's next lessons and brings in an AI assistant when a learner gets stuck.",
-          "Set up automated tests and delivery, which cut release time by 35%."
+          "Built an adaptive learning platform: it tracks each learner's progress, curates their lesson path, detects frustration from time on task and brings in an LLM agent that answers from the course documentation (RAG).",
+          "Modular architecture with fine-grained access control; automated unit and end-to-end tests (CI/CD) cut release time by 35%."
         ]
       },
       {
@@ -95,9 +96,10 @@ export const en: Content = {
         "dates": "Jun 2023 – May 2025",
         "place": "Remote",
         "points": [
-          "A Unity plugin that reads the player's facial emotion in real time and adapts the gameplay to it.",
+          "Emotion-driven gameplay: a Unity plugin that reads the player's facial emotion in real time and adapts the gameplay, with a dashboard analysing players' emotional feedback.",
           "A hyper-casual mobile game, designed and shipped in Unity.",
-          "Automations that cut a client's pre-production cycles by 75%, and trading tools that use 70% less CPU."
+          "Automated Gerber image processing in Python, cutting pre-production cycles by 75%.",
+          "Automated trading tools (MQL4/5) for adaptive risk management, with 70% lower CPU load through multithreading and caching."
         ]
       },
       {
@@ -112,7 +114,7 @@ export const en: Content = {
   },
   workSection: {
     "heading": "Selected work",
-    "intro": "Eight things I built, explained in plain words. Each one comes with an interactive 3D demo you can open.",
+    "intro": "Nine things I built, explained in plain words. Each one comes with an interactive 3D demo you can open.",
     "demo": "Open the 3D demo",
     "read": "Read the details",
     "close": "Close",
@@ -125,57 +127,47 @@ export const en: Content = {
       "org": "Arcade AI · AI-native game engine",
       "role": "Applied AI Engineer",
       "dates": "Feb 2026 – present · Paris",
-      "intro": "Arcade AI is a game engine where games are made by conversation: you describe the game you want, and AI agents build a playable 3D multiplayer game. I am a core engineer on that agent system and on the engine underneath. The system is one agent working in a loop (think, use a tool, check the result), helped by specialist agents for the world, the game rules, the visual effects, the interface and the sound, with a memory for each level. Its reliability comes from checks built into the system, not from hoping the AI behaves: strict output formats, validation steps, cost limits and automatic stops when it keeps failing. Five subjects I owned there:",
+      "intro": "Arcade AI is a game engine where games are made by conversation: you describe the game you want, and AI agents build a playable 3D multiplayer game. I work on both sides: the agents, and the engine they drive. Six subjects I own there:",
       "cases": [
         {
-          "id": "benchmark",
-          "captions": ["An AI agent builds a game in a loop. Every pass through the gate says “valid”, yet only 1 of the 12 requested features exists", "The same loop with a checklist: specialist agents add the requested features one by one", "A scan counts what is really in the game, the same way for every architecture", "11 of 12 features delivered: 92%, against 8% before"],
-          "kicker": "Benchmark of AI agent designs",
-          "title": "Does the AI build the game that was asked for?",
-          "summary": "I ran the study showing that a generated game can pass every automatic check and still contain only 8% of what was asked for, and that a checklist approach reaches 92%.",
-          "problem": "When an AI generates a game, automatic checks verify that the output has the right format. But a game can have the right format and be nearly empty. We needed to know which way of organising the agents really delivers what the player described, and at what cost in time and in calls to the AI model.",
-          "built": "I framed and ran a study comparing 7 agent architectures, meaning 7 different ways of organising the agents, against the version running in production. I built what the study needed: the test bench that runs them all, a score that counts how many of the requested features are really present in the finished game, and the report presenting the results.",
-          "measured": "The production version needed a median of 4.6 minutes and 21 calls to the AI model to produce a first game. Every architecture was scored the same way: the share of requested features present in the finished game.",
-          "result": "An output that passes the format checks can still be a hollow game, with only 8% of the requested features. A checklist strategy reaches 92%.",
+          "id": "harness",
+          "captions": ["One prompt, one big answer: a broken piece slips into the game and the run keeps spending", "The harness: one tool-use loop, and specialist sub-agents called when their part is needed", "Every output meets a gate. One that breaks its contract is sent back, and a run that keeps failing is stopped", "The game is assembled only from parts that passed"],
+          "kicker": "Agent harness",
+          "title": "An agent system that builds a whole game from one prompt",
+          "summary": "I'm a core engineer on the agent system that turns a written prompt into a playable 3D game, made reliable by its structure rather than by its prompt.",
+          "problem": "A game is too big for one AI answer. It has a world, rules, effects, an interface and sound, and one mistake in any of them can break it. Asking the model to be careful does not make it reliable, and a run that goes wrong can keep spending without getting anywhere.",
+          "built": "A harness, the structure the agents work inside: one tool-use loop (the model chooses a tool, uses it and reads the result), skills loaded only when they are needed, specialist sub-agents for the world, the game logic, the visual effects, the interface and the audio, and a memory kept for each level.",
+          "measured": "The checks are part of the system. Every output follows a typed contract, a strict format the code can verify. Validation gates reject an output that breaks its contract before it reaches the game. Cost ceilings cap what a run can spend, and failure breakers stop a run that keeps failing.",
+          "result": "Reliability that comes from the system, not from the prompt: a prompt goes in, and a playable 3D game comes out.",
           "metrics": [
             {
-              "value": "7",
-              "label": "agent architectures compared"
+              "value": "5",
+              "label": "specialist sub-agents: world, logic, VFX, UI, audio"
             },
             {
-              "value": "4.6 min",
-              "label": "median time for a first game, production version"
-            },
-            {
-              "value": "21",
-              "label": "calls to the AI model, production version"
+              "value": "4 safeguards",
+              "label": "typed contracts, validation gates, cost ceilings, failure breakers"
             }
-          ],
-          "bar": {
-            "before": 8,
-            "after": 92,
-            "beforeLabel": "passes format checks",
-            "afterLabel": "checklist strategy"
-          }
+          ]
         },
         {
-          "id": "profiler",
-          "captions": ["A crowd of characters chases a target. Is it too many? Without instruments, nobody can say", "Two instruments appear: a step-by-step recording of an agent run, and the cost of each system", "More characters are added while the bars show what each system costs. These timings are measured live on this page", "The answer becomes a number: about 100 characters at 60 images per second in the Arcade engine"],
-          "kicker": "Observability",
-          "title": "Seeing what the AI and the engine are really doing",
-          "summary": "I built the tools that show, step by step, what an AI agent did, and how much computing time each part of the game costs.",
-          "problem": "When an AI agent gives a bad result, or a game runs slowly, the first explanation is usually a guess. Without instruments, nobody can say where it went wrong or which part is slow.",
-          "built": "Two tools. A trace debugger, which records every step an agent takes and lets you inspect them afterwards. And a profiler panel inside the engine, which shows how much time each system of the game uses in every image it draws.",
-          "measured": "A stress test, the horde benchmark: add more and more computer-controlled characters (NPCs) and read on the profiler what each system costs.",
-          "result": "A measured limit instead of an impression: about 100 active NPCs while the game still runs at 60 images per second.",
+          "id": "vfx",
+          "captions": ["A description comes in: “a crackling blue portal”. Spawning particles straight from it gives a vague burst", "The description is compiled into a specification of the phenomenon, then rendered", "An AI looks at the render and critiques it. The specification is revised and rendered again", "The effect that reads right, with the preset library and the runtime API that games call"],
+          "kicker": "Text to VFX",
+          "title": "Visual effects generated from a description",
+          "summary": "I built the system that turns a written description of an effect into a real-time visual effect, checked by an AI that looks at the result and asks for changes.",
+          "problem": "Games need effects: fire, sparks, smoke, magic. When the request is free text, asking an AI to place particles directly gives effects that look wrong, and nothing tells the system that they do.",
+          "built": "A compiler from the description to a bounded phenomenon specification. It describes what is being simulated (a flame, a shockwave, a swirl of dust), not which particles to spawn, and stays within limits the engine can run. The engine then renders that specification as an effect.",
+          "measured": "The effect is rendered, and a multimodal model, an AI that can read images, critiques the picture. The specification is revised and rendered again, in a loop, until the effect reads right.",
+          "result": "The text-to-VFX system, backed by a preset library, an authoring workshop to build and adjust effects, and a runtime API that every game uses.",
           "metrics": [
             {
-              "value": "≈100",
-              "label": "active NPCs at 60 images per second"
+              "value": "every game",
+              "label": "uses the effects runtime API"
             },
             {
-              "value": "per system",
-              "label": "cost of each image, shown in the profiler"
+              "value": "critique loop",
+              "label": "render, critique, revise until the effect reads right"
             }
           ]
         },
@@ -184,65 +176,86 @@ export const en: Content = {
           "captions": ["Three views of the same game. With network delay, player A sees their own character late: the hollow dot", "Prediction: A’s character moves at once, then corrects itself when the server disagrees", "A shoots. The server rewinds the target to where A saw it, then judges the hit. Try the latency slider", "At 250 ms of delay, shots still land"],
           "kicker": "Online multiplayer",
           "title": "Making an online game feel instant and fair",
-          "summary": "I built the networking that keeps an online game responsive and fair when players have slow connections, and proved it with automated play sessions.",
+          "summary": "I built the networking that keeps online games responsive and fair on slow connections, and the infrastructure that runs every game server.",
           "problem": "Online, every message takes time to travel, so each player sees a slightly old version of the game. Without care, your character reacts late and shots that looked on target miss. And only the server should decide what really happened.",
-          "built": "Movement and shooting where the server has the final say (server-authoritative), built with Node.js, Colyseus and Rapier. The player's device shows the result of an action immediately, then corrects itself if the server disagrees (client prediction and reconciliation). For shots, the server looks back in time to where the target was when the player fired (lag compensation).",
-          "measured": "Automated play sessions with two clients and network delay injected on purpose, so the behaviour is verified by a run and not by feel.",
-          "result": "Lag compensation looks back up to 250 ms, verified by those automated sessions.",
+          "built": "A server-authoritative simulation built with Node.js, Colyseus and Rapier: the server has the final say, and only what changed is sent over the network (delta replication). The player's device shows the result of an action at once and corrects itself if the server disagrees (client prediction and reconciliation). For shots, the server looks back in time to where the target was when the player fired (lag compensation). It runs on Kubernetes (GKE): one addressable pod per game server, autoscaling, matchmaking and CI/CD.",
+          "measured": "Tests enforce that a game behaves the same solo and online, through the same API, so a game built for one works in the other.",
+          "result": "Online games that stay fair with up to 250 ms of network delay, on servers that scale with the number of games being played.",
           "metrics": [
             {
               "value": "250 ms",
-              "label": "of delay the server can look back"
+              "label": "of delay covered by lag compensation"
             },
             {
-              "value": "2 clients",
-              "label": "automated sessions with injected delay"
+              "value": "solo = online",
+              "label": "same API, enforced by tests"
+            },
+            {
+              "value": "1 pod",
+              "label": "per game server, autoscaled on GKE"
             }
           ]
         },
         {
-          "id": "pipelines",
-          "captions": ["Raw generated content: an image, sound candidates, a first rough effect", "Three production lines start: images become 3D models, sounds and effects are generated", "Each line checks itself: models snap to the grip rule, weak sounds are dropped, a critic sends the effect back", "Out the other end: aligned models, the sounds that passed, an effect in its third revision"],
-          "kicker": "Generated 3D models, effects and sound",
-          "title": "Three content pipelines built alone, from scratch",
-          "summary": "I built, without handing off to anyone, the systems that generate a game's 3D models, visual effects and sounds, each one checking its own output.",
-          "problem": "A generated game needs objects, visual effects and sounds. AI can generate them, but each result has to fit the engine without a person fixing it by hand.",
-          "built": "Three pipelines, meaning automatic production lines, taken from nothing to working on my own: 3D weapon models generated from images, generated sound effects, and generated visual effects (VFX).",
-          "measured": "Each pipeline checks its own output. Sounds: candidates are scored automatically, then cleaned up. 3D models: each one is automatically aligned to a grip contract, a fixed rule for how a character holds it. Visual effects: the effect is rendered, an AI model looks at the image and criticises it, and the effect is revised, in a loop.",
-          "result": "97 generated sound effects and 42 3D weapon models, all aligned automatically to the grip contract.",
+          "id": "engine",
+          "captions": ["Three new kinds of game, each needing something the engine cannot do yet", "Each need becomes a generic primitive: gravity fields, portals, voxel worlds, hit regions, abilities", "The games come alive on the shared primitives", "100 complete games shipped to production"],
+          "kicker": "Core engine",
+          "title": "Engine primitives that make new kinds of games possible",
+          "summary": "I extended the engine core so that new kinds of games become possible, solving each need with a generic building block. 100 complete games have shipped to production on it.",
+          "problem": "Every new kind of game asks something new of the engine: walking around a small planet, stepping through a portal, building with blocks. Writing special code for each game does not scale, least of all when AI agents are the ones assembling the games.",
+          "built": "Each need solved as a generic primitive rather than game-specific code: gravity fields, portals, voxel worlds, hit regions and abilities. Any game, and any agent, can combine them.",
+          "measured": "Proven by shipping: complete games built on these primitives and released to production.",
+          "result": "100 complete games shipped to production on the engine.",
           "metrics": [
             {
-              "value": "97",
-              "label": "generated sound effects, scored and cleaned automatically"
-            },
-            {
-              "value": "42",
-              "label": "3D weapon models generated from images, aligned automatically"
+              "value": "100",
+              "label": "complete games shipped to production"
             }
           ]
         },
         {
-          "id": "shipping",
-          "captions": ["Three very different games, each missing what it needs to run", "Shared systems come online one by one. The lines show which games use each", "The games run, covered by automated tests and play sessions that run on their own", "Four shared systems carry all three games"],
-          "kicker": "Gameplay systems",
-          "title": "The engine systems behind ten shipped games",
-          "summary": "I built the reusable gameplay systems (weapons, vehicles, computer-controlled characters, animation) that let very different games run on one engine, and shipped more than ten complete games and maps to prove them.",
-          "problem": "A shooter, a kart racer and a block-building world need very different things from an engine. Writing special code for each game does not scale, least of all when AI agents are the ones assembling the game.",
-          "built": "Generic gameplay building blocks that any game can combine: weapons, physically simulated vehicles, navigation and behaviour for computer-controlled characters (NPCs), characters and animation. The agents use them through a declarative game specification, a structured description of the game that they write, and the same code runs solo and online.",
-          "measured": "Each block was proven by shipping complete games on it: an online tactical shooter with computer-controlled opponents and 34 weapons defined purely by data, kart racing games, and voxel (block-based) worlds. Every gap a game exposed was closed with a generic block, not a one-off fix. It is backed by 600+ automated tests and by play sessions run automatically with several simulated players. I also built a server, on the MCP standard, through which outside AI coding assistants such as Claude Code or Codex build and inspect games live.",
-          "result": "10+ complete games and maps in production, and an engine that gained a generic building block for every gap they exposed.",
+          "id": "shaders",
+          "captions": ["A prompt asks for a surface. A shader generated blindly can fail: this one renders nothing", "The prompt becomes a procedural shader, with its parameters exposed", "Each shader is rendered offscreen and checked before use. Try the sliders: they tune it live", "One material model: the same object as a standard PBR material or as a shader"],
+          "kicker": "Shaders and materials",
+          "title": "Shaders an agent can write and anyone can tune",
+          "summary": "I made shaders a first-class asset that can be authored: generated from a prompt, validated before use, and tuned live without generating them again.",
+          "problem": "A shader is a small program that runs on the graphics card and decides how a surface looks. Writing one by hand takes expertise, a generated one can fail to compile or render nothing, and changing its look usually means generating it again.",
+          "built": "A path from a prompt to a procedural shader, with parameters exposed so they can be tuned live without regenerating. A single material model covers both standard physically based (PBR) materials and shaders, and tools expose it to the agents.",
+          "measured": "Every generated shader is validated offscreen, rendered out of view, before it is used in a game.",
+          "result": "Shaders as a first-class authorable asset: generated, validated, then tuned live by people or by agents.",
           "metrics": [
             {
-              "value": "10+",
-              "label": "complete games and maps in production"
+              "value": "offscreen",
+              "label": "validation before a shader reaches a game"
             },
             {
-              "value": "34",
-              "label": "weapons defined by data in the tactical shooter"
+              "value": "live",
+              "label": "parameter tuning, with no regeneration"
             },
             {
-              "value": "600+",
-              "label": "automated tests"
+              "value": "1",
+              "label": "material model for PBR and shaders"
+            }
+          ]
+        },
+        {
+          "id": "vehicles",
+          "captions": ["One kart on a circuit, and nobody to race", "The vehicle is driven by physics, not moved along a scripted path", "AI opponents join. The same vehicle drives solo and online", "One system across circuit racing, kart battles and portal races"],
+          "kicker": "Vehicles",
+          "title": "One vehicle system for every kind of vehicle game",
+          "summary": "I designed and built the engine's physics-driven vehicle system: generic, drivable solo or online against AI opponents, and proven across many vehicle games in production.",
+          "problem": "Circuit racing, kart battles and portal races all need vehicles that behave physically, that work online as well as solo, and opponents to play against. Building that again for every game would not scale.",
+          "built": "A generic vehicle system driven by physics rather than scripted paths, so one vehicle can serve different games. It drives the same solo and online, and AI opponents drive it too.",
+          "measured": "Proven in production across a wide range of vehicle games: circuit racing, kart battles and portal races.",
+          "result": "One vehicle system behind many vehicle games, solo and online, with AI opponents.",
+          "metrics": [
+            {
+              "value": "3 genres",
+              "label": "circuit racing, kart battles, portal races"
+            },
+            {
+              "value": "solo + online",
+              "label": "with AI opponents"
             }
           ]
         }
@@ -258,7 +271,7 @@ export const en: Content = {
           "id": "textto3d",
           "captions": ["A sentence goes in. Candidate images are generated and the best one is kept", "A raw 3D mesh: the right shape, far too many triangles", "Automatic clean-up cuts it to a fraction of the triangles and runs quality checks", "Materials applied: an object a game can load"],
           "kicker": "Text to 3D",
-          "title": "From a sentence to a 3D object ready for a game",
+          "title": "A game-ready 3D object, generated from a sentence",
           "summary": "I built a tool that turns a written description into a 3D object with its materials, in a file a game can load.",
           "problem": "AI can produce a 3D shape from a sentence, but a raw shape is not yet a game asset. It needs materials, a reasonable number of triangles and a file format the engine can load, and the person using the tool needs some control over the result.",
           "built": "A generation pipeline based on EmbodiedGen, a text-to-3D generation system: from the text it produces a 3D mesh with realistic materials (PBR) and exports a GLB file, a standard 3D format. Around it, an app built with Gradio: automatic and manual modes, seeds to reproduce a result, background removal and ranking of the candidate images.",
@@ -310,26 +323,22 @@ export const en: Content = {
       "org": "Freelance · Upwork and direct clients",
       "role": "Software Engineer",
       "dates": "Jun 2023 – May 2025 · Remote",
-      "intro": "Two years of freelance work for clients, alongside my studies: games, automation and trading tools.",
+      "intro": "Two years of freelance work for clients, alongside my studies. One project in detail here; the others are listed under Experience.",
       "cases": [
         {
           "id": "emotion",
-          "captions": ["A game running at a fixed pace, unaware of the player", "The camera reads the player’s expression and the game’s pace follows it", "A dashboard tallies how the player felt", "The two other client projects, before and after"],
-          "kicker": "Client projects",
-          "title": "Three clients, three problems, three delivered systems",
-          "summary": "As a freelancer I delivered a game system that reacts to the player's emotions, an automation that cut pre-production cycles by 75%, and trading tools using 70% less CPU.",
-          "problem": "Each client came with a different need: a game that adapts to what the player feels, circuit-board image files (Gerber) processed by hand before production, and automated trading programs that used too much of the computer's processor.",
-          "built": "A plugin for the Unity game engine that recognises the player's facial emotion in real time with deep learning and drives the game logic with it. A hyper-casual mobile game, designed and shipped with Unity and C#. A Python program that processes Gerber images automatically. And expert advisors (automated trading programs, in MQL4/5) that manage risk adaptively.",
-          "measured": "A dashboard analysing players' emotional feedback for the game plugin, and real-time dashboards for the trading programs.",
-          "result": "Pre-production cycles cut by 75% with the Gerber automation, and 70% lower CPU load on the trading programs through multithreading and caching.",
+          "captions": ["A game running at a fixed pace, unaware of the player", "The camera reads the player’s expression and the game’s pace follows it", "A dashboard tallies how the player felt", "Gameplay that follows the player, and a record of how they felt"],
+          "kicker": "Emotion-driven gameplay",
+          "title": "A game that reacts to how the player feels",
+          "summary": "For a freelance client, I built a Unity plugin that reads the player's facial emotion in real time and adapts the gameplay to it.",
+          "problem": "Most games run the same way whatever the player feels. The client wanted gameplay that adapts to the player's emotional state while they play.",
+          "built": "A plugin for the Unity game engine that recognises the player's facial emotion in real time with deep learning, and connects it to the game logic.",
+          "measured": "A dashboard that analyses players' emotional feedback, so the effect on players can be read instead of guessed.",
+          "result": "Gameplay that adapts to the player in real time, and a dashboard that shows how players felt.",
           "metrics": [
             {
-              "value": "−75%",
-              "label": "pre-production cycles, Gerber automation"
-            },
-            {
-              "value": "−70%",
-              "label": "CPU load, trading programs"
+              "value": "real time",
+              "label": "facial emotion recognition driving the gameplay"
             }
           ]
         }
@@ -461,7 +470,7 @@ export const en: Content = {
       },
       {
         label: 'Networking and backend',
-        details: 'Colyseus, Rapier, Node.js, NestJS, Socket.io, PostgreSQL, Prisma, Docker, Cloud Run, CI/CD',
+        details: 'Colyseus, Rapier, Node.js, NestJS, Socket.io, PostgreSQL, Prisma, Docker, Kubernetes (GKE), Cloud Run, CI/CD',
       },
       { label: 'Languages', details: 'TypeScript, JavaScript, Python, C#, C++, Java' },
     ],
@@ -495,7 +504,7 @@ export const en: Content = {
     scrub: 'Replay position',
     load: 'Load the 3D replay',
     loading: 'Loading the 3D replay…',
-    introTitle: 'One small world, eight subjects',
+    introTitle: 'One small world, nine subjects',
     introHint: 'Scroll to start the replay · drag to orbit',
     t: {
       prompt: "prompt",
@@ -519,16 +528,6 @@ export const en: Content = {
       frustrated: "frustrated",
       joy: "joy",
       off: "off",
-      requested: 'requested',
-      present: 'present',
-      coverage: 'coverage',
-      schema: 'schema',
-      valid: 'valid',
-      checklist: 'checklist',
-      npcs: 'NPCs',
-      sim: 'sim',
-      frame: 'frame',
-      fps: 'fps',
       live: 'live, this page',
       latency: 'latency',
       correction: 'max correction',
@@ -537,12 +536,37 @@ export const en: Content = {
       naive: 'naive',
       predicted: 'predicted',
       server: 'server',
-      aligned: 'aligned to grip contract',
-      revision: 'vfx revision',
-      bots: 'bots',
-      checkpoints: 'checkpoints passed',
       laps: 'laps',
-      wire: 'wireframe',
+      parts: 'game parts',
+      gate: 'gate',
+      passed: 'passed',
+      rejected: 'sent back',
+      cost: 'cost',
+      over: 'over the limit',
+      under: 'under the ceiling',
+      calls: 'model calls',
+      spec: 'spec',
+      critique: 'critique',
+      revision: 'revision',
+      reads: 'reads right',
+      revise: 'revise',
+      primitives: 'primitives',
+      games: 'games running',
+      shipped: 'shipped to production',
+      shader: 'shader',
+      generated: 'generated',
+      blank: 'renders nothing',
+      offscreen: 'offscreen check',
+      material: 'material model',
+      scale: 'scale',
+      speed: 'speed',
+      glow: 'glow',
+      physics: 'physics',
+      on: 'on',
+      opponents: 'AI opponents',
+      mode: 'mode',
+      solo: 'solo',
+      online: 'online',
     },
   },
 };

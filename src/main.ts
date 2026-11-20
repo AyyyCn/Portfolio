@@ -110,6 +110,7 @@ function start(): void {
     });
     prev.disabled = target === 0;
     next.disabled = target === 3;
+    if (current < 0) return;
     caption.textContent = data.cases[current].captions[target];
     const card = document.querySelectorAll<HTMLElement>('.work-card')[current];
     const section = card.querySelector<HTMLElement>(`.step[data-step="${target}"]`);
@@ -150,6 +151,8 @@ function start(): void {
   };
 
   const close = (): void => {
+    // A late close event must not undo a demo that was opened again since.
+    if (dialog.open) return;
     cancelAnimationFrame(raf);
     heroSlot.append(viewer);
     stage?.setState('intro', 0);

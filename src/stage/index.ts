@@ -1,11 +1,12 @@
 import * as THREE from 'three';
 import type { LensId } from '../content/types';
-import { benchmark } from './lenses/benchmark';
+import { engine } from './lenses/engine';
+import { harness } from './lenses/harness';
 import { netcode } from './lenses/netcode';
 import { overview } from './lenses/overview';
-import { pipelines } from './lenses/pipelines';
-import { profiler } from './lenses/profiler';
-import { shipping } from './lenses/shipping';
+import { shaders } from './lenses/shaders';
+import { vehicles } from './lenses/vehicles';
+import { vfx } from './lenses/vfx';
 import { emotion } from './lenses/emotion';
 import { learning } from './lenses/learning';
 import { textto3d } from './lenses/textto3d';
@@ -78,11 +79,12 @@ export function createStage(opts: StageOptions): Stage {
 
   const lenses: Record<LensId | 'intro', Lens> = {
     intro: overview(ctx),
-    benchmark: benchmark(ctx),
-    profiler: profiler(ctx),
+    harness: harness(ctx),
+    vfx: vfx(ctx),
     netcode: netcode(ctx),
-    pipelines: pipelines(ctx),
-    shipping: shipping(ctx),
+    engine: engine(ctx),
+    shaders: shaders(ctx),
+    vehicles: vehicles(ctx),
     textto3d: textto3d(ctx),
     learning: learning(ctx),
     emotion: emotion(ctx),

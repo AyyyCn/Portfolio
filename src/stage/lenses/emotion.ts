@@ -11,8 +11,7 @@ const STATES = [
 
 /**
  * Left: a face whose expression is read in real time. Right: a small runner
- * game whose pace follows the detected emotion. Below: the emotion dashboard,
- * and the before/after of the two other client projects.
+ * game whose pace follows the detected emotion. Below: the emotion dashboard.
  */
 export function emotion(ctx: Ctx): Lens {
   const root = sceneRoot();
@@ -96,9 +95,7 @@ export function emotion(ctx: Ctx): Lens {
     b.scale.y = Math.max(0.02, h);
     b.position.y = Math.max(0.02, h) / 2;
   };
-  const emo = barChart(-4.2, 'emotion dashboard', ['calm', 'frustr.', 'joy'], [C.white, C.orange, C.teal]);
-  const gerber = barChart(-0.2, 'pre-production cycle  −75%', ['before', 'after'], [C.dim, C.teal]);
-  const cpu = barChart(3.6, 'CPU load, trading  −70%', ['before', 'after'], [C.dim, C.teal]);
+  const emo = barChart(-0.6, 'emotion dashboard', ['calm', 'frustr.', 'joy'], [C.white, C.orange, C.teal]);
 
   let clock = 0, pace = 1, scroll = 0, jump = 0;
   let share = [0, 0, 0];
@@ -148,15 +145,10 @@ export function emotion(ctx: Ctx): Lens {
       jump = near < 0.75 ? Math.sin(Math.max(0, 1 - near / 0.75) * Math.PI) : Math.max(0, jump - dt * 4);
       runner.position.y = 0.2 + jump * 0.75;
 
-      const showEmo = easeOut((p - 1.5) / 0.3), showOthers = easeOut((p - 2.5) / 0.3);
+      const showEmo = easeOut((p - 1.5) / 0.3);
       emo.group.visible = showEmo > 0;
-      gerber.group.visible = cpu.group.visible = showOthers > 0;
       const total = share[0] + share[1] + share[2] || 1;
       emo.bars.forEach((b, i) => setBar(b, (share[i] / total) * 2.2 * showEmo));
-      setBar(gerber.bars[0], 2.2 * showOthers);
-      setBar(gerber.bars[1], 2.2 * 0.25 * showOthers);
-      setBar(cpu.bars[0], 2.2 * showOthers);
-      setBar(cpu.bars[1], 2.2 * 0.3 * showOthers);
 
       front(cam, -0.4, 4.1, 13.4, time, 0.6);
 

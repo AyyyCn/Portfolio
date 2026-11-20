@@ -1,4 +1,4 @@
-export type LensId = 'benchmark' | 'profiler' | 'netcode' | 'pipelines' | 'shipping' | 'textto3d' | 'learning' | 'emotion';
+export type LensId = 'harness' | 'vfx' | 'netcode' | 'engine' | 'shaders' | 'vehicles' | 'textto3d' | 'learning' | 'emotion';
 
 export interface Metric {
   value: string;

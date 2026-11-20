@@ -141,6 +141,7 @@ h4 { font-size: 14px; line-height: 20px; font-weight: 500; color: var(--text-2);
 
 .stage-controls { position: absolute; right: 24px; top: 12px; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
 .stage-controls:empty { display: none; }
+.ctl-group { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
 .ctl { display: flex; align-items: center; gap: 8px; font: 400 12px/20px var(--mono); color: var(--text-2); background: rgba(7, 8, 13, 0.78); border: 1px solid var(--hair); border-radius: 8px; padding: 4px 12px; }
 .ctl output { color: var(--text); min-width: 6ch; text-align: right; }
 .ctl input[type='range'] { width: 112px; }
