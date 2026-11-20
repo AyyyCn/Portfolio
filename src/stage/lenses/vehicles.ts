@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { C, basic, label } from '../kit';
+import { C, basic, label, portal as makePortal } from '../kit';
 import { row, type CamPose, type Ctx, type Lens } from '../types';
 import { easeOut } from '../world';
 
@@ -29,7 +29,8 @@ export function vehicles(ctx: Ctx): Lens {
     l.position.set(x, 6, z);
     genres.add(l);
   }
-  const portal = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.3, 8, 32), basic(C.teal));
+  const gate = makePortal(2.8);
+  const portal = gate.group;
 
   let prevYaw = 0, roll = 0, lastS0 = 0;
   const camPos = new THREE.Vector3();
@@ -46,8 +47,8 @@ export function vehicles(ctx: Ctx): Lens {
       for (const l of aiTags) l.position.set(0, 1.45, 0);
       w.root.add(genres, portal);
       const u = 0.5 * w.trackLength;
-      portal.rotation.y = w.trackPose(u, 0, portal.position) + Math.PI / 2;
-      portal.position.y += 2.2;
+      portal.rotation.y = w.trackPose(u, 0, portal.position);
+      portal.position.y += 2.4;
       prevYaw = hero.rotation.y;
     },
     exit() {
@@ -89,7 +90,7 @@ export function vehicles(ctx: Ctx): Lens {
       });
       for (const l of aiTags) l.visible = opponents && wide < 0.5;
       genres.visible = portal.visible = wide > 0.5;
-      portal.rotation.z = time * 0.6;
+      if (portal.visible) gate.update(dt, time, 1, 5);
 
       // Chase camera behind the hero kart, then pull out to the island.
       const back = driving ? 6.5 : 4.8;

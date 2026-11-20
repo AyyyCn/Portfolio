@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { C, box, front, labelAt, lit, sceneRoot } from '../kit';
+import { C, box, front, labelAt, lit, portal, sceneRoot } from '../kit';
 import { row, type CamPose, type Ctx, type Lens } from '../types';
 import { easeOut, rng } from '../world';
 
@@ -12,12 +12,12 @@ const FX = new THREE.Vector3(0.6, 4.1, 0);
 
 /** How each revision renders: naive burst (0), then three passes of the critique loop. */
 const REVS = [
-  { ring: 0, swirl: 0, noise: 1, color: 0x9aa3b5, spark: 0 },
-  { ring: 1, swirl: 0.5, noise: 0.55, color: 0x6d8fd6, spark: 0 },
-  { ring: 1, swirl: 1.2, noise: 0.25, color: 0x7fb0ff, spark: 0.35 },
-  { ring: 1, swirl: 1.9, noise: 0.06, color: 0x9fd0ff, spark: 1 },
+  { quality: 0, arcs: 0, sparks: 0 },
+  { quality: 0.25, arcs: 0, sparks: 0 },
+  { quality: 0.65, arcs: 3, sparks: 0.5 },
+  { quality: 1, arcs: 7, sparks: 1 },
 ];
-const NOTES = ['', '“too sparse, no swirl”', '“edge is noisy”', '“reads right ✓”'];
+const NOTES = ['', '“no swirl, no crackle”', '“arcs too few, rim soft”', '“reads right ✓”'];
 
 export function vfx(ctx: Ctx): Lens {
   const t = ctx.t;
@@ -41,25 +41,27 @@ export function vfx(ctx: Ctx): Lens {
   root.add(spec);
   let shownRev = 1;
 
-  // --- the render ----------------------------------------------------------------------------
-  const frame = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(4.2, 4.2, 0.05)), new THREE.LineBasicMaterial({ color: C.dim }));
-  frame.position.copy(FX);
+  // --- the render: a small viewport with the effect in it ----------------------------------------
+  const screen = box(4.4, 4.4, 0.04, new THREE.MeshBasicMaterial({ color: 0x0d1424 }));
+  screen.position.set(FX.x, FX.y, -0.3);
+  root.add(screen);
+  const frame = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(4.4, 4.4, 0.05)), new THREE.LineBasicMaterial({ color: C.dim }));
+  frame.position.set(FX.x, FX.y, -0.28);
   root.add(frame);
+  const fx = portal(1.45);
+  fx.group.position.copy(FX);
+  root.add(fx.group);
   labelAt(root, 'render', FX.x, FX.y + 2.5, 0, '#7a8296', 0.22);
 
   const pos = new Float32Array(N * 3);
   const seeds = Array.from({ length: N }, () => ({ a: rand() * Math.PI * 2, r: rand(), z: rand() - 0.5, life: rand(), dir: rand() * Math.PI * 2, spd: 0.5 + rand() }));
   const geo = new THREE.BufferGeometry();
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  const mat = new THREE.PointsMaterial({ color: REVS[0].color, size: 0.11, transparent: true, opacity: 0.95, depthWrite: false, blending: THREE.AdditiveBlending });
+  const mat = new THREE.PointsMaterial({ color: 0x9fb4d6, size: 0.1, transparent: true, opacity: 0.95, depthWrite: false, blending: THREE.AdditiveBlending });
   const points = new THREE.Points(geo, mat);
   points.frustumCulled = false;
   points.position.copy(FX);
   root.add(points);
-  const core = new THREE.Mesh(new THREE.CircleGeometry(1.15, 40), new THREE.MeshBasicMaterial({ color: 0x24407a, transparent: true, opacity: 0, depthWrite: false }));
-  core.position.copy(FX);
-  core.position.z = -0.05;
-  root.add(core);
 
   // --- the critic --------------------------------------------------------------------------------
   const critic = new THREE.Group();
@@ -104,34 +106,41 @@ export function vfx(ctx: Ctx): Lens {
       // Revision on screen: naive burst, then revisions 1, 2, 3 of the loop.
       const rev = p < 1 ? 0 : p < 1.8 ? 1 : p < 2.35 ? 2 : 3;
       const R = REVS[rev];
-      mat.color.setHex(R.color);
-      mat.size = rev === 0 ? 0.09 : 0.1 + R.spark * 0.03;
+      fx.group.visible = rev > 0;
+      fx.update(dt, time, R.quality, R.arcs);
 
+      // Revision 0 is particles spawned straight from the text: a vague fountain.
+      // From revision 2, a few sparks spin off the rim.
       const radius = 1.45;
+      let shown = 0;
       for (let i = 0; i < N; i++) {
         const s = seeds[i];
-        let x: number, y: number, z: number;
+        let x = 0, y = 0, z = 0;
         if (rev === 0) {
-          // Particles spawned straight from the text: a vague fountain, no shape.
           const life = (s.life + clock * 0.6 * s.spd) % 1;
           x = Math.cos(s.dir) * life * 1.6;
           y = -1.2 + life * 2.4 * s.spd - life * life * 1.8;
           z = Math.sin(s.dir) * life * 0.6;
-        } else {
-          const spark = i % 7 === 0 && R.spark > 0;
-          const a = s.a + clock * R.swirl * (0.6 + s.r * 0.5);
-          const jitter = (s.r - 0.5) * R.noise * 1.4 + (spark ? Math.sin(clock * 9 + i) * 0.35 * R.spark : 0);
-          const r = radius * (rev === 1 ? 0.6 + s.r * 0.6 : 1) + jitter;
+          shown++;
+        } else if (i < N * 0.35 * R.sparks) {
+          const life = (s.life + clock * 0.9 * s.spd) % 1;
+          const a = s.a + clock * 1.6;
+          const r = radius * (1.02 + life * 0.35);
           x = Math.cos(a) * r;
           y = Math.sin(a) * r;
-          z = s.z * 0.3;
+          z = 0.05;
+          shown++;
+        } else {
+          x = y = z = 9999;
         }
         pos[i * 3] = x;
         pos[i * 3 + 1] = y;
         pos[i * 3 + 2] = z;
       }
+      mat.color.setHex(rev === 0 ? 0x9fb4d6 : 0xcfeeff);
+      mat.size = rev === 0 ? 0.09 : 0.07;
+      points.visible = shown > 0;
       geo.attributes.position.needsUpdate = true;
-      (core.material as THREE.MeshBasicMaterial).opacity = rev >= 2 ? 0.25 + 0.15 * (rev - 2) + Math.sin(time * 6) * 0.05 : 0;
 
       const showSpec = easeOut((p - 0.7) / 0.3);
       spec.visible = showSpec > 0;

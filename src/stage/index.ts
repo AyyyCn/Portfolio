@@ -31,9 +31,10 @@ export interface StageOptions {
   onReady?: () => void;
 }
 
-const BG = 0x07080d;
 /** The hero island sits on the light page, so its sky matches the page's frame. */
 const PAPER = 0xeef1f4;
+/** Case scenes: a slightly cooler pale sky so white slabs still stand out. */
+const SCENE = 0xe8ecf1;
 
 export function createStage(opts: StageOptions): Stage {
   const { canvas, lowPower } = opts;
@@ -47,7 +48,7 @@ export function createStage(opts: StageOptions): Stage {
   scene.background = sky;
   scene.fog = fog;
   const setSky = (lens: LensId | 'intro'): void => {
-    const c = lens === 'intro' ? PAPER : BG;
+    const c = lens === 'intro' ? PAPER : SCENE;
     sky.setHex(c);
     fog.color.setHex(c);
   };

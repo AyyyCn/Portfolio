@@ -150,7 +150,7 @@ export function harness(ctx: Ctx): Lens {
       loop.visible = agents.visible = show > 0;
       loop.scale.setScalar(Math.max(0.001, show));
       agents.scale.setScalar(Math.max(0.001, show));
-      ringMat.color.setHex(harnessOn ? 0x3a4256 : C.dim);
+      ringMat.color.setHex(harnessOn ? 0x8e96a4 : C.dim);
       ceiling.visible = breaker.visible = checking;
       noLimit.visible = !checking;
       model.rotation.y = time * 0.8;
@@ -175,7 +175,7 @@ export function harness(ctx: Ctx): Lens {
       onRing(angle, token.position);
       token.position.z = 0.12;
       gateFlash = Math.max(0, gateFlash - dt * 1.6);
-      gateMat.color.setHex(C.dim).lerp(new THREE.Color(checking ? C.teal : 0x3a4256), checking ? gateFlash : 0.5);
+      gateMat.color.setHex(C.dim).lerp(new THREE.Color(checking ? C.teal : 0x8e96a4), checking ? gateFlash : 0.5);
       beamT = Math.min(1, beamT + dt * 2.2);
       beam.visible = harnessOn && beamT < 1;
       beam.position.lerpVectors(nodes[beamFrom].position, model.position, easeOut(beamT));

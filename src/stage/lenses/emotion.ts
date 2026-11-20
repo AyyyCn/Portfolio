@@ -4,7 +4,7 @@ import { foot, row, type CamPose, type Ctx, type Lens } from '../types';
 import { easeOut } from '../world';
 
 const STATES = [
-  { key: 'calm', pace: 1, mouth: 0, brow: 0, color: C.white, tone: '' },
+  { key: 'calm', pace: 1, mouth: 0, brow: 0, color: C.blue, tone: '' },
   { key: 'frustrated', pace: 0.6, mouth: -0.5, brow: 0.45, color: C.orange, tone: 'bad' },
   { key: 'joy', pace: 1.35, mouth: 0.55, brow: -0.15, color: C.teal, tone: 'ok' },
 ] as const;
@@ -95,7 +95,7 @@ export function emotion(ctx: Ctx): Lens {
     b.scale.y = Math.max(0.02, h);
     b.position.y = Math.max(0.02, h) / 2;
   };
-  const emo = barChart(-0.6, 'emotion dashboard', ['calm', 'frustr.', 'joy'], [C.white, C.orange, C.teal]);
+  const emo = barChart(-0.6, 'emotion dashboard', ['calm', 'frustr.', 'joy'], [C.blue, C.orange, C.teal]);
 
   let clock = 0, pace = 1, scroll = 0, jump = 0;
   let share = [0, 0, 0];

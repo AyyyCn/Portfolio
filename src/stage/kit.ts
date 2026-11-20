@@ -3,29 +3,44 @@ import type { CamPose } from './types';
 
 // Small building blocks shared by the dedicated case-study scenes.
 
+// Light scenes, to sit on the glass page: a pale sky, white slabs, ink lines and labels.
 export const C = {
-  teal: 0x5dcaa5,
-  blue: 0x7d93c4,
-  orange: 0xe0795a,
-  violet: 0x9a8fd0,
-  sun: 0xd9b86a,
-  red: 0xd9706a,
-  white: 0xeef0f5,
-  grey: 0x7a8296,
-  dim: 0x2a3040,
-  line: 0x1a1e28,
-  slab: 0x11141c,
+  teal: 0x2fb38a,
+  blue: 0x5b7fd6,
+  orange: 0xe8774f,
+  violet: 0x8b78e0,
+  sun: 0xe3b23c,
+  red: 0xe0544a,
+  white: 0xffffff,
+  ink: 0x1d1d1f,
+  grey: 0x9097a3,
+  dim: 0xc4cad3,
+  line: 0xd6dbe2,
+  slab: 0xfffffe,
 } as const;
+
+/** Scene labels were authored for a dark scene; map them to ink tones that read on the light sky. */
+const LABEL: Record<string, string> = {
+  '#eef0f5': '#1d1d1f',
+  '#a3a9b8': '#3c3f47',
+  '#7a8296': '#6e7380',
+  '#5dcaa5': '#138a63',
+  '#e0795a': '#c94a26',
+  '#d9b86a': '#a77b0c',
+};
 
 export const basic = (color: number, opacity = 1): THREE.MeshBasicMaterial =>
   new THREE.MeshBasicMaterial({ color, transparent: opacity < 1, opacity });
 
-export const lit = (color: number): THREE.MeshLambertMaterial => new THREE.MeshLambertMaterial({ color, flatShading: true });
+/** Shaded material; flat panels (C.slab) stay pure white so they read as cards on the pale sky. */
+export const lit = (color: number): THREE.MeshBasicMaterial | THREE.MeshLambertMaterial =>
+  color === C.slab ? new THREE.MeshBasicMaterial({ color }) : new THREE.MeshLambertMaterial({ color, flatShading: true });
 
 export const box = (w: number, h: number, d: number, mat: THREE.Material): THREE.Mesh => new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
 
 /** Text as a camera-facing sprite. */
 export function label(text: string, color = '#a3a9b8', height = 0.32): THREE.Sprite {
+  color = LABEL[color.toLowerCase()] ?? color;
   const canvas = document.createElement('canvas');
   const g = canvas.getContext('2d')!;
   const font = '500 44px "Geist Mono Variable", ui-monospace, Menlo, Consolas, monospace';
@@ -54,7 +69,7 @@ export function labelAt(parent: THREE.Object3D, text: string, x: number, y: numb
 /** A scene root with the shared floor grid. */
 export function sceneRoot(): THREE.Group {
   const root = new THREE.Group();
-  root.add(new THREE.GridHelper(60, 60, C.line, 0x11141c));
+  root.add(new THREE.GridHelper(60, 60, 0xc9cfd8, 0xdde2e8));
   return root;
 }
 
@@ -67,4 +82,106 @@ export function line(a: THREE.Vector3, b: THREE.Vector3, color: number = C.dim):
 export function front(cam: CamPose, x: number, y: number, dist: number, _time = 0, _sway = 0): void {
   cam.pos.set(x, y + 0.4, dist);
   cam.target.set(x, y, 0);
+}
+
+// --- portal ------------------------------------------------------------------------
+
+const PORTAL_VERT = /* glsl */ `
+varying vec2 vUv;
+void main() { vUv = uv * 2.0 - 1.0; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
+
+const PORTAL_FRAG = /* glsl */ `
+uniform float uTime;
+uniform float uQuality;
+varying vec2 vUv;
+float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+float noise(vec2 p) {
+  vec2 i = floor(p), f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(hash(i), hash(i + vec2(1, 0)), f.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), f.x), f.y);
+}
+void main() {
+  float r = length(vUv);
+  if (r > 1.0) discard;
+  float a = atan(vUv.y, vUv.x);
+  // A spiral that tightens towards the centre; low quality = noisy and loose.
+  float swirl = sin(a * 3.0 + log(r + 0.04) * 6.0 * uQuality - uTime * (1.0 + 2.5 * uQuality));
+  float n = noise(vUv * 5.0 + uTime * 0.6);
+  float bands = mix(n, swirl * 0.5 + 0.5, uQuality);
+  vec3 deep = vec3(0.04, 0.09, 0.28);
+  vec3 cyan = vec3(0.25, 0.75, 1.0);
+  vec3 col = mix(deep, cyan, bands * smoothstep(0.0, 0.9, r));
+  col += vec3(0.8, 0.95, 1.0) * pow(smoothstep(0.75, 1.0, r), 3.0) * (0.4 + 0.8 * uQuality);
+  col += vec3(0.6, 0.85, 1.0) * pow(1.0 - r, 6.0) * uQuality;
+  float alpha = mix(0.55, 1.0, uQuality) * smoothstep(1.0, 0.94, r);
+  gl_FragColor = vec4(col, alpha);
+}`;
+
+export interface Portal {
+  group: THREE.Group;
+  /** quality 0..1: from a vague smudge to a clean vortex; arcs: how many electric arcs crackle. */
+  update(dt: number, time: number, quality: number, arcs: number): void;
+}
+
+/** A crackling blue portal: a swirling vortex surface, a bright rim and flickering electric arcs. */
+export function portal(radius = 1.4): Portal {
+  const group = new THREE.Group();
+  const uniforms = { uTime: { value: 0 }, uQuality: { value: 1 } };
+  const disc = new THREE.Mesh(
+    new THREE.CircleGeometry(radius, 64),
+    new THREE.ShaderMaterial({ uniforms, vertexShader: PORTAL_VERT, fragmentShader: PORTAL_FRAG, transparent: true, depthWrite: false, side: THREE.DoubleSide }),
+  );
+  const rimMat = new THREE.MeshBasicMaterial({ color: 0x7fd8ff });
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(radius, radius * 0.045, 10, 80), rimMat);
+  const halo = new THREE.Mesh(new THREE.TorusGeometry(radius * 1.04, radius * 0.11, 8, 80), new THREE.MeshBasicMaterial({ color: 0xbfeaff, transparent: true, opacity: 0.35, depthWrite: false }));
+  group.add(disc, halo, rim);
+
+  const SEG = 9, MAX = 8;
+  const arcMat = new THREE.LineBasicMaterial({ color: 0xffffff });
+  const arcGlowMat = new THREE.LineBasicMaterial({ color: 0x5cc8ff });
+  const arcList = Array.from({ length: MAX }, () => {
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(SEG * 3), 3));
+    const line = new THREE.Line(geo, arcMat);
+    const glow = new THREE.Line(geo, arcGlowMat);
+    glow.position.z = -0.01;
+    glow.scale.setScalar(1.015);
+    group.add(glow, line);
+    return { geo, line, glow };
+  });
+  let flicker = 0;
+
+  const zap = (geo: THREE.BufferGeometry): void => {
+    // An arc jumps along the rim and bends towards the centre, jagged.
+    const pos = geo.attributes.position as THREE.BufferAttribute;
+    const a0 = Math.random() * Math.PI * 2, span = 0.5 + Math.random() * 0.9;
+    for (let k = 0; k < SEG; k++) {
+      const t = k / (SEG - 1);
+      const a = a0 + span * t;
+      const inward = Math.sin(t * Math.PI) * (0.25 + Math.random() * 0.25);
+      const r = radius * (1.02 - inward) + (Math.random() - 0.5) * radius * 0.08;
+      pos.setXYZ(k, Math.cos(a) * r, Math.sin(a) * r, 0.02);
+    }
+    pos.needsUpdate = true;
+  };
+
+  return {
+    group,
+    update(dt, time, quality, arcs) {
+      uniforms.uTime.value = time;
+      uniforms.uQuality.value = quality;
+      rim.visible = quality > 0.15;
+      halo.visible = quality > 0.4;
+      (halo.material as THREE.MeshBasicMaterial).opacity = 0.25 + 0.15 * Math.sin(time * 9);
+      rim.scale.setScalar(1 + Math.sin(time * 11) * 0.006 * quality);
+      flicker -= dt;
+      const refresh = flicker <= 0;
+      if (refresh) flicker = 0.06 + Math.random() * 0.05;
+      arcList.forEach((arc, i) => {
+        const on = i < arcs && (refresh ? Math.random() > 0.25 : arc.line.visible);
+        arc.line.visible = arc.glow.visible = on;
+        if (on && refresh) zap(arc.geo);
+      });
+    },
+  };
 }

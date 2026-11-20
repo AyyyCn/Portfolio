@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { C, basic, box, front, labelAt, line, lit, sceneRoot } from '../kit';
+import { C, basic, box, front, labelAt, line, lit, portal, sceneRoot } from '../kit';
 import { Bots, row, type CamPose, type Ctx, type Lens } from '../types';
 import { easeOut, rng } from '../world';
 
@@ -54,12 +54,12 @@ export function engine(ctx: Ctx): Lens {
   root.add(planet);
 
   // Portal race: the kart island in miniature, with a pair of portals on the track.
-  const portals = [0.22, 0.66].map((u, i) => {
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(2.6, 0.35, 8, 32), basic(i ? C.orange : C.teal));
-    w.trackPose(u * w.trackLength, 0, ring.position);
-    ring.rotation.y = w.trackPose(u * w.trackLength, 0, new THREE.Vector3()) + Math.PI / 2;
-    ring.position.y += 2.2;
-    return ring;
+  // Each portal faces along the track, so the karts drive through it.
+  const portals = [0.22, 0.66].map((u) => {
+    const p = portal(3.4);
+    p.group.rotation.y = w.trackPose(u * w.trackLength, 0, p.group.position);
+    p.group.position.y += 3.0;
+    return p;
   });
 
   // Voxel arena: blocks, two fighters, an ability burst and a hit flash.
@@ -127,12 +127,12 @@ export function engine(ctx: Ctx): Lens {
       w.features.water.visible = false;
       w.root.scale.setScalar(SCALE);
       w.root.position.set(XS[1], BASE_Y + 0.12, 0);
-      for (const r of portals) w.root.add(r);
+      for (const r of portals) w.root.add(r.group);
       bots.reset();
       ctx.scene.add(root);
     },
     exit() {
-      for (const r of portals) w.root.remove(r);
+      for (const r of portals) w.root.remove(r.group);
       w.root.scale.setScalar(saved.scale);
       w.root.position.copy(saved.pos);
       w.features.water.visible = true;
@@ -159,8 +159,8 @@ export function engine(ctx: Ctx): Lens {
 
       // Portal race: portals appear and the karts race once they exist.
       for (const r of portals) {
-        r.visible = on[1];
-        r.rotation.z = time * 0.8;
+        r.group.visible = on[1];
+        if (on[1]) r.update(dt, time, 1, 4);
       }
       w.features.karts.visible = ready[1];
       if (ready[1]) bots.update(dt);
