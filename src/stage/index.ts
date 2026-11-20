@@ -33,7 +33,7 @@ export interface StageOptions {
 
 const BG = 0x07080d;
 /** The hero island sits on the light page, so its sky matches the page's frame. */
-const PAPER = 0xe9ecee;
+const PAPER = 0xeef1f4;
 
 export function createStage(opts: StageOptions): Stage {
   const { canvas, lowPower } = opts;

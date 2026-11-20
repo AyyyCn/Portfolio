@@ -57,7 +57,7 @@ function point(p: string): string {
   const m = /^([^:.]{2,40}?)\s?:\s(.+)$/s.exec(p);
   // Sentences that start with a verb ("Built a pipeline: …") keep their colon.
   const verb = m && /^(Built|Designed|Set up|Construit|Conçu|Mis en place)\b/.test(m[1]);
-  return m && !verb ? `<li><strong>${esc(m[1])}</strong> ${esc(m[2])}</li>` : `<li>${esc(p)}</li>`;
+  return m && !verb ? `<li><strong>${esc(m[1])}.</strong> ${esc(m[2].charAt(0).toUpperCase() + m[2].slice(1))}</li>` : `<li>${esc(p)}</li>`;
 }
 
 function job(j: Job): string {
@@ -102,7 +102,7 @@ export function renderHead(c: Content): string {
   return `<title>${esc(c.meta.title)}</title>
     <meta name="description" content="${esc(c.meta.description)}" />
     <meta name="author" content="Adam Ladhari" />
-    <meta name="theme-color" content="#fbfbfa" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light" />
     <link rel="canonical" href="${url}" />
     <link rel="alternate" hreflang="en" href="${SITE}/" />
