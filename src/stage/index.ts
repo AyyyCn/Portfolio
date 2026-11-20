@@ -32,6 +32,8 @@ export interface StageOptions {
 }
 
 const BG = 0x07080d;
+/** The hero island sits on the light page, so its sky matches the page's frame. */
+const PAPER = 0xe6e3da;
 
 export function createStage(opts: StageOptions): Stage {
   const { canvas, lowPower } = opts;
@@ -40,8 +42,15 @@ export function createStage(opts: StageOptions): Stage {
   renderer.shadowMap.enabled = !lowPower;
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(BG);
-  scene.fog = new THREE.Fog(BG, 75, 160);
+  const sky = new THREE.Color(PAPER);
+  const fog = new THREE.Fog(PAPER, 75, 160);
+  scene.background = sky;
+  scene.fog = fog;
+  const setSky = (lens: LensId | 'intro'): void => {
+    const c = lens === 'intro' ? PAPER : BG;
+    sky.setHex(c);
+    fog.color.setHex(c);
+  };
   scene.add(new THREE.HemisphereLight(0xcfe6ff, 0x2c3a2c, 1.25));
   const sun = new THREE.DirectionalLight(0xfff0d2, 2.4);
   sun.position.set(28, 42, 16);
@@ -159,6 +168,7 @@ export function createStage(opts: StageOptions): Stage {
       current = wanted;
       snap = true;
       lenses[current].enter();
+      setSky(current);
       yaw = 0;
     }
 

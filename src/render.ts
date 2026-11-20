@@ -52,13 +52,21 @@ function workCard(c: CaseStudy, org: string, i: number, content: Content): strin
   </article>`;
 }
 
+/** A bullet that opens with a short topic ("Vehicles: …") gets that topic as a lead-in. */
+function point(p: string): string {
+  const m = /^([^:.]{2,40}?)\s?:\s(.+)$/s.exec(p);
+  // Sentences that start with a verb ("Built a pipeline: …") keep their colon.
+  const verb = m && /^(Built|Designed|Set up|Construit|Conçu|Mis en place)\b/.test(m[1]);
+  return m && !verb ? `<li><strong>${esc(m[1])}</strong> ${esc(m[2])}</li>` : `<li>${esc(p)}</li>`;
+}
+
 function job(j: Job): string {
   return `<li class="job">
     <div class="job-when"><span>${esc(j.dates)}</span><span>${esc(j.place)}</span></div>
     <div class="job-what">
       <h3>${esc(j.role)}</h3>
       <p class="job-org"><strong>${esc(j.org)}</strong> · ${esc(j.orgNote)}</p>
-      ${j.points.length ? `<ul>${j.points.map((p) => `<li>${esc(p)}</li>`).join('')}</ul>` : ''}
+      ${j.points.length ? `<ul>${j.points.map(point).join('')}</ul>` : ''}
     </div>
   </li>`;
 }
@@ -94,8 +102,8 @@ export function renderHead(c: Content): string {
   return `<title>${esc(c.meta.title)}</title>
     <meta name="description" content="${esc(c.meta.description)}" />
     <meta name="author" content="Adam Ladhari" />
-    <meta name="theme-color" content="#0c1016" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#f7f6f2" />
+    <meta name="color-scheme" content="light" />
     <link rel="canonical" href="${url}" />
     <link rel="alternate" hreflang="en" href="${SITE}/" />
     <link rel="alternate" hreflang="fr" href="${SITE}/fr/" />
