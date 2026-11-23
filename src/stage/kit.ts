@@ -110,6 +110,54 @@ export function card(w: number, h: number, r = 0.18): THREE.Group {
   return g;
 }
 
+/** A soft glass chip behind scene text: rounded, see-through, with a thin outline. */
+export function chip(w: number, h: number, r = Math.min(0.3, h / 2)): THREE.Group {
+  const g = new THREE.Group();
+  const fill = new THREE.Mesh(roundedRect(w, h, r), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.42, depthWrite: false }));
+  const pts = new THREE.Shape();
+  const x = -w / 2, y = -h / 2;
+  pts.moveTo(x + r, y);
+  pts.lineTo(x + w - r, y);
+  pts.quadraticCurveTo(x + w, y, x + w, y + r);
+  pts.lineTo(x + w, y + h - r);
+  pts.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  pts.lineTo(x + r, y + h);
+  pts.quadraticCurveTo(x, y + h, x, y + h - r);
+  pts.lineTo(x, y + r);
+  pts.quadraticCurveTo(x, y, x + r, y);
+  const edge = new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts.getPoints(8)), new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.9 }));
+  edge.position.z = 0.005;
+  g.add(fill, edge);
+  return g;
+}
+
+/** The case scenes' sky: a soft vertical gradient with faint colour washes, drawn once. */
+export function skyTexture(): THREE.CanvasTexture {
+  const cv = document.createElement('canvas');
+  cv.width = 256;
+  cv.height = 256;
+  const g = cv.getContext('2d')!;
+  const lin = g.createLinearGradient(0, 0, 0, 256);
+  lin.addColorStop(0, '#dde4ef');
+  lin.addColorStop(0.55, '#ebeef3');
+  lin.addColorStop(1, '#f2f0ee');
+  g.fillStyle = lin;
+  g.fillRect(0, 0, 256, 256);
+  const wash = (x: number, y: number, rad: number, rgb: string, a: number): void => {
+    const r = g.createRadialGradient(x, y, 0, x, y, rad);
+    r.addColorStop(0, `rgba(${rgb},${a})`);
+    r.addColorStop(1, `rgba(${rgb},0)`);
+    g.fillStyle = r;
+    g.fillRect(0, 0, 256, 256);
+  };
+  wash(215, 30, 150, '150,180,235', 0.28);
+  wash(30, 70, 130, '150,215,200', 0.18);
+  wash(60, 250, 150, '245,205,180', 0.2);
+  const tex = new THREE.CanvasTexture(cv);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
 /** A small standing character, feet at the origin. A ghost is a see-through copy. */
 export function figure(color: number, ghost = false): THREE.Group {
   const g = new THREE.Group();

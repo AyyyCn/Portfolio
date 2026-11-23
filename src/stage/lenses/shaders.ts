@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { C, box, front, labelAt, lit, sceneRoot } from '../kit';
+import { C, chip, front, labelAt, sceneRoot } from '../kit';
 import { row, slider, type CamPose, type Ctx, type Lens, type Slider } from '../types';
 import { easeOut } from '../world';
 
@@ -53,7 +53,7 @@ export function shaders(ctx: Ctx): Lens {
   const geo = new THREE.IcosahedronGeometry(1.7, 5);
 
   labelAt(root, 'prompt', -6.2, 7.55, 0, '#7a8296', 0.22);
-  const card = box(2.9, 0.7, 0.06, lit(C.slab));
+  const card = chip(3.1, 0.66);
   card.position.set(-6.2, 6.9, 0);
   root.add(card);
   labelAt(root, '"molten lava rock"', -6.2, 6.9, 0.1, '#eef0f5', 0.24);

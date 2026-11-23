@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { C, box, front, labelAt, lit, portal, sceneRoot } from '../kit';
+import { C, chip, box, front, labelAt, lit, portal, sceneRoot } from '../kit';
 import { row, type CamPose, type Ctx, type Lens } from '../types';
 import { easeOut, rng } from '../world';
 
@@ -25,7 +25,7 @@ export function vfx(ctx: Ctx): Lens {
   const rand = rng(23);
 
   // --- the description -------------------------------------------------------------------
-  const card = box(3.1, 0.7, 0.06, lit(C.slab));
+  const card = chip(3.3, 0.66);
   card.position.set(-5.6, 6.9, 0);
   root.add(card);
   labelAt(root, '"a crackling blue portal"', -5.6, 6.9, 0.1, '#eef0f5', 0.24);
@@ -34,7 +34,7 @@ export function vfx(ctx: Ctx): Lens {
   // --- the phenomenon specification ---------------------------------------------------------
   const spec = new THREE.Group();
   spec.position.set(-5.6, 4.2, 0);
-  spec.add(box(3.1, 2.6, 0.06, lit(C.slab)));
+  spec.add(chip(3.3, 2.7, 0.3));
   labelAt(spec, 'phenomenon spec', 0, 1.65, 0, '#7a8296', 0.22);
   const specRows = ['simulates · electric vortex', 'bounds · radius, duration', 'palette · blue, white', 'revision · 1'];
   const specLabels = specRows.map((s, i) => labelAt(spec, s, 0, 0.85 - i * 0.55, 0.1, i === 3 ? '#5dcaa5' : '#a3a9b8', 0.2));

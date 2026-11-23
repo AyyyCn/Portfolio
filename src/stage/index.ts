@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { LensId } from '../content/types';
+import { skyTexture } from './kit';
 import { engine } from './lenses/engine';
 import { harness } from './lenses/harness';
 import { netcode } from './lenses/netcode';
@@ -47,10 +48,18 @@ export function createStage(opts: StageOptions): Stage {
   const fog = new THREE.Fog(PAPER, 75, 160);
   scene.background = sky;
   scene.fog = fog;
+  // Case scenes get a soft gradient sky; the hero keeps the flat tone of the page frame.
+  const caseSky = skyTexture();
   const setSky = (lens: LensId | 'intro'): void => {
     const c = lens === 'intro' ? PAPER : SCENE;
     sky.setHex(c);
     fog.color.setHex(c);
+    scene.background = lens === 'intro' ? sky : caseSky;
+    // Studio scenes (no island): the floor grid fades into the horizon instead of ending on a hard line.
+    const studio = lens !== 'intro' && lens !== 'engine' && lens !== 'vehicles';
+    fog.color.setHex(studio ? 0xe9edf2 : c);
+    fog.near = studio ? 22 : 75;
+    fog.far = studio ? 46 : 160;
   };
   scene.add(new THREE.HemisphereLight(0xcfe6ff, 0x2c3a2c, 1.25));
   const sun = new THREE.DirectionalLight(0xfff0d2, 2.4);

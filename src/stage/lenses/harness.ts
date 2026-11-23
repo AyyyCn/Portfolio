@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { C, basic, box, front, label, labelAt, line, lit, sceneRoot } from '../kit';
+import { C, chip, basic, box, front, label, labelAt, line, lit, sceneRoot } from '../kit';
 import { row, type CamPose, type Ctx, type Lens } from '../types';
 import { clamp01, easeOut } from '../world';
 
@@ -23,7 +23,7 @@ export function harness(ctx: Ctx): Lens {
   const root = sceneRoot();
 
   // --- prompt -------------------------------------------------------------------------
-  const prompt = box(2.3, 0.7, 0.06, lit(C.slab));
+  const prompt = chip(2.5, 0.66);
   prompt.position.set(-7.0, 6.6, 0);
   root.add(prompt);
   labelAt(root, '"a kart island"', -7.0, 6.6, 0.1, '#eef0f5', 0.26);
