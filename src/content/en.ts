@@ -114,14 +114,14 @@ export const en: Content = {
   },
   workSection: {
     "heading": "Selected work",
-    "intro": "Nine things I built, explained in plain words. Each one comes with an interactive 3D demo you can open.",
+    "intro": "Nine systems I built, each with an interactive 3D demo.",
     "demo": "Open the 3D demo",
-    "read": "Read the details",
+    "read": "Full case study",
     "close": "Close",
     "prev": "Previous step",
     "next": "Next step"
   },
-  phases: ["The problem", "What I built", "How I checked it", "The result"],
+  phases: ["Problem", "Solution", "Validation", "Outcome"],
   work: [
     {
       "org": "Arcade AI · AI-native game engine",
@@ -497,7 +497,7 @@ export const en: Content = {
     introCaption: "A small game world, generated in your browser. Each case study below is replayed here",
     prev: "Previous case",
     next: "Next case",
-    phases: ['Problem', 'Build', 'Measure', 'Result'],
+    phases: ['Problem', 'Solution', 'Validation', 'Outcome'],
     tag: 'Replay',
     aria: '3D replay of the case studies',
     note: 'Replays are built for this site to illustrate each subject. Live readouts describe this page; the figures in the text are the measured ones.',

@@ -364,6 +364,11 @@ html { scroll-padding-top: 84px; }
 .demo-steps ol button.on { background: rgba(29, 29, 31, 0.88); border-color: rgba(255, 255, 255, 0.2); }
 .hud, .ctl { -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur); background: rgba(255, 255, 255, 0.62); border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); border-radius: 14px; }
 
+/* Demo: the stepper always stays in view, and the active step fills while the replay runs */
+.demo-stage .viewer-slot { width: 100%; max-height: max(220px, calc(100svh - 300px)); }
+.demo-steps ol button { position: relative; overflow: hidden; }
+.demo-steps ol button.on::after { content: ''; position: absolute; left: 0; bottom: 0; height: 3px; width: calc(var(--fill, 0) * 100%); background: #fff; opacity: 0.85; }
+
 /* Narrow screens */
 @media (max-width: 1099px) {
   .demo-inner { grid-template-columns: 1fr; grid-template-areas: 'head' 'stage' 'steps' 'text'; }
@@ -411,6 +416,7 @@ html { scroll-padding-top: 84px; }
   .demo-steps ol button .step-num { font-size: 12px; }
   .demo-text { padding: 8px 16px 24px; }
   .hud { font-size: 11px; line-height: 16px; padding: 4px 8px; left: 8px; top: 8px; }
+  .hud-foot { display: none; }
   .stage-controls { right: 8px; top: auto; bottom: 8px; }
   .ctl input[type='range'] { width: 88px; }
   .bar { grid-template-columns: minmax(0, 120px) 1fr 48px; }

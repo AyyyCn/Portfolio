@@ -95,16 +95,25 @@ function start(): void {
   let p = 0;
   let autoplay = true;
   let stepTimer = 0;
+  // Manual control pauses the replay; it carries on by itself after a quiet spell.
+  let idle = 0;
+  const STEP_SECONDS = 5;
+  const RESUME_AFTER = 8;
+  const pause = (): void => {
+    autoplay = false;
+    idle = 0;
+  };
   let raf = 0;
   let last = 0;
 
   const show = (step: number, user: boolean): void => {
     target = Math.max(0, Math.min(3, step));
-    if (user) autoplay = false;
+    if (user) pause();
     stepTimer = 0;
     stepBtns.forEach((b, k) => {
       b.classList.toggle('on', k === target);
       b.classList.toggle('done', k < target);
+      b.style.setProperty('--fill', '0');
       if (k === target) b.setAttribute('aria-current', 'step');
       else b.removeAttribute('aria-current');
     });
@@ -126,10 +135,17 @@ function start(): void {
     const speed = 0.7;
     p = p < target ? Math.min(target, p + speed * dt) : Math.max(target, p - speed * 2 * dt);
     stage?.setState(data.cases[current].id, p);
+    if (!autoplay && target < 3) {
+      idle += elapsed;
+      if (idle > RESUME_AFTER) autoplay = true;
+    }
     if (autoplay && target < 3 && Math.abs(p - target) < 1e-3) {
       stepTimer += elapsed;
-      if (stepTimer > 5) show(target + 1, false);
+      if (stepTimer > STEP_SECONDS) show(target + 1, false);
     }
+    // The active step fills up as the replay moves on, so the advance is visible.
+    const fill = autoplay && target < 3 ? Math.min(1, stepTimer / STEP_SECONDS) : 0;
+    stepBtns[target]?.style.setProperty('--fill', fill.toFixed(3));
     raf = requestAnimationFrame(tick);
   };
 
@@ -178,7 +194,7 @@ function start(): void {
   });
   // Any interaction with the scene itself stops the autoplay.
   viewer.addEventListener('pointerdown', () => {
-    if (current >= 0) autoplay = false;
+    if (current >= 0) pause();
   });
 }
 

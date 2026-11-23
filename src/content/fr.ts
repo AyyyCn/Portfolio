@@ -113,14 +113,14 @@ export const fr: Content = {
   },
   workSection: {
     "heading": "Réalisations",
-    "intro": "Neuf choses que j’ai construites, expliquées simplement. Chacune s’accompagne d’une démo 3D interactive à ouvrir.",
+    "intro": "Neuf systèmes que j’ai construits, chacun avec une démo 3D interactive.",
     "demo": "Ouvrir la démo 3D",
-    "read": "Lire le détail",
+    "read": "Étude de cas complète",
     "close": "Fermer",
     "prev": "Étape précédente",
     "next": "Étape suivante"
   },
-  phases: ["Le problème", "Ce que j’ai construit", "Comment je l’ai vérifié", "Le résultat"],
+  phases: ["Problème", "Solution", "Validation", "Résultat"],
   work: [
     {
       "org": "Arcade AI · Moteur de jeu natif IA",
@@ -497,7 +497,7 @@ export const fr: Content = {
     introCaption: "Un petit monde de jeu, généré dans votre navigateur. Chaque étude de cas ci-dessous y est rejouée",
     prev: "Cas précédent",
     next: "Cas suivant",
-    phases: ['Problème', 'Construction', 'Mesure', 'Résultat'],
+    phases: ['Problème', 'Solution', 'Validation', 'Résultat'],
     tag: 'Replay',
     aria: 'Replay 3D des études de cas',
     note: 'Les replays sont construits pour ce site afin d’illustrer chaque sujet. Les valeurs en direct décrivent cette page ; les chiffres du texte sont ceux mesurés.',
