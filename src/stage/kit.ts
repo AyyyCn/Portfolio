@@ -84,6 +84,45 @@ export function front(cam: CamPose, x: number, y: number, dist: number, _time = 
   cam.target.set(x, y, 0);
 }
 
+/** A flat rounded rectangle in the XY plane, for cards and screens. */
+export function roundedRect(w: number, h: number, r: number): THREE.ShapeGeometry {
+  const s = new THREE.Shape();
+  const x = -w / 2, y = -h / 2;
+  s.moveTo(x + r, y);
+  s.lineTo(x + w - r, y);
+  s.quadraticCurveTo(x + w, y, x + w, y + r);
+  s.lineTo(x + w, y + h - r);
+  s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  s.lineTo(x + r, y + h);
+  s.quadraticCurveTo(x, y + h, x, y + h - r);
+  s.lineTo(x, y + r);
+  s.quadraticCurveTo(x, y, x + r, y);
+  return new THREE.ShapeGeometry(s, 8);
+}
+
+/** A white card with a soft drop edge, so it reads as a panel on the pale sky. */
+export function card(w: number, h: number, r = 0.18): THREE.Group {
+  const g = new THREE.Group();
+  const shade = new THREE.Mesh(roundedRect(w, h, r), basic(0xd5dbe3));
+  shade.position.set(0.04, -0.06, -0.02);
+  const face = new THREE.Mesh(roundedRect(w, h, r), basic(C.slab));
+  g.add(shade, face);
+  return g;
+}
+
+/** A small standing character, feet at the origin. A ghost is a see-through copy. */
+export function figure(color: number, ghost = false): THREE.Group {
+  const g = new THREE.Group();
+  const mat = ghost ? basic(color, 0.28) : lit(color);
+  if (ghost) mat.depthWrite = false;
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.17, 0.32, 4, 12), mat);
+  body.position.y = 0.34;
+  const head = new THREE.Mesh(new THREE.SphereGeometry(0.15, 16, 12), mat);
+  head.position.y = 0.8;
+  g.add(body, head);
+  return g;
+}
+
 // --- portal ------------------------------------------------------------------------
 
 const PORTAL_VERT = /* glsl */ `

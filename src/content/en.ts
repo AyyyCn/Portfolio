@@ -173,7 +173,7 @@ export const en: Content = {
         },
         {
           "id": "netcode",
-          "captions": ["Three views of the same game. With network delay, player A sees their own character late: the hollow dot", "Prediction: A’s character moves at once, then corrects itself when the server disagrees", "A shoots. The server rewinds the target to where A saw it, then judges the hit. Try the latency slider", "At 250 ms of delay, shots still land"],
+          "captions": ["Three views of the same game. With network delay, player A sees their own character late: the faded figure", "Prediction: A’s character moves at once, then corrects itself when the server disagrees", "A shoots. The server rewinds the target to where A saw it, then judges the hit. Try the latency slider", "At 250 ms of delay, shots still land"],
           "kicker": "Online multiplayer",
           "title": "Making an online game feel instant and fair",
           "summary": "I built the networking that keeps online games responsive and fair on slow connections, and the infrastructure that runs every game server.",
@@ -508,7 +508,7 @@ export const en: Content = {
     introHint: 'Scroll to start the replay · drag to orbit',
     t: {
       prompt: "prompt",
-      promptText: "\"a mossy boulder\"",
+      promptText: "\"an old brass lantern\"",
       triangles: "triangles",
       qa: "QA checks",
       raw: "raw mesh",

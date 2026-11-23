@@ -172,7 +172,7 @@ export const fr: Content = {
         },
         {
           "id": "netcode",
-          "captions": ["Trois vues du même jeu. Avec le délai réseau, le joueur A voit son propre personnage en retard : le point creux", "Prédiction : le personnage de A bouge tout de suite, puis se corrige quand le serveur n’est pas d’accord", "A tire. Le serveur ramène la cible là où A la voyait, puis juge le tir. Essayez le curseur de latence", "À 250 ms de délai, les tirs touchent encore"],
+          "captions": ["Trois vues du même jeu. Avec le délai réseau, le joueur A voit son propre personnage en retard : la silhouette transparente", "Prédiction : le personnage de A bouge tout de suite, puis se corrige quand le serveur n’est pas d’accord", "A tire. Le serveur ramène la cible là où A la voyait, puis juge le tir. Essayez le curseur de latence", "À 250 ms de délai, les tirs touchent encore"],
           "kicker": "Multijoueur en ligne",
           "title": "Rendre un jeu en ligne immédiat et équitable",
           "summary": "J’ai construit la couche réseau qui garde les jeux en ligne réactifs et équitables sur des connexions lentes, et l’infrastructure qui fait tourner chaque serveur de jeu.",
@@ -508,7 +508,7 @@ export const fr: Content = {
     introHint: 'Faites défiler pour lancer le replay · glissez pour tourner',
     t: {
       prompt: "prompt",
-      promptText: "« un rocher moussu »",
+      promptText: "« une vieille lanterne en laiton »",
       triangles: "triangles",
       qa: "contrôles QA",
       raw: "maillage brut",

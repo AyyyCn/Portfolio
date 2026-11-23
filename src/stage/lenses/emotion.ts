@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { C, basic, box, front, label, labelAt, lit, sceneRoot } from '../kit';
+import { C, basic, box, front, label, labelAt, lit, roundedRect, sceneRoot } from '../kit';
 import { foot, row, type CamPose, type Ctx, type Lens } from '../types';
 import { easeOut } from '../world';
 
@@ -265,21 +265,6 @@ function stroke(n: number, mat: THREE.Material): { mesh: THREE.Mesh; set(pts: [n
       geo.attributes.position.needsUpdate = true;
     },
   };
-}
-
-function roundedRect(w: number, h: number, r: number): THREE.ShapeGeometry {
-  const s = new THREE.Shape();
-  const x = -w / 2, y = -h / 2;
-  s.moveTo(x + r, y);
-  s.lineTo(x + w - r, y);
-  s.quadraticCurveTo(x + w, y, x + w, y + r);
-  s.lineTo(x + w, y + h - r);
-  s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  s.lineTo(x + r, y + h);
-  s.quadraticCurveTo(x, y + h, x, y + h - r);
-  s.lineTo(x, y + r);
-  s.quadraticCurveTo(x, y, x + r, y);
-  return new THREE.ShapeGeometry(s, 8);
 }
 
 /** Four corner brackets, like a face-detection box. */

@@ -419,6 +419,10 @@ html { scroll-padding-top: 84px; }
   .hud-foot { display: none; }
   .stage-controls { right: 8px; top: auto; bottom: 8px; }
   .ctl input[type='range'] { width: 88px; }
+  /* In the demo on a phone: a square view, the readout at the bottom over the floor, controls at the top. */
+  .demo-stage .viewer-slot { aspect-ratio: 1 / 1; max-height: max(240px, calc(100svh - 330px)); }
+  .demo .hud { top: auto; bottom: 8px; }
+  .demo .stage-controls { top: 8px; bottom: auto; }
   .bar { grid-template-columns: minmax(0, 120px) 1fr 48px; }
 }
 

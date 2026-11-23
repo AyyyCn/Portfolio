@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { C, basic, box, front, labelAt, sceneRoot } from '../kit';
+import { C, basic, box, card, figure, front, labelAt, lit, sceneRoot } from '../kit';
 import { foot, row, slider, type CamPose, type Ctx, type Lens, type Slider } from '../types';
 
 const H = 1 / 60;
@@ -31,32 +31,49 @@ const targetAt = (time: number): number => X0 + (0.5 + 0.42 * Math.sin(time * 1.
  */
 export function netcode(ctx: Ctx): Lens {
   const root = sceneRoot();
+  // Three screens of the same game: each a small arena strip with the players on it.
+  const FLOOR = -0.55;
   for (const [key, name] of [['a', 'client A · shooter'], ['s', 'server · authority'], ['b', 'client B · observer']] as const) {
     const y = LANES[key];
-    const rail = box(W + 0.6, 0.04, 0.04, basic(C.dim));
-    rail.position.set(X0 + W / 2, y, 0);
-    root.add(rail);
-    labelAt(root, name, X0 + W - 1.8, y + 0.75, 0, '#a3a9b8', 0.3);
+    const panel = card(W + 1.4, 2.0, 0.22);
+    panel.position.set(X0 + W / 2, y + 0.2, -0.3);
+    root.add(panel);
+    const floor = box(W + 0.8, 0.05, 0.05, basic(C.line));
+    floor.position.set(X0 + W / 2, y + FLOOR - 0.03, -0.2);
+    root.add(floor);
+    labelAt(root, name, X0 + W - 1.3, y + 0.95, 0, '#7a8296', 0.24);
+    root.add(device(key === 's', X0 + W + 1.9, y));
+    // Cover crates: the same map on every screen.
+    for (const [cx, ch] of [[-3.4, 0.45], [1.9, 0.6], [4.2, 0.4]]) {
+      const crate = box(0.6, ch, 0.2, lit(0xe4d9c4));
+      crate.position.set(cx, y + FLOOR + ch / 2, -0.22);
+      root.add(crate);
+    }
   }
-  const dot = (color: number, y: number, r = 0.26, wire = false): THREE.Mesh => {
-    const m = new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), new THREE.MeshBasicMaterial({ color, wireframe: wire }));
-    m.position.y = y;
-    root.add(m);
-    return m;
+  const at = (key: keyof typeof LANES, f: THREE.Group): THREE.Group => {
+    f.position.set(0, LANES[key] + FLOOR, 0.15);
+    root.add(f);
+    return f;
   };
-  const aPred = dot(C.red, LANES.a), aNaive = dot(C.red, LANES.a, 0.26, true);
-  const aSeesTarget = dot(C.blue, LANES.a, 0.22);
-  const sA = dot(C.red, LANES.s, 0.22), sTarget = dot(C.blue, LANES.s, 0.26), sRewound = dot(C.blue, LANES.s, 0.34, true);
-  const bSeesA = dot(C.red, LANES.b, 0.22), bTarget = dot(C.blue, LANES.b, 0.26);
+  const aPred = at('a', figure(C.red)), aNaive = at('a', figure(C.red, true));
+  const aSeesTarget = at('a', figure(C.blue));
+  const sA = at('s', figure(C.red)), sTarget = at('s', figure(C.blue)), sRewound = at('s', figure(C.sun, true));
+  sRewound.traverse((o) => {
+    if (o instanceof THREE.Mesh) (o.material as THREE.MeshBasicMaterial).opacity = 0.6;
+  });
+  const bSeesA = at('b', figure(C.red)), bTarget = at('b', figure(C.blue));
+  const hitRing = new THREE.Mesh(new THREE.TorusGeometry(0.42, 0.035, 6, 32), basic(C.sun));
+  hitRing.position.set(0, LANES.s + FLOOR + 0.5, 0.2);
+  root.add(hitRing);
   const rewindBar = box(1, 0.06, 0.06, basic(C.sun));
-  rewindBar.position.y = LANES.s - 0.5;
+  rewindBar.position.set(0, LANES.s + FLOOR - 0.22, 0);
   root.add(rewindBar);
-  const rewindLabel = labelAt(root, 'rewind', 0, LANES.s - 0.85, 0, '#d9b86a', 0.26);
-  const shot = box(0.05, 1, 0.05, basic(C.sun));
+  const rewindLabel = labelAt(root, 'rewind', 0, LANES.s + FLOOR - 0.5, 0, '#d9b86a', 0.22);
+  const shot = box(0.04, 1, 0.04, basic(C.sun));
   root.add(shot);
 
   const packets: Packet[] = Array.from({ length: 28 }, () => {
-    const m = new THREE.Mesh(new THREE.SphereGeometry(0.07, 6, 5), basic(C.white));
+    const m = new THREE.Mesh(new THREE.SphereGeometry(0.09, 10, 8), basic(C.white));
     m.visible = false;
     root.add(m);
     return { m, from: 0, to: 0, x: 0, t0: 0, t1: -1 };
@@ -185,21 +202,23 @@ export function netcode(ctx: Ctx): Lens {
       sTarget.position.x = bTarget.position.x = targetAt(now);
       aSeesTarget.position.x = targetAt(now - half);
 
-      sRewound.visible = rewindBar.visible = rewindLabel.visible = shot.visible = shooting && flash > 0;
+      sRewound.visible = rewindBar.visible = rewindLabel.visible = shot.visible = hitRing.visible = shooting && flash > 0;
       const tx = targetAt(now), rx = sRewound.position.x;
+      hitRing.position.x = rx;
+      hitRing.scale.setScalar(1 + (1 - flash) * 0.5);
       rewindBar.scale.x = Math.max(0.02, Math.abs(tx - rx));
       rewindBar.position.x = (tx + rx) / 2;
       rewindLabel.position.x = (tx + rx) / 2;
-      shot.position.set(rx, (LANES.a + LANES.s) / 2, 0);
+      shot.position.set(rx, (LANES.a + LANES.s) / 2 + FLOOR + 0.5, 0.3);
       shot.scale.y = LANES.a - LANES.s;
 
       for (const pk of packets) {
         const k = (now - pk.t0) / Math.max(1e-4, pk.t1 - pk.t0);
         pk.m.visible = k >= 0 && k <= 1 && pk.t1 > 0;
-        pk.m.position.set(pk.x, pk.from + (pk.to - pk.from) * k, 0.1);
+        pk.m.position.set(pk.x, pk.from + (pk.to - pk.from) * k, 0.4);
       }
 
-      front(cam, -0.6, 4.1, 13.2, time, 0.5);
+      front(cam, 0.2, 4.0, 11.6, time, 0.5);
 
       const t = ctx.t;
       let html = row(t.latency, `${latency} ms`);
@@ -209,4 +228,29 @@ export function netcode(ctx: Ctx): Lens {
       ctx.hud(html + foot(t.live));
     },
   };
+}
+
+/** A laptop for a client, a small rack for the server. */
+function device(server: boolean, x: number, y: number): THREE.Group {
+  const g = new THREE.Group();
+  g.position.set(x, y, 0);
+  const ink = lit(0x3c3f47);
+  if (server) {
+    for (let i = 0; i < 3; i++) {
+      const u = box(1.1, 0.34, 0.6, ink);
+      u.position.y = -0.4 + i * 0.4;
+      const led = box(0.08, 0.08, 0.02, basic(C.teal));
+      led.position.set(0.38, u.position.y, 0.31);
+      g.add(u, led);
+    }
+  } else {
+    const screen = box(1.0, 0.66, 0.05, ink);
+    screen.position.set(0, 0.05, 0);
+    const glass = box(0.86, 0.52, 0.02, basic(0xdfe7f3));
+    glass.position.set(0, 0.05, 0.035);
+    const base = box(1.2, 0.05, 0.6, ink);
+    base.position.set(0, -0.3, 0.3);
+    g.add(screen, glass, base);
+  }
+  return g;
 }
